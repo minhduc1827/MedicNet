@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Rocket.Chat</string>
+    <string name="app_name" translatable="false">MedicNet</string>
 
     <!-- Titles -->
     <string name="title_sign_in_your_server">Sign in to your server</string>
@@ -222,4 +222,6 @@
     <string name="notif_action_reply_hint">REPLY</string>
     <string name="notif_error_sending">Reply has failed. Please try again.</string>
     <string name="notif_success_sending">Message sent to %1$s!</string>
+    <string name="label_contact" translatable="false">Contact</string>
+    <string name="label_new_team" translatable="false">New Team</string>
 </resources>

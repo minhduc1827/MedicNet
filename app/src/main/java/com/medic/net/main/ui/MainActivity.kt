@@ -1,5 +1,6 @@
 package com.medic.net.main.ui
 
+import DrawableHelper
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,10 +10,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import chat.rocket.common.model.UserStatus
+import com.google.android.gms.gcm.GoogleCloudMessaging
+import com.google.android.gms.iid.InstanceID
 import com.medic.net.BuildConfig
 import com.medic.net.R
-import com.medic.net.main.adapter.Selector
 import com.medic.net.main.adapter.AccountsAdapter
+import com.medic.net.main.adapter.Selector
 import com.medic.net.main.presentation.MainPresenter
 import com.medic.net.main.presentation.MainView
 import com.medic.net.main.viewmodel.NavHeaderViewModel
@@ -21,9 +25,6 @@ import com.medic.net.util.extensions.fadeIn
 import com.medic.net.util.extensions.fadeOut
 import com.medic.net.util.extensions.rotateBy
 import com.medic.net.util.extensions.showToast
-import chat.rocket.common.model.UserStatus
-import com.google.android.gms.gcm.GoogleCloudMessaging
-import com.google.android.gms.iid.InstanceID
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
     override fun setupNavHeader(viewModel: NavHeaderViewModel, accounts: List<Account>) {
         Timber.d("Setting up nav header: $viewModel")
-        with(headerLayout) {
+        /*with(headerLayout) {
             with(viewModel) {
                 if (userStatus != null) {
                     image_user_status.setImageDrawable(
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 text_server_url.text = viewModel.serverUrl
             }
             setupAccountsList(headerLayout, accounts)
-        }
+        }*/
     }
 
     override fun closeServerSelection() {

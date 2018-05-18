@@ -44,4 +44,7 @@
     <dimen name="viewer_toolbar_padding">16dp</dimen>
     <dimen name="viewer_toolbar_title">16sp</dimen>
 
+    <!--Navigation medic net-->
+    <dimen name="nav_medicnet_header_image">40dp</dimen>
+
 </resources>
