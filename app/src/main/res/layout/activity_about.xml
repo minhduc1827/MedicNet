@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
-    tools:context="com.medic.net.settings.about.ui.AboutActivity">
+    tools:context="com.medicnet.android.settings.about.ui.AboutActivity">
     <include
         android:id="@+id/layout_app_bar"
         layout="@layout/app_bar_password" />

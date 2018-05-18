@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/text_chat_title"
         tools:visibility="visible" />
 
-    <com.medic.net.widget.autocompletion.ui.SuggestionsView
+    <com.medicnet.android.widget.autocompletion.ui.SuggestionsView
         android:id="@+id/suggestions_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

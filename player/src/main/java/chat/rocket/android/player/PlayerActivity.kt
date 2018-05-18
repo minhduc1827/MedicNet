@@ -1,4 +1,4 @@
-package com.medic.net.player
+package com.medicnet.android.player
 
 import android.content.Context
 import android.content.Intent

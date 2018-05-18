@@ -10,7 +10,7 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "com.medic.net"
+        applicationId "com.medicnet.android"
         minSdkVersion 21
         targetSdkVersion versions.targetSdk
         versionCode 2021
