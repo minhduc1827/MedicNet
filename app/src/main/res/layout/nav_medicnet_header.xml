@@ -125,13 +125,12 @@
             android:text="@string/label_my_vault" />
     </LinearLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/navigation_header_chat_room"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutMyVault"
-        class="com.medicnet.android.chatroom.ui.ChatRoomFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutMyVault" />
 </android.support.constraint.ConstraintLayout>

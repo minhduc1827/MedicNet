@@ -13,7 +13,8 @@ import com.medicnet.android.util.extensions.addFragment
 class MainNavigator(internal val activity: MainActivity) {
 
     fun toChatList() {
-        activity.addFragment("ChatRoomsFragment", R.id.fragment_container) {
+//        Log.d("DucNM","toChatList>>"+activity.headerLayout.navigation_header_chat_room.id);
+        activity.addFragment("ChatRoomsFragment", R.id.navigation_header_chat_room) {
             ChatRoomsFragment.newInstance()
         }
     }
