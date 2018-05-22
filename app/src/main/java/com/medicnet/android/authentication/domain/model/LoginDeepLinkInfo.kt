@@ -36,5 +36,7 @@ private inline fun Uri.isAuthenticationDeepLink(): Boolean {
         return true
     else if (host == "go.rocket.chat" && path == "/auth")
         return true
+    else if (host == "medicappdev.eastus.cloudapp.azure.com" && path == "/home")
+        return true
     return false
 }
