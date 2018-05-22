@@ -36,10 +36,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
 
-                <data
-                    android:host="medicappdev.eastus.cloudapp.azure.com"
-                    android:pathPrefix="/home"
-                    android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
