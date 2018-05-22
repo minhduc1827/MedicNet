@@ -49,4 +49,10 @@
 
     <!-- Default Background Color -->
     <color name="default_background">#FAFAFA</color>
+
+    <!--toolbar-->
+    <color name="toolbar_background">#C62828</color>
+    <color name="toolbar_title_color">#ECA1A1</color>
+    <color name="status_bar_color">#8E1812</color>
+
 </resources>

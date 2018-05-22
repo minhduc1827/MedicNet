@@ -109,4 +109,11 @@
         <item name="actionModeCloseDrawable">@drawable/ic_close_white_24dp</item>
     </style>
 
+    <!--toolbar-->
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/toolbar_background</item>
+        <item name="android:textColor">@color/toolbar_title_color</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+    </style>
 </resources>

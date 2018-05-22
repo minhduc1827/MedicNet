@@ -7,11 +7,9 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.text.style.ClickableSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -35,6 +33,7 @@ import com.medicnet.android.webview.oauth.ui.oauthWebViewIntent
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_authentication_log_in.*
 import javax.inject.Inject
+
 
 internal const val REQUEST_CODE_FOR_CAS = 1
 internal const val REQUEST_CODE_FOR_OAUTH = 2
@@ -63,6 +62,7 @@ class LoginFragment : Fragment(), LoginView {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
         deepLinkInfo = arguments?.getParcelable(DEEP_LINK_INFO)
+
     }
 
     override fun onCreateView(
@@ -79,6 +79,14 @@ class LoginFragment : Fragment(), LoginView {
             tintEditTextDrawableStart()
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity!!.getWindow().apply {
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            }
+
+            window.statusBarColor = ContextCompat.getColor(view.context, R.color.status_bar_color)
+        }
         deepLinkInfo?.let {
             presenter.authenticateWithDeepLink(it)
         }.ifNull {
