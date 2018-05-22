@@ -12,7 +12,8 @@
         android:id="@+id/text_headline"
         style="@style/Authentication.Headline.TextView"
         android:layout_centerHorizontal="true"
-        android:text="@string/title_sign_in_your_server" />
+        android:text="@string/title_sign_in_your_server"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/text_server_url"
@@ -25,7 +26,8 @@
         android:hint="@string/default_server"
         android:imeOptions="actionDone"
         android:inputType="text|textUri"
-        android:paddingEnd="0dp" />
+        android:paddingEnd="0dp"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/protocol_container"
@@ -34,7 +36,8 @@
         android:background="@drawable/style_edit_text_authentication"
         android:layout_marginStart="@dimen/screen_edge_left_and_right_margins"
         android:layout_below="@id/text_headline"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="32dp"
+        android:visibility="gone">
         <Spinner
             android:id="@+id/text_server_protocol"
             android:spinnerMode="dropdown"
@@ -56,6 +59,7 @@
         android:id="@+id/button_connect"
         style="@style/Authentication.Button"
         android:layout_alignParentBottom="true"
-        android:text="@string/action_connect" />
+        android:text="@string/action_connect"
+        android:visibility="gone" />
 
 </RelativeLayout>

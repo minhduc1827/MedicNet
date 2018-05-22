@@ -19,6 +19,7 @@ import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import chat.rocket.common.util.ifNull
+import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.login.presentation.LoginPresenter
@@ -82,6 +83,16 @@ class LoginFragment : Fragment(), LoginView {
             presenter.authenticateWithDeepLink(it)
         }.ifNull {
             presenter.setupView()
+        }
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {//add cheat to login
+            ui {
+                text_username_or_email.setOnLongClickListener {
+                    presenter.authenticateWithUserAndPassword(
+                            "martin.siebachmeyer@NHS.net",
+                            "P@ssword123!")
+                    true
+                }
+            }
         }
     }
 

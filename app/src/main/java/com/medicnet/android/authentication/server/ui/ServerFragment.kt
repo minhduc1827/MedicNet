@@ -213,6 +213,7 @@ class ServerFragment : Fragment(), ServerView {
                 val url = text_server_url.textContent.ifEmpty(text_server_url.hintContent)
                 presenter.checkServer("${protocol}${url.sanitize()}")
             }
+            button_connect.performClick()
         }
     }
 }
