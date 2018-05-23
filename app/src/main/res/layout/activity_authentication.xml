@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AuthenticationTheme"
-    tools:context=".authentication.ui.AuthenticationActivity"
-    android:background="@drawable/main_bg">
+    tools:context=".authentication.ui.AuthenticationActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"

@@ -13,7 +13,8 @@
 
     <style name="AuthenticationTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <!-- Widget styles. -->
