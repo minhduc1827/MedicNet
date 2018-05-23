@@ -45,7 +45,7 @@
         <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
         <item name="android:drawableTint" tools:ignore="NewApi">@color/colorDrawableTintGrey</item>
         <item name="android:fontFamily">@font/font_roboto_regular</item>
-        <item name="android:background">@drawable/style_edit_text_authentication</item>
+        <item name="android:background">@drawable/red_border_edittext_selector</item>
     </style>
 
     <style name="Authentication.Button" parent="Widget.AppCompat.Button">
