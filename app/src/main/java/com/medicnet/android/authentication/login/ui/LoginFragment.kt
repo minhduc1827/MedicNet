@@ -238,7 +238,7 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun showSignUpView() {
         ui {
-            text_new_to_rocket_chat.isVisible = true
+            //            text_new_to_rocket_chat.isVisible = true
         }
     }
 
