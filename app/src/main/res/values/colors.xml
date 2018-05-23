@@ -61,6 +61,9 @@
     <color name="gray_white1">#E1E2E1</color>
     <color name="gray_white2">#F5F5F5</color>
     <color name="canvas_color">#E2DED0</color>
+    <color name="dark_gray">#A9A9A9</color>
+    <color name="light_gray">#D3D3D3</color>
+
     <!--toolbar-->
     <color name="toolbar_background">@color/red_medium</color>
     <color name="toolbar_title_color">#ECA1A1</color>

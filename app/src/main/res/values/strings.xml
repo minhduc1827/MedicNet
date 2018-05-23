@@ -226,4 +226,7 @@
     <string name="label_contact" translatable="false">Contact</string>
     <string name="label_new_team" translatable="false">New Team</string>
     <string name="label_my_vault" translatable="false">My Vault</string>
+    <string name="label_forgot_password" translatable="false">Forgotten Password?</string>
+    <string name="label_or" translatable="false">Or</string>
+    <string name="label_create_new_account" translatable="false">Create New Medicnet Account</string>
 </resources>
