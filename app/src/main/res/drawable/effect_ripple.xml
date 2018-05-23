@@ -4,6 +4,6 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@color/colorAccent" />
+        android:drawable="@color/green_medium" />
 
 </ripple>

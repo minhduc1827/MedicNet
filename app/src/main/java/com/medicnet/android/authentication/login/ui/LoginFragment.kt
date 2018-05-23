@@ -13,7 +13,6 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import chat.rocket.common.util.ifNull
@@ -22,7 +21,6 @@ import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.login.presentation.LoginPresenter
 import com.medicnet.android.authentication.login.presentation.LoginView
-import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.TextHelper
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.webview.cas.ui.INTENT_CAS_TOKEN
@@ -106,10 +104,10 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (isGlobalLayoutListenerSetUp) {
+        /*if (isGlobalLayoutListenerSetUp) {
             scroll_view.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
             isGlobalLayoutListenerSetUp = false
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -453,10 +451,10 @@ class LoginFragment : Fragment(), LoginView {
         // We need to setup the layout to hide and show the oauth interface when the soft keyboard
         // is shown (which means that the user has touched the text_username_or_email or
         // text_password EditText to fill that respective fields).
-        if (!isGlobalLayoutListenerSetUp) {
-            scroll_view.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
-            isGlobalLayoutListenerSetUp = true
-        }
+        /* if (!isGlobalLayoutListenerSetUp) {
+             scroll_view.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+             isGlobalLayoutListenerSetUp = true
+         }*/
     }
 
     override fun alertWrongUsernameOrEmail() {
@@ -488,16 +486,16 @@ class LoginFragment : Fragment(), LoginView {
 
     // Scrolling to the bottom of the screen.
     private fun scrollToBottom() {
-        scroll_view.postDelayed(1250) {
+        /*scroll_view.postDelayed(1250) {
             ui {
                 scroll_view.fullScroll(ScrollView.FOCUS_DOWN)
             }
-        }
+        }*/
     }
 
 
     private fun areLoginOptionsNeeded() {
-        if (!isEditTextEmpty() || KeyboardHelper.isSoftKeyboardShown(scroll_view.rootView)) {
+        /*if (!isEditTextEmpty() || KeyboardHelper.isSoftKeyboardShown(scroll_view.rootView)) {
             hideSignUpView()
             hideOauthView()
             showLoginButton()
@@ -505,7 +503,7 @@ class LoginFragment : Fragment(), LoginView {
             showSignUpView()
             showOauthView()
             hideLoginButton()
-        }
+        }*/
     }
 
     // Returns true if *all* EditTexts are empty.

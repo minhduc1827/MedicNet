@@ -47,4 +47,7 @@
     <!--Navigation medic net-->
     <dimen name="nav_medicnet_header_image">40dp</dimen>
 
+    <!--login-->
+    <dimen name="padding_left_right_login">20dp</dimen>
+    <dimen name="text_size_login">18sp</dimen>
 </resources>

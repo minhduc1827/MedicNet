@@ -47,8 +47,8 @@
     <string name="msg_no_data_to_display">No data to display</string>
     <string name="msg_profile_update_successfully">Profile update successfully</string>
     <string name="msg_username">username</string>
-    <string name="msg_username_or_email">username or email</string>
-    <string name="msg_password">password</string>
+    <string name="msg_username_or_email">NHS.net email address</string>
+    <string name="msg_password">NHS.net password</string>
     <string name="msg_name">name</string>
     <string name="msg_email">email</string>
     <string name="msg_avatar_url">avatar URL</string>

@@ -50,9 +50,21 @@
     <!-- Default Background Color -->
     <color name="default_background">#FAFAFA</color>
 
+    <!--commong color-->
+    <color name="red_dark">#8E1812</color>
+    <color name="red_medium">#C62828</color>
+    <color name="red_light">#EC5F56</color>
+    <color name="green_dark">#014C40</color>
+    <color name="green_medium">#007A6B</color>
+    <color name="green_light">#49A999</color>
+    <color name="green_white">#E2EDE7</color>
+    <color name="gray_white1">#E1E2E1</color>
+    <color name="gray_white2">#F5F5F5</color>
+    <color name="canvas_color">#E2DED0</color>
     <!--toolbar-->
-    <color name="toolbar_background">#C62828</color>
+    <color name="toolbar_background">@color/red_medium</color>
     <color name="toolbar_title_color">#ECA1A1</color>
-    <color name="status_bar_color">#8E1812</color>
+    <color name="status_bar_color">@color/red_dark</color>
 
 </resources>
+
