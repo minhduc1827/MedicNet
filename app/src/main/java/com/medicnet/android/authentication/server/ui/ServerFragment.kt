@@ -209,11 +209,11 @@ class ServerFragment : Fragment(), ServerView {
 
     private fun setupOnClickListener() {
         ui {
-            button_connect.setOnClickListener {
-                val url = text_server_url.textContent.ifEmpty(text_server_url.hintContent)
+            val url = text_server_url.textContent.ifEmpty(text_server_url.hintContent)
+            /*button_connect.setOnClickListener {
                 presenter.checkServer("${protocol}${url.sanitize()}")
-            }
-            button_connect.performClick()
+            }*/
+            presenter.checkServer("${protocol}${url.sanitize()}")
         }
     }
 }
