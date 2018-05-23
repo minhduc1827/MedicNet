@@ -8,28 +8,29 @@
     android:focusableInTouchMode="true"
     tools:context=".authentication.signup.ui.SignupFragment">
 
+    <include
+        android:id="@+id/layout_app_bar"
+        layout="@layout/medicnet_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_headline"
-                style="@style/Authentication.Headline.TextView"
-                android:layout_gravity="center"
-                android:text="@string/title_sign_up" />
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_left_right_login"
+            android:paddingRight="@dimen/padding_left_right_login">
 
             <EditText
                 android:id="@+id/text_name"
                 style="@style/Authentication.EditText"
                 android:layout_marginTop="32dp"
-                android:drawableStart="@drawable/ic_person_black_24dp"
-                android:hint="@string/msg_name"
+                android:hint="@string/label_firstname"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords" />
 
@@ -37,10 +38,25 @@
                 android:id="@+id/text_username"
                 style="@style/Authentication.EditText"
                 android:layout_marginTop="16dp"
-                android:drawableStart="@drawable/ic_at_black_24dp"
-                android:hint="@string/msg_username"
+                android:hint="@string/label_surname"
                 android:imeOptions="actionNext"
                 android:inputType="text" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/select_role"
+                android:background="@drawable/style_edit_text_authentication">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="@string/label_select_role"
+                    android:fontFamily="@font/font_roboto_medium"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/text_password"

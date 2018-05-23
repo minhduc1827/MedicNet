@@ -100,6 +100,9 @@ class LoginFragment : Fragment(), LoginView {
                 }
             }
         }
+        button_create_new_account.setOnClickListener {
+            presenter.signup()
+        }
     }
 
     override fun onDestroyView() {

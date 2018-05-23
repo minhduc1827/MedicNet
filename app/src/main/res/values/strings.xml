@@ -229,4 +229,8 @@
     <string name="label_forgot_password" translatable="false">Forgotten Password?</string>
     <string name="label_or" translatable="false">Or</string>
     <string name="label_create_new_account" translatable="false">Create New Medicnet Account</string>
+    <string name="label_firstname" translatable="false">First Name</string>
+    <string name="label_surname" translatable="false">Surname</string>
+    <string name="label_select_role" translatable="false">Select Role</string>
+    <string name="label_select_organization" translatable="false">Select Organisation</string>
 </resources>

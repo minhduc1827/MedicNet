@@ -47,6 +47,8 @@
         <item name="android:drawableTint" tools:ignore="NewApi">@color/colorDrawableTintGrey</item>
         <item name="android:fontFamily">@font/font_roboto_regular</item>
         <item name="android:background">@drawable/red_border_edittext_selector</item>
+        <item name="android:textColorHint">@color/gray_white1</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Authentication.Button" parent="Widget.AppCompat.Button">
