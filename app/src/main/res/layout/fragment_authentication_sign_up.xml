@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    tools:context=".authentication.signup.ui.SignupFragment">
+    tools:context=".authentication.signup.ui.SignupFragment"
+    android:background="@drawable/main_bg">
 
     <include
         android:id="@+id/layout_app_bar"
@@ -18,12 +19,12 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_app_bar">
+        android:layout_below="@+id/layout_app_bar"
+        android:layout_marginTop="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/main_bg"
             android:orientation="vertical"
             android:paddingLeft="@dimen/padding_left_right_signup"
             android:paddingRight="@dimen/padding_left_right_signup">
@@ -166,7 +167,7 @@
         android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/padding_left_right_signup"
         android:paddingRight="@dimen/padding_left_right_signup"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/text_new_user_agreement"
