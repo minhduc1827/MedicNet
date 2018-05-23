@@ -51,4 +51,8 @@
     <dimen name="padding_left_right_login">20dp</dimen>
     <dimen name="text_size_login">18sp</dimen>
     <dimen name="button_create_new_account_margin_top">20dp</dimen>
+
+    <!--signup-->
+    <dimen name="padding_left_right_signup">40dp</dimen>
+    <dimen name="signup_component_margin_top">10dp</dimen>
 </resources>
