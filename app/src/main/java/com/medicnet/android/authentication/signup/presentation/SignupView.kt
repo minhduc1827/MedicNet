@@ -24,4 +24,14 @@ interface SignupView : LoadingView, MessageView {
      * Alerts the user about a blank email.
      */
     fun alertBlankEmail()
+
+    /**
+     * Alerts the user about a empty role.
+     */
+    fun alertEmptyRole()
+
+    /**
+     * Alerts the user about a empty organization.
+     */
+    fun alertEmptyOrganization()
 }

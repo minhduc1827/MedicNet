@@ -56,7 +56,7 @@ class SignupFragment : Fragment(), SignupView {
         setUpNewUserAgreementListener()
 
         button_sign_up.setOnClickListener {
-            presenter.signup(text_username.textContent, text_username.textContent, text_password.textContent, text_email.textContent)
+            presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
         }
     }
 
@@ -78,6 +78,22 @@ class SignupFragment : Fragment(), SignupView {
             vibrateSmartPhone()
             text_username.shake()
             text_username.requestFocus()
+        }
+    }
+
+    override fun alertEmptyRole() {
+        ui {
+            vibrateSmartPhone()
+            txvRole.shake()
+            txvRole.requestFocus()
+        }
+    }
+
+    override fun alertEmptyOrganization() {
+        ui {
+            vibrateSmartPhone()
+            txvOrganization.shake()
+            txvOrganization.requestFocus()
         }
     }
 

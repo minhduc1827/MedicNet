@@ -29,8 +29,10 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
     private val currentServer = serverInteractor.get()!!
     private val client: RocketChatClient = factory.create(currentServer)
     private var settings: PublicSettings = settingsInteractor.get(serverInteractor.get()!!)
+    private val selectRole: String = "Select Role"
+    private val selectOrganization: String = "Select Organisation"
 
-    fun signup(name: String, username: String, password: String, email: String) {
+    fun signup(name: String, username: String, role: String, organization: String, password: String, email: String) {
         val server = serverInteractor.get()
         when {
             server == null -> {
@@ -41,6 +43,12 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
             }
             username.isBlank() -> {
                 view.alertBlankUsername()
+            }
+            role.isBlank() || role.equals(selectRole) -> {
+                view.alertEmptyRole()
+            }
+            organization.isBlank() || organization.equals(selectOrganization) -> {
+                view.alertEmptyOrganization()
             }
             password.isEmpty() -> {
                 view.alertEmptyPassword()
@@ -54,7 +62,7 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
                     view.showLoading()
                     try {
                         // TODO This function returns a user so should we save it?
-                        retryIO("signup") { client.signup(email, name, username, password) }
+                        retryIO("signup") { client.signup(email, name, role, organization, username, password) }
                         // TODO This function returns a user token so should we save it?
                         retryIO("login") { client.login(username, password) }
                         val me = retryIO("me") { client.me() }

@@ -35,6 +35,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     val TAG = AuthenticationActivity::class.java.simpleName
 
     companion object {
+        //DucNM: adding unsafeOkHttp
         fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
             try {
                 // Create a trust manager that does not validate certificate chains
