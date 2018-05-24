@@ -90,7 +90,7 @@
                 android:textSize="@dimen/text_size_login"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view1"
-                tools:layout_editor_absoluteY="99dp" />
+                app:layout_constraintTop_toTopOf="@+id/view1" />
 
             <Button
                 android:id="@+id/button_log_in"

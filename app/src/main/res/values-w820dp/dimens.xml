@@ -6,5 +6,7 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="screen_edge_left_and_right_margins">24dp</dimen>
+    <dimen name="image_size_view_login">50dp</dimen>
+    <dimen name="image_icon_size_login">30dp</dimen>
 
 </resources>
