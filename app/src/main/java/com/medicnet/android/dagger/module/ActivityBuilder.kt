@@ -4,7 +4,6 @@ import com.medicnet.android.authentication.di.AuthenticationModule
 import com.medicnet.android.authentication.login.di.LoginFragmentProvider
 import com.medicnet.android.authentication.registerusername.di.RegisterUsernameFragmentProvider
 import com.medicnet.android.authentication.resetpassword.di.ResetPasswordFragmentProvider
-import com.medicnet.android.authentication.selectorganization.di.SelectOrganizationProvider
 import com.medicnet.android.authentication.server.di.ServerFragmentProvider
 import com.medicnet.android.authentication.signup.di.SignupFragmentProvider
 import com.medicnet.android.authentication.twofactor.di.TwoFAFragmentProvider
@@ -34,7 +33,7 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [AuthenticationModule::class,
         ServerFragmentProvider::class,
         LoginFragmentProvider::class,
-        SelectOrganizationProvider::class,
+//        SelectOrganizationProvider::class,
         RegisterUsernameFragmentProvider::class,
         ResetPasswordFragmentProvider::class,
         SignupFragmentProvider::class,

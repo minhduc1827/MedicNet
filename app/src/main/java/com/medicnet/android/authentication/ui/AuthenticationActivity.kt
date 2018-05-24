@@ -33,7 +33,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject lateinit var presenter: AuthenticationPresenter
     val job = Job()
     val TAG = AuthenticationActivity::class.java.simpleName
-    public lateinit var organizationJson: String
+    lateinit var organizationJson: String
 
     companion object {
         //DucNM: adding unsafeOkHttp
