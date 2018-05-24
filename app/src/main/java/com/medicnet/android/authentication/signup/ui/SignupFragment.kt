@@ -14,9 +14,10 @@ import com.medicnet.android.authentication.signup.presentation.SignupPresenter
 import com.medicnet.android.authentication.signup.presentation.SignupView
 import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.TextHelper
-import com.medicnet.android.util.extensions.*
+import com.medicnet.android.util.extensions.showToast
+import com.medicnet.android.util.extensions.ui
+import com.medicnet.android.util.extensions.vibrateSmartPhone
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_authentication_sign_up.*
 import javax.inject.Inject
 
 class SignupFragment : Fragment(), SignupView {
@@ -54,7 +55,9 @@ class SignupFragment : Fragment(), SignupView {
         relative_layout.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
         setUpNewUserAgreementListener()
-
+        txvOrganization.setOnClickListener {
+            //            presenter.toSelectOrganization(activity.organizationJson)
+        }
         button_sign_up.setOnClickListener {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
         }

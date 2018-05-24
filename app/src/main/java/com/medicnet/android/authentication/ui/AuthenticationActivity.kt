@@ -33,6 +33,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject lateinit var presenter: AuthenticationPresenter
     val job = Job()
     val TAG = AuthenticationActivity::class.java.simpleName
+    public lateinit var organizationJson: String
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -87,7 +88,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
         val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
-        getOrganisationList(url)
+        organizationJson = getOrganisationList(url)
     }
 
     fun getOrganisationList(url: String): String {
