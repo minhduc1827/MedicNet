@@ -20,6 +20,9 @@ android {
     }
 
     signingConfigs {
+        debug {
+            storeFile file('keystore/debug.keystore')
+        }
         release {
             storeFile project.rootProject.file('Rocket.jks').getCanonicalFile()
             storePassword System.getenv("KEYSTORE_PASSWORD")

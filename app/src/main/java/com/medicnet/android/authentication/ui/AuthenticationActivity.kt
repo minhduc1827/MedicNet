@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
@@ -18,12 +19,16 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import okhttp3.*
+import java.io.IOException
 import javax.inject.Inject
+
 
 class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var presenter: AuthenticationPresenter
     val job = Job()
+    val TAG = AuthenticationActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -41,6 +46,52 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 }
             }
         }
+        val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
+        getOrganisationList(url)
+    }
+
+    fun getOrganisationList(url: String) {
+        Log.d(TAG, "getOrganisationList @url= " + url);
+        /*val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+            override fun getAcceptedIssuers(): Array<X509Certificate> {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            @Throws(CertificateException::class)
+            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+            }
+
+            @Throws(CertificateException::class)
+            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+            }
+        })
+        // Install the all-trusting trust manager
+        val sslContext = SSLContext.getInstance("SSL")
+        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
+        // Create an ssl socket factory with our all-trusting manager
+        val sslSocketFactory = sslContext.getSocketFactory()
+        val builder = OkHttpClient.Builder()
+        builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+        builder.hostnameVerifier(object : HostnameVerifier{
+            override fun verify(hostname: String, session: SSLSession): Boolean {
+                return true
+            }
+        })
+        builder.build();*/
+        val request = Request.Builder()
+                .url(url)
+                .build()
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.d(TAG, "onFailure getOrganisationList: " + e.message)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.d(TAG, "onResponse getOrganisationList: " + response.body()!!.string().toString())
+            }
+        })
     }
 
     override fun onDestroy() {

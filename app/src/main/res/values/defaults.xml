@@ -2,4 +2,5 @@
 <resources>
     <string name="default_protocol" translatable="false">https://</string>
     <string name="default_server" translatable="false">medicappdev.eastus.cloudapp.azure.com</string>
+    <string name="organization_list_api" translatable="false">/api/v1/organizations.list</string>
 </resources>
