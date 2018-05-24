@@ -22,6 +22,10 @@ import kotlinx.coroutines.experimental.launch
 import okhttp3.*
 import java.io.IOException
 import javax.inject.Inject
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
+import javax.security.cert.CertificateException
 
 
 class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -29,6 +33,41 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject lateinit var presenter: AuthenticationPresenter
     val job = Job()
     val TAG = AuthenticationActivity::class.java.simpleName
+
+    companion object {
+        fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
+            try {
+                // Create a trust manager that does not validate certificate chains
+                val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                    @Throws(CertificateException::class)
+                    override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    }
+
+                    @Throws(CertificateException::class)
+                    override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    }
+
+                    override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
+                        return arrayOf()
+                    }
+                })
+
+                // Install the all-trusting trust manager
+                val sslContext = SSLContext.getInstance("SSL")
+                sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+                // Create an ssl socket factory with our all-trusting manager
+                val sslSocketFactory = sslContext.socketFactory
+
+                val builder = OkHttpClient.Builder()
+                builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+                builder.hostnameVerifier { _, _ -> true }
+
+                return builder
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -50,48 +89,25 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         getOrganisationList(url)
     }
 
-    fun getOrganisationList(url: String) {
+    fun getOrganisationList(url: String): String {
+        var responseString: String = ""
         Log.d(TAG, "getOrganisationList @url= " + url);
-        /*val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-            override fun getAcceptedIssuers(): Array<X509Certificate> {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            @Throws(CertificateException::class)
-            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-
-            @Throws(CertificateException::class)
-            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-            }
-        })
-        // Install the all-trusting trust manager
-        val sslContext = SSLContext.getInstance("SSL")
-        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-
-        // Create an ssl socket factory with our all-trusting manager
-        val sslSocketFactory = sslContext.getSocketFactory()
-        val builder = OkHttpClient.Builder()
-        builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-        builder.hostnameVerifier(object : HostnameVerifier{
-            override fun verify(hostname: String, session: SSLSession): Boolean {
-                return true
-            }
-        })
-        builder.build();*/
+        val client = getUnsafeOkHttpClient().build()
         val request = Request.Builder()
                 .url(url)
                 .build()
-        val client = OkHttpClient()
+
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.d(TAG, "onFailure getOrganisationList: " + e.message)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                Log.d(TAG, "onResponse getOrganisationList: " + response.body()!!.string().toString())
+                responseString = response.body()!!.string().toString()
+                Log.d(TAG, "onResponse getOrganisationList: " + responseString)
             }
         })
+        return responseString
     }
 
     override fun onDestroy() {
