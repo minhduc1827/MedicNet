@@ -30,8 +30,8 @@
             android:paddingRight="@dimen/padding_left_right_login">
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/image_size_view_login"
+                android:layout_height="@dimen/image_size_view_login"
                 android:layout_marginBottom="10dp"
                 android:background="@color/green_light"
                 app:layout_constraintBottom_toTopOf="@+id/view1"
@@ -40,8 +40,8 @@
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/image_icon_size_login"
+                android:layout_height="@dimen/image_icon_size_login"
                 android:src="@drawable/ic_email"
                 app:layout_constraintBottom_toBottomOf="@+id/view2"
                 app:layout_constraintEnd_toEndOf="@+id/view2"
@@ -61,8 +61,8 @@
                 app:layout_constraintTop_toTopOf="@+id/view2" />
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/image_size_view_login"
+                android:layout_height="@dimen/image_size_view_login"
                 android:layout_marginBottom="16dp"
                 android:background="@color/green_light"
                 app:layout_constraintBottom_toTopOf="@+id/button_log_in"
@@ -71,8 +71,8 @@
 
             <ImageView
                 android:id="@+id/imageView8"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/image_icon_size_login"
+                android:layout_height="@dimen/image_icon_size_login"
                 android:src="@drawable/ic_password"
                 app:layout_constraintBottom_toBottomOf="@+id/view1"
 
