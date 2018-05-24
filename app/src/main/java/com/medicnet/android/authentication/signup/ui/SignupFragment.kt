@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver
 import com.medicnet.android.R
 import com.medicnet.android.authentication.signup.presentation.SignupPresenter
 import com.medicnet.android.authentication.signup.presentation.SignupView
+import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.TextHelper
 import com.medicnet.android.util.extensions.*
@@ -54,10 +55,10 @@ class SignupFragment : Fragment(), SignupView {
         relative_layout.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
         setUpNewUserAgreementListener()
-
-        /*txvOrganization.setOnClickListener {
-                        presenter.toSelectOrganization(((AuthenticationActivity)activity).organizationJson)
-        }*/
+        txvOrganization.setOnClickListener {
+            var context: AuthenticationActivity = activity as AuthenticationActivity
+            presenter.toSelectOrganization(context.organizationJson)
+        }
         button_sign_up.setOnClickListener {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
         }

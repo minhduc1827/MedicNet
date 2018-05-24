@@ -47,22 +47,21 @@
                 android:inputType="text"
                 android:textColorHint="@color/dark_gray" />
 
-            <EditText
+            <TextView
                 style="@style/Authentication.EditText"
                 android:hint="@string/label_select_role"
                 android:id="@+id/txvRole"
                 android:layout_marginTop="@dimen/signup_component_margin_top"
                 android:drawableRight="@drawable/ico_next"
-                android:enabled="false"
                 android:textColorHint="@color/dark_gray" />
 
-            <EditText
+            <TextView
                 style="@style/Authentication.EditText"
                 android:hint="@string/label_select_organization"
                 android:id="@+id/txvOrganization"
                 android:drawableRight="@drawable/ico_next"
                 android:layout_marginTop="@dimen/signup_component_margin_top"
-                android:enabled="false"
+
                 android:textColorHint="@color/dark_gray" />
 
             <TextView
