@@ -66,10 +66,16 @@ class SignupFragment : Fragment(), SignupView {
                 return v?.onTouchEvent(event) ?: true
             }
         })
-//        txvOrganization.setOnClickListener {
-//            presenter.toSelectOrganization(context.organizationJson)
-//        }
-//        txvOrganization.setOnFocusChangeListener { v, hasFocus ->  }
+
+        txvRole.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> presenter.toSelectRole(context.organizationJson)
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
         button_sign_up.setOnClickListener {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
         }
@@ -77,13 +83,13 @@ class SignupFragment : Fragment(), SignupView {
 
     override fun onResume() {
         super.onResume()
-        try {
-            if (!context.organzation.equals("")) {
-                Log.d(TAG, "onResume select organization>>" + context.organzation)
-                txvOrganization.text = context.organzation
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (!context.organzation.equals("")) {
+            Log.d(TAG, "onResume select organization>>" + context.organzation)
+            txvOrganization.text = context.organzation
+        }
+        if (!context.role.equals("")) {
+            Log.d(TAG, "onResume select organization>>" + context.organzation)
+            txvRole.text = context.role
         }
     }
 

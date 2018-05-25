@@ -86,8 +86,7 @@ public class OrganizationFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((AuthenticationActivity) getActivity()).setOrganzation(adapter.getItem
-                        (position));
+                updateDataForResgister(position);
                 getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -102,6 +101,11 @@ public class OrganizationFragment extends Fragment {
         setupListViewAdapter();
         setupListView();
         return mainView;
+    }
+
+    protected void updateDataForResgister(int position){
+        ((AuthenticationActivity) getActivity()).setOrganzation(adapter.getItem
+                (position));
     }
 
     protected void setupListViewAdapter() {

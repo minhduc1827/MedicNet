@@ -89,6 +89,10 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
         navigator.toSelectOrganization(json)
     }
 
+    fun toSelectRole(json: String) {
+        navigator.toSelectRole(json)
+    }
+
     fun termsOfService() {
         serverInteractor.get()?.let {
             navigator.toWebPage(it.termsOfServiceUrl())

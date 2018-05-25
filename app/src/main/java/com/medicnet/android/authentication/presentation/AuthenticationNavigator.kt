@@ -7,6 +7,7 @@ import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.registerusername.ui.RegisterUsernameFragment
 import com.medicnet.android.authentication.resetpassword.ui.ResetPasswordFragment
 import com.medicnet.android.authentication.selectorganization.OrganizationFragment
+import com.medicnet.android.authentication.selectrole.RoleFragment
 import com.medicnet.android.authentication.signup.ui.SignupFragment
 import com.medicnet.android.authentication.twofactor.ui.TwoFAFragment
 import com.medicnet.android.authentication.ui.AuthenticationActivity
@@ -67,6 +68,12 @@ class AuthenticationNavigator(internal val activity: AuthenticationActivity) {
     fun toSelectOrganization(json: String) {
         activity.addFragmentBackStack("SelectOrganizationFragment", R.id.fragment_container) {
             OrganizationFragment.newInstance(json)
+        }
+    }
+
+    fun toSelectRole(json: String) {
+        activity.addFragmentBackStack("SelectRoleFragment", R.id.fragment_container) {
+            RoleFragment.newInstance(json)
         }
     }
 

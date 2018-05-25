@@ -36,6 +36,8 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     val TAG = AuthenticationActivity::class.java.simpleName
     var organizationJson: String = ""
     var organzation: String = ""
+    var roleJson: String = ""
+    var role: String = ""
 
     companion object {
         //DucNM: adding unsafeOkHttp
