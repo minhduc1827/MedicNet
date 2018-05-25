@@ -1,6 +1,7 @@
 package com.medicnet.android.util.extensions
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
@@ -76,8 +77,27 @@ fun Activity.showKeyboard(view: View) {
 fun Activity.showToast(@StringRes resource: Int, duration: Int = Toast.LENGTH_SHORT) =
     showToast(getString(resource), duration)
 
-fun Activity.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) =
-    Toast.makeText(this, message, duration).show()
+fun Activity.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+//    Toast.makeText(this, message, duration).show()
+    val builder = AlertDialog.Builder(this)
+    builder.setCancelable(false)
+    // Set the alert dialog title
+    builder.setTitle("Oops!")
+
+    // Display a message on alert dialog
+    builder.setMessage(message)
+
+    // Set a positive button and its click listener on alert dialog
+    builder.setPositiveButton("OK") { dialog, which ->
+        // Do something when user press the positive button
+        dialog.dismiss()
+    }
+    val dialog: AlertDialog = builder.create()
+
+    // Display the alert dialog on app interface
+    dialog.show()
+}
+
 
 fun Fragment.showToast(@StringRes resource: Int, duration: Int = Toast.LENGTH_SHORT) =
     showToast(getString(resource), duration)
