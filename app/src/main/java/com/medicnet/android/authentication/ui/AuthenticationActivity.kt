@@ -90,27 +90,28 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
         val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
-        getOrganisationList(url)
+        getDataFromSever(url, organizationCallBack())
     }
 
-    fun getOrganisationList(url: String) {
+    fun organizationCallBack() = object : Callback {
+        override fun onFailure(call: Call, e: IOException) {
+            Log.d(TAG, "onFailure getDataFromSever: " + e.message)
+        }
 
-        Log.d(TAG, "getOrganisationList @url= " + url);
+        override fun onResponse(call: Call, response: Response) {
+            organizationJson = response.body()!!.string().toString()
+            Log.d(TAG, "onResponse getDataFromSever: " + organizationJson)
+        }
+    }
+
+    fun getDataFromSever(url: String, callback: Callback) {
+
+        Log.d(TAG, "getDataFromSever @url= " + url);
         val client = getUnsafeOkHttpClient().build()
         val request = Request.Builder()
                 .url(url)
                 .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d(TAG, "onFailure getOrganisationList: " + e.message)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                organizationJson = response.body()!!.string().toString()
-                Log.d(TAG, "onResponse getOrganisationList: " + organizationJson)
-            }
-        })
+        client.newCall(request).enqueue(callback)
     }
 
     override fun onDestroy() {
