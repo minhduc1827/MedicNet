@@ -54,7 +54,8 @@ public class OrganizationFragment extends Fragment {
         lvOrganization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((AuthenticationActivity) getActivity()).organzation = organizations.get(position);
+                ((AuthenticationActivity) getActivity()).setOrganzation(organizations.get
+                        (position));
                 getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
