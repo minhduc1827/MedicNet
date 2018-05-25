@@ -70,7 +70,7 @@ class SignupFragment : Fragment(), SignupView {
         txvRole.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 when (event?.action) {
-                    MotionEvent.ACTION_DOWN -> presenter.toSelectRole(context.organizationJson)
+                    MotionEvent.ACTION_DOWN -> presenter.toSelectRole(context.roleJson)
                 }
 
                 return v?.onTouchEvent(event) ?: true
