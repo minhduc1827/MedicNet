@@ -9,6 +9,7 @@ import android.util.Log
 import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
+import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.presentation.AuthenticationPresenter
 import com.medicnet.android.authentication.server.ui.ServerFragment
 import com.medicnet.android.util.extensions.addFragment
@@ -34,6 +35,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     val job = Job()
     val TAG = AuthenticationActivity::class.java.simpleName
     lateinit var organizationJson: String
+    lateinit var organzation: String
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -88,11 +90,11 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
         val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
-        organizationJson = getOrganisationList(url)
+        getOrganisationList(url)
     }
 
-    fun getOrganisationList(url: String): String {
-        var responseString: String = ""
+    fun getOrganisationList(url: String) {
+
         Log.d(TAG, "getOrganisationList @url= " + url);
         val client = getUnsafeOkHttpClient().build()
         val request = Request.Builder()
@@ -105,16 +107,25 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                responseString = response.body()!!.string().toString()
-                Log.d(TAG, "onResponse getOrganisationList: " + responseString)
+                organizationJson = response.body()!!.string().toString()
+                Log.d(TAG, "onResponse getOrganisationList: " + organizationJson)
             }
         })
-        return responseString
     }
 
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (fragment is LoginFragment) {
+            Log.d(TAG, "exit app onBackPressed when in login")
+            finish()
+        } else
+            super.onBackPressed()
+
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

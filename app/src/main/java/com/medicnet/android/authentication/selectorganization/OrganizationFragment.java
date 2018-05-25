@@ -8,13 +8,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.medicnet.android.R;
+import com.medicnet.android.authentication.domain.model.OrganizationElement;
+import com.medicnet.android.authentication.domain.model.Organizations;
+import com.medicnet.android.authentication.ui.AuthenticationActivity;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrganizationFragment extends Fragment {
 
     private static final String JSON_DATA = "json_data";
     private final String TAG = getClass().getSimpleName();
+    private ListView lvOrganization;
+    private ArrayAdapter<String> adapter;
+    private List<String> organizations = new ArrayList<>();
 
     public static OrganizationFragment newInstance(String json) {
 
@@ -35,7 +49,40 @@ public class OrganizationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_organization, container, false);
-        Log.d(TAG, "json data>> " + getArguments().getString(JSON_DATA));
+        lvOrganization = view.findViewById(R.id.lvOrganization);
+        setupListView();
+        lvOrganization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((AuthenticationActivity) getActivity()).organzation = organizations.get(position);
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
         return view;
+    }
+
+    protected void setupListView() {
+        String jsonData = getArguments().getString(JSON_DATA);
+        Log.d(TAG, "json data>> " + jsonData);
+        if (!jsonData.isEmpty()) {
+            Moshi moshi = new Moshi.Builder().build();
+//            Type type= Types.newParameterizedType(List.class, Organization.class);
+//            JsonAdapter<List<Organization>>adapter=moshi.adapter(type);
+            JsonAdapter<Organizations> jsonAdapter = moshi.adapter(Organizations.class);
+            try {
+                Organizations organizationList = jsonAdapter.fromJson(jsonData);
+
+                for (OrganizationElement organization : organizationList.organizations) {
+                    organizations.add(organization.value);
+                }
+                if (organizations.size() > 0) {
+                    adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_organization,
+                            organizations);
+                    lvOrganization.setAdapter(adapter);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

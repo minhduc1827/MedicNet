@@ -5,10 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.style.ClickableSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.util.Log
+import android.view.*
 import com.medicnet.android.R
 import com.medicnet.android.authentication.signup.presentation.SignupPresenter
 import com.medicnet.android.authentication.signup.presentation.SignupView
@@ -22,6 +20,9 @@ import javax.inject.Inject
 
 class SignupFragment : Fragment(), SignupView {
     @Inject lateinit var presenter: SignupPresenter
+    lateinit var context: AuthenticationActivity
+    val TAG = SignupFragment::class.java.simpleName
+
     private val layoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         if (KeyboardHelper.isSoftKeyboardShown(relative_layout.rootView)) {
             bottom_container.setVisible(false)
@@ -55,12 +56,34 @@ class SignupFragment : Fragment(), SignupView {
         relative_layout.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
         setUpNewUserAgreementListener()
-        txvOrganization.setOnClickListener {
-            var context: AuthenticationActivity = activity as AuthenticationActivity
-            presenter.toSelectOrganization(context.organizationJson)
-        }
+        context = activity as AuthenticationActivity
+        txvOrganization.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> presenter.toSelectOrganization(context.organizationJson)
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+//        txvOrganization.setOnClickListener {
+//            presenter.toSelectOrganization(context.organizationJson)
+//        }
+//        txvOrganization.setOnFocusChangeListener { v, hasFocus ->  }
         button_sign_up.setOnClickListener {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            if (!context.organzation.equals("")) {
+                Log.d(TAG, "onResume select organization>>" + context.organzation)
+                txvOrganization.text = context.organzation
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
