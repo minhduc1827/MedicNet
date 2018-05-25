@@ -54,9 +54,23 @@ public class OrganizationFragment extends Fragment {
         lvOrganization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((AuthenticationActivity) getActivity()).setOrganzation(organizations.get
+                ((AuthenticationActivity) getActivity()).setOrganzation(adapter.getItem
                         (position));
                 getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+        android.support.v7.widget.SearchView searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView
+                .OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
         return view;
