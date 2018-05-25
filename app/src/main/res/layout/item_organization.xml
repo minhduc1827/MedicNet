@@ -8,4 +8,5 @@
     android:fontFamily="@font/font_roboto_medium"
     android:textSize="16sp"
     android:singleLine="true"
-    android:layout_height="50dp" />
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical" />

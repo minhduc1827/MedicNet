@@ -1,5 +1,6 @@
 package com.medicnet.android.authentication.selectorganization;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.medicnet.android.R;
@@ -25,10 +28,11 @@ import java.util.List;
 public class OrganizationFragment extends Fragment {
 
     private static final String JSON_DATA = "json_data";
-    private final String TAG = getClass().getSimpleName();
-    private ListView lvOrganization;
-    private ArrayAdapter<String> adapter;
-    private List<String> organizations = new ArrayList<>();
+    protected final String TAG = getClass().getSimpleName();
+    protected ListView listView;
+    protected ArrayAdapter<String> adapter;
+    protected List<String> dataList = new ArrayList<>();
+    private View mainView;
 
     public static OrganizationFragment newInstance(String json) {
 
@@ -45,21 +49,14 @@ public class OrganizationFragment extends Fragment {
 //        AndroidSupportInjection.inject(this);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_select_organization, container, false);
-        lvOrganization = view.findViewById(R.id.lvOrganization);
-        setupListView();
-        lvOrganization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((AuthenticationActivity) getActivity()).setOrganzation(adapter.getItem
-                        (position));
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
-            }
-        });
-        android.support.v7.widget.SearchView searchView = view.findViewById(R.id.searchView);
+    private void setupSearchView() {
+        android.support.v7.widget.SearchView searchView = mainView.findViewById(R.id.searchView);
+        ImageView iconSearch = searchView.findViewById(android.support.v7.appcompat.R.id
+                .search_button);
+        iconSearch.setColorFilter(Color.BLACK);
+        ImageView iconClear = searchView.findViewById(android.support.v7.appcompat.R.id
+                .search_close_btn);
+        iconClear.setColorFilter(Color.BLACK);
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView
                 .OnQueryTextListener() {
             @Override
@@ -73,10 +70,41 @@ public class OrganizationFragment extends Fragment {
                 return false;
             }
         });
-        return view;
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat
+                .R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.white));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.white));
     }
 
-    protected void setupListView() {
+    private void setupListView() {
+        listView = mainView.findViewById(R.id.lvOrganization);
+        if (dataList.size() > 0) {
+            adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_organization,
+                    dataList);
+            listView.setAdapter(adapter);
+        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((AuthenticationActivity) getActivity()).setOrganzation(adapter.getItem
+                        (position));
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        mainView = inflater.inflate(R.layout.fragment_select_organization, container, false);
+        setupSearchView();
+        setupListViewAdapter();
+        setupListView();
+        return mainView;
+    }
+
+    protected void setupListViewAdapter() {
         String jsonData = getArguments().getString(JSON_DATA);
         Log.d(TAG, "json data>> " + jsonData);
         if (!jsonData.isEmpty()) {
@@ -86,15 +114,10 @@ public class OrganizationFragment extends Fragment {
             JsonAdapter<Organizations> jsonAdapter = moshi.adapter(Organizations.class);
             try {
                 Organizations organizationList = jsonAdapter.fromJson(jsonData);
-
                 for (OrganizationElement organization : organizationList.organizations) {
-                    organizations.add(organization.value);
+                    dataList.add(organization.value);
                 }
-                if (organizations.size() > 0) {
-                    adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_organization,
-                            organizations);
-                    lvOrganization.setAdapter(adapter);
-                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
