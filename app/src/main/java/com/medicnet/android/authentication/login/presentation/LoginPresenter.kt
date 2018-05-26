@@ -64,7 +64,7 @@ class LoginPresenter @Inject constructor(
         setupOauthServicesView()
     }
 
-    fun authenticateWithUserAndPassword(usernameOrEmail: String, password: String) {
+    fun authenticateWithUserAndPassword(usernameOrEmail: String, password: String, callback: (authenticated: Boolean) -> Unit) {
         when {
             usernameOrEmail.isBlank() -> {
                 view.alertWrongUsernameOrEmail()
@@ -75,7 +75,7 @@ class LoginPresenter @Inject constructor(
             else -> {
                 this.usernameOrEmail = usernameOrEmail
                 this.password = password
-                doAuthentication(TYPE_LOGIN_USER_EMAIL)
+                doAuthentication(TYPE_LOGIN_USER_EMAIL, callback)
             }
         }
     }
@@ -256,6 +256,74 @@ class LoginPresenter @Inject constructor(
             } catch (exception: RocketChatException) {
                 Timber.e(exception)
                 view.disableOauthView()
+            }
+        }
+    }
+
+    private fun doAuthentication(loginType: Int, callback: (authenticated: Boolean) -> Unit) {
+        launchUI(strategy) {
+            view.disableUserInput()
+            view.showLoading()
+            try {
+                val token = retryIO("login") {
+                    when (loginType) {
+                        TYPE_LOGIN_USER_EMAIL -> {
+                            when {
+                                settings.isLdapAuthenticationEnabled() ->
+                                    client.loginWithLdap(usernameOrEmail, password)
+                                usernameOrEmail.isEmail() ->
+                                    client.loginWithEmail(usernameOrEmail, password)
+                                else ->
+                                    client.login(usernameOrEmail, password)
+                            }
+                        }
+                        TYPE_LOGIN_CAS -> {
+                            delay(3, TimeUnit.SECONDS)
+                            client.loginWithCas(credentialToken)
+                        }
+                        TYPE_LOGIN_OAUTH -> {
+                            client.loginWithOauth(credentialToken, credentialSecret)
+                        }
+                        TYPE_LOGIN_DEEP_LINK -> {
+                            val myself = client.me() // Just checking if the credentials worked.
+                            if (myself.id == deepLinkUserId) {
+                                Token(deepLinkUserId, deepLinkToken)
+                            } else {
+                                throw RocketChatAuthException("Invalid Authentication Deep Link Credentials...")
+                            }
+                        }
+                        else -> {
+                            throw IllegalStateException("Expected TYPE_LOGIN_USER_EMAIL, TYPE_LOGIN_CAS, TYPE_LOGIN_OAUTH or TYPE_LOGIN_DEEP_LINK")
+                        }
+                    }
+                }
+                val username = retryIO("me()") { client.me().username }
+                if (username != null) {
+                    localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, username)
+                    saveAccount(username)
+                    saveToken(token)
+                    registerPushToken()
+                    navigator.toChatList()
+                    callback(true)
+                } else if (loginType == TYPE_LOGIN_OAUTH) {
+                    navigator.toRegisterUsername(token.userId, token.authToken)
+                }
+            } catch (exception: RocketChatException) {
+                when (exception) {
+                    is RocketChatTwoFactorException -> {
+                        navigator.toTwoFA(usernameOrEmail, password)
+                    }
+                    else -> {
+                        exception.message?.let {
+                            view.showMessage(it)
+                        }.ifNull {
+                            view.showGenericErrorMessage()
+                        }
+                    }
+                }
+            } finally {
+                view.hideLoading()
+                view.enableUserInput()
             }
         }
     }

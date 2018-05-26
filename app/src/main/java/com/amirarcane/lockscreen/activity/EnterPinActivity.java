@@ -56,7 +56,7 @@ public class EnterPinActivity extends AppCompatActivity {
     public static final String EXTRA_FONT_TEXT = "textFont";
     public static final String EXTRA_FONT_NUM = "numFont";
 
-    private static final int PIN_LENGTH = 4;
+    private static final int PIN_LENGTH = 5;
     private static final String FINGER_PRINT_KEY = "FingerPrintKey";
 
     public static final String PREFERENCES = "com.amirarcane.lockscreen";
@@ -456,8 +456,9 @@ public class EnterPinActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_BACK_PRESSED);
-        super.onBackPressed();
+//        setResult(RESULT_BACK_PRESSED);
+//        super.onBackPressed();
+        finishAffinity();
     }
 
     private class FingerprintException extends Exception {

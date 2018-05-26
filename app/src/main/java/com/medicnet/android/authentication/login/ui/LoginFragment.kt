@@ -21,6 +21,7 @@ import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.login.presentation.LoginPresenter
 import com.medicnet.android.authentication.login.presentation.LoginView
+import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.TextHelper
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.webview.cas.ui.INTENT_CAS_TOKEN
@@ -45,6 +46,7 @@ class LoginFragment : Fragment(), LoginView {
     }
     private var isGlobalLayoutListenerSetUp = false
     private var deepLinkInfo: LoginDeepLinkInfo? = null
+    lateinit var context: AuthenticationActivity
 
     companion object {
         private const val DEEP_LINK_INFO = "DeepLinkInfo"
@@ -85,6 +87,7 @@ class LoginFragment : Fragment(), LoginView {
 
             window.statusBarColor = ContextCompat.getColor(view.context, R.color.status_bar_color)
         }
+        context = activity as AuthenticationActivity
         deepLinkInfo?.let {
             presenter.authenticateWithDeepLink(it)
         }.ifNull {
@@ -95,7 +98,11 @@ class LoginFragment : Fragment(), LoginView {
                 text_username_or_email.setOnLongClickListener {
                     presenter.authenticateWithUserAndPassword(
                             "martin.siebachmeyer@NHS.net",
-                            "P@ssword123!")
+                            "P@ssword123!") { authenticated ->
+                        if (authenticated) {
+                            context.displayLockScreen()
+                        }
+                    }
                     true
                 }
             }
@@ -194,7 +201,11 @@ class LoginFragment : Fragment(), LoginView {
                 presenter.authenticateWithUserAndPassword(
                     text_username_or_email.textContent,
                     text_password.textContent
-                )
+                ) { authenticated ->
+                    if (authenticated) {
+                        context.displayLockScreen()
+                    }
+                }
             }
         }
     }
