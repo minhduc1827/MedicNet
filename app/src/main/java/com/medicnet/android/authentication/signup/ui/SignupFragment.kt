@@ -62,7 +62,6 @@ class SignupFragment : Fragment(), SignupView {
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN -> {
                         presenter.toSelectOrganization(context.organizationJson)
-                        txvOrganization.requestFocus()
                     }
                 }
 
@@ -75,7 +74,6 @@ class SignupFragment : Fragment(), SignupView {
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN -> {
                         presenter.toSelectRole(context.roleJson)
-                        txvRole.requestFocus()
                     }
                 }
 
