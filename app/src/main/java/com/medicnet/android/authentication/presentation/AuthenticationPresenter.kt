@@ -28,8 +28,8 @@ class AuthenticationPresenter @Inject constructor(
         if (newServer || currentServer == null || serverToken == null || settings == null || account?.userName == null) {
             callback(false)
         } else {
-            callback(true)
             navigator.toChatList()
+            callback(true)
         }
     }
 }

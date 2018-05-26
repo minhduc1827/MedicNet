@@ -235,4 +235,14 @@
     <string name="label_select_organization" translatable="false">Select Organisation</string>
     <string name="label_signup_warning_nhs" translatable="false">This app is integrated with NHS.net.\nYou can login with your NHS.net email address and password:</string>
     <string name="btn_register" translatable="false">Register</string>
+
+    <!--lock screen-->
+    <string name="pinlock_title" translatable="false">Enter Pin Code</string>
+    <string name="pinlock_settitle" translatable="false">Set Pin Code</string>
+    <string name="pinlock_firsttry" translatable="false">Wrong Pin Code: First Try</string>
+    <string name="pinlock_secondtry" translatable="false">Wrong Pin Code: Second Try</string>
+    <string name="pinlock_wrongpin" translatable="false">Wrong Pin code</string>
+    <string name="pinlock_secondPin" translatable="false">Enter Pin Code Again</string>
+    <string name="pinlock_tryagain" translatable="false">Pin Codes Are Not The Same</string>
+    <string name="pinlock_fingerprint" translatable="false">Use Fingerprint</string>
 </resources>

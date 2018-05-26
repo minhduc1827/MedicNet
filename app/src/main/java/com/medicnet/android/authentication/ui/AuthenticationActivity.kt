@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.amirarcane.lockscreen.activity.EnterPinActivity
 import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
 import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
@@ -38,6 +39,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     var organzation: String = ""
     var roleJson: String = ""
     var role: String = ""
+    val REQUEST_CODE = 123
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -88,11 +90,30 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             presenter.loadCredentials(newServer || deepLinkInfo != null) { authenticated ->
                 if (!authenticated) {
                     showServerInput(savedInstanceState, deepLinkInfo)
+                } else {
+                    displayLockScreen()
                 }
             }
         }
         val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
         getDataFromSever(url, organizationCallBack())
+    }
+
+    fun displayLockScreen() {
+        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
+            //no pin need to set pin first
+            val intent = EnterPinActivity.getIntent(this, true)
+            startActivity(intent)
+        } else {
+            // already pin
+            val intent = Intent(this, EnterPinActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     fun organizationCallBack() = object : Callback {
