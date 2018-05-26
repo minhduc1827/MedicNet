@@ -53,7 +53,7 @@
                 android:layout_marginTop="@dimen/signup_component_margin_top"
                 android:drawableRight="@drawable/ico_next"
                 android:hint="@string/label_select_role"
-                android:textColorHint="@color/dark_gray" />
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/txvOrganization"
@@ -61,8 +61,7 @@
                 android:layout_marginTop="@dimen/signup_component_margin_top"
                 android:drawableRight="@drawable/ico_next"
                 android:hint="@string/label_select_organization"
-
-                android:textColorHint="@color/dark_gray" />
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:layout_width="match_parent"

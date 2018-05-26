@@ -60,7 +60,10 @@ class SignupFragment : Fragment(), SignupView {
         txvOrganization.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 when (event?.action) {
-                    MotionEvent.ACTION_DOWN -> presenter.toSelectOrganization(context.organizationJson)
+                    MotionEvent.ACTION_DOWN -> {
+                        presenter.toSelectOrganization(context.organizationJson)
+                        txvOrganization.requestFocus()
+                    }
                 }
 
                 return v?.onTouchEvent(event) ?: true
@@ -70,7 +73,10 @@ class SignupFragment : Fragment(), SignupView {
         txvRole.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 when (event?.action) {
-                    MotionEvent.ACTION_DOWN -> presenter.toSelectRole(context.roleJson)
+                    MotionEvent.ACTION_DOWN -> {
+                        presenter.toSelectRole(context.roleJson)
+                        txvRole.requestFocus()
+                    }
                 }
 
                 return v?.onTouchEvent(event) ?: true

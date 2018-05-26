@@ -41,5 +41,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/lvOrganization"
         android:divider="@color/black"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="0.5dp" />
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.medicnet.android.authentication.selectrole;
 
+import android.os.Bundle;
+
 import com.medicnet.android.authentication.selectorganization.OrganizationFragment;
 import com.medicnet.android.authentication.ui.AuthenticationActivity;
 
@@ -22,6 +24,14 @@ public class RoleFragment extends OrganizationFragment {
         dataList.add("Senior staff nurse");
         dataList.add("Sister");
         dataList.add("Matron");
+    }
+
+    public static RoleFragment newInstance(String json) {
+        Bundle args = new Bundle();
+        args.putString(JSON_DATA, json);
+        RoleFragment fragment = new RoleFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

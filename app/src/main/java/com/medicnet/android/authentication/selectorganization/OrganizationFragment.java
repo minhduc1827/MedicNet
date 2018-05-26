@@ -27,7 +27,7 @@ import java.util.List;
 
 public class OrganizationFragment extends Fragment {
 
-    private static final String JSON_DATA = "json_data";
+    public static final String JSON_DATA = "json_data";
     protected final String TAG = getClass().getSimpleName();
     protected ListView listView;
     protected ArrayAdapter<String> adapter;
@@ -35,7 +35,6 @@ public class OrganizationFragment extends Fragment {
     private View mainView;
 
     public static OrganizationFragment newInstance(String json) {
-
         Bundle args = new Bundle();
         args.putString(JSON_DATA, json);
         OrganizationFragment fragment = new OrganizationFragment();
