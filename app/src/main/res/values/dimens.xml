@@ -72,7 +72,7 @@
     // dots
     <dimen name="dot_diameter">12dp</dimen>
     <dimen name="dot_spacing">12.2dp</dimen>
-    <dimen name="dot_margintop">25dp</dimen>
+    <dimen name="dot_margintop">10dp</dimen>
 
     //attempts
     <dimen name="attempts_margintop">15dp</dimen>

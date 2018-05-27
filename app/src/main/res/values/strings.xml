@@ -237,8 +237,9 @@
     <string name="btn_register" translatable="false">Register</string>
 
     <!--lock screen-->
-    <string name="pinlock_title" translatable="false">Enter Pin Code</string>
-    <string name="pinlock_settitle" translatable="false">Set Pin Code</string>
+    <string name="pinlock_title" translatable="false">Create a Passcode</string>
+    <string name="pinlock_instruction" translatable="false">You will need this every time you log into MedicNet</string>
+    <string name="pinlock_settitle" translatable="false">Create a Passcode</string>
     <string name="pinlock_firsttry" translatable="false">Wrong Pin Code: First Try</string>
     <string name="pinlock_secondtry" translatable="false">Wrong Pin Code: Second Try</string>
     <string name="pinlock_wrongpin" translatable="false">Wrong Pin code</string>

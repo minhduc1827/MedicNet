@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/main_bg"
         android:maxWidth="@dimen/layout_maxwidth"
         android:padding="@dimen/layout_padding">
 
@@ -32,7 +33,7 @@
             android:layout_margin="@dimen/dot_margintop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/txvPinCodeInstruction" />
 
         <TextView
             android:id="@+id/attempts"
@@ -76,6 +77,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/txvPinCodeInstruction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/pinlock_instruction"
+            android:textColor="@color/dark_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginTop="5dp" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
