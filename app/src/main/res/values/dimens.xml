@@ -95,6 +95,7 @@
     // border
     <dimen name="button_border">0.5dp</dimen>
     <dimen name="dot_border">2dp</dimen>
+    <dimen name="dot_number_border">2dp</dimen>
 
     // fingerprint
     <dimen name="finger_text_marginbottom">22dp</dimen>

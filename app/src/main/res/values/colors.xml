@@ -70,15 +70,16 @@
     <color name="status_bar_color">@color/red_dark</color>
 
     <!--lock screen-->
-    <color name="text_numberpressed">#fff</color>
+    <color name="text_numberpressed">@color/red_medium</color>
     <color name="text_title">@color/black</color>
     <color name="layout_background">#18191A</color>
     <color name="text_attempts">#bfc0c1</color>
     <color name="text_fingerprint">#FF87898C</color>
-    <color name="button_notpressed">#2136FFD9</color>
+    <color name="button_notpressed">@color/transparent</color>
     <color name="dot_circle">#C4C4C4</color>
     <color name="dot_emptyborder">#e2e8f3</color>
     <color name="transparent">#00000000</color>
+    <color name="button_pressed">#f7f7f7</color>
 
 </resources>
 

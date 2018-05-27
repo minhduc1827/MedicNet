@@ -1,4 +1,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="@color/colorAccent" />
+    <solid android:color="@color/button_notpressed" />
+    <stroke
+        android:width="@dimen/dot_number_border"
+        android:color="@color/white" />
 </shape>
