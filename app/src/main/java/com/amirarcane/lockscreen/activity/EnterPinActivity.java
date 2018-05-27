@@ -22,7 +22,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amirarcane.lockscreen.andrognito.pinlockview.IndicatorDots;
 import com.amirarcane.lockscreen.andrognito.pinlockview.PinLockListener;
@@ -119,7 +118,6 @@ public class EnterPinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_enterpin);
-        LogUtil.d("EnterPinActivity", "onCreate");
 
         mTextAttempts = (TextView) findViewById(R.id.attempts);
         mTextTitle = (TextView) findViewById(R.id.title);
@@ -392,12 +390,14 @@ public class EnterPinActivity extends AppCompatActivity {
 
             @Override
             public void onError(CharSequence errorString) {
-                Toast.makeText(EnterPinActivity.this, errorString, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EnterPinActivity.this, errorString, Toast.LENGTH_SHORT).show();
+                LogUtil.d(TAG, "" + errorString);
             }
 
             @Override
             public void onHelp(CharSequence helpString) {
-                Toast.makeText(EnterPinActivity.this, helpString, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EnterPinActivity.this, helpString, Toast.LENGTH_SHORT).show();
+                LogUtil.d(TAG, "" + helpString);
             }
 
         };
