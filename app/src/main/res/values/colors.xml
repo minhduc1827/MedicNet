@@ -77,7 +77,7 @@
     <color name="text_fingerprint">#FF87898C</color>
     <color name="button_notpressed">#2136FFD9</color>
     <color name="dot_circle">#C4C4C4</color>
-    <color name="dot_emptyborder">#C4C4C4</color>
+    <color name="dot_emptyborder">#e2e8f3</color>
     <color name="transparent">#00000000</color>
 
 </resources>

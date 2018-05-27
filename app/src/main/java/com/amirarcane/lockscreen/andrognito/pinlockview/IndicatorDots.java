@@ -105,7 +105,7 @@ public class IndicatorDots extends LinearLayout {
     }
 
     void updateDot(int length) {
-        if (mIndicatorType == 0) {
+        /*if (mIndicatorType == 0) {
             if (length > 0) {
                 if (length > mPreviousLength) {
                     fillDot(getChildAt(length - 1));
@@ -141,6 +141,21 @@ public class IndicatorDots extends LinearLayout {
                 removeAllViews();
                 mPreviousLength = 0;
             }
+        }*/
+        if (length > 0) {
+            if (length > mPreviousLength) {
+                fillDot(getChildAt(length - 1));
+            } else {
+                emptyDot(getChildAt(length));
+            }
+            mPreviousLength = length;
+        } else {
+            // When {@code mPinLength} is 0, we need to reset all the views back to empty
+            for (int i = 0; i < getChildCount(); i++) {
+                View v = getChildAt(i);
+                emptyDot(v);
+            }
+            mPreviousLength = length;
         }
     }
 
@@ -170,7 +185,7 @@ public class IndicatorDots extends LinearLayout {
 
     public void setIndicatorType(@IndicatorType int type) {
         this.mIndicatorType = type;
-        removeAllViews();
+//        removeAllViews();
         initView(getContext());
     }
 }

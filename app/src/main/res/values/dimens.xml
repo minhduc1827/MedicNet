@@ -70,8 +70,8 @@
     <dimen name="default_button_size">60dp</dimen>
 
     // dots
-    <dimen name="dot_diameter">12dp</dimen>
-    <dimen name="dot_spacing">12.2dp</dimen>
+    <dimen name="dot_diameter">20dp</dimen>
+    <dimen name="dot_spacing">5dp</dimen>
     <dimen name="dot_margintop">10dp</dimen>
 
     //attempts
@@ -94,7 +94,7 @@
 
     // border
     <dimen name="button_border">0.5dp</dimen>
-    <dimen name="dot_border">1dp</dimen>
+    <dimen name="dot_border">2dp</dimen>
 
     // fingerprint
     <dimen name="finger_text_marginbottom">22dp</dimen>
