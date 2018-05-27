@@ -102,15 +102,15 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     fun displayLockScreen() {
         val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        var intent: Intent? = null
         if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
             //no pin need to set pin first
-            val intent = EnterPinActivity.getIntent(this, true)
-            startActivity(intent)
+            intent = EnterPinActivity.getIntent(this, true)
         } else {
             // already pin
-            val intent = Intent(this, EnterPinActivity::class.java)
-            startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
+            intent = Intent(this, EnterPinActivity::class.java)
         }
+        startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
