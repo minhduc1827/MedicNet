@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.amirarcane.lockscreen.activity.EnterPinActivity
 import com.medicnet.android.R
 import com.medicnet.android.authentication.domain.model.LoginDeepLinkInfo
@@ -14,6 +13,7 @@ import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
 import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.presentation.AuthenticationPresenter
 import com.medicnet.android.authentication.server.ui.ServerFragment
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -115,25 +115,25 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
+        LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
         if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK)
             presenter.loadChatList()
     }
 
     fun organizationCallBack() = object : Callback {
         override fun onFailure(call: Call, e: IOException) {
-            Log.d(TAG, "onFailure getDataFromSever: " + e.message)
+            LogUtil.d(TAG, "onFailure getDataFromSever: " + e.message)
         }
 
         override fun onResponse(call: Call, response: Response) {
             organizationJson = response.body()!!.string().toString()
-            Log.d(TAG, "onResponse getDataFromSever: " + organizationJson)
+            LogUtil.d(TAG, "onResponse getDataFromSever: " + organizationJson)
         }
     }
 
     fun getDataFromSever(url: String, callback: Callback) {
 
-        Log.d(TAG, "getDataFromSever @url= " + url);
+        LogUtil.d(TAG, "getDataFromSever @url= " + url);
         val client = getUnsafeOkHttpClient().build()
         val request = Request.Builder()
                 .url(url)
@@ -149,7 +149,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (fragment is LoginFragment) {
-            Log.d(TAG, "exit app onBackPressed when in login")
+            LogUtil.d(TAG, "exit app onBackPressed when in login")
             finish()
         } else
             super.onBackPressed()

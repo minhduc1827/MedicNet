@@ -5,17 +5,20 @@ import com.medicnet.android.server.domain.GetAccountInteractor
 import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.domain.SettingsRepository
 import com.medicnet.android.server.domain.TokenRepository
+import com.medicnet.android.util.LogUtil
 import javax.inject.Inject
 
 class AuthenticationPresenter @Inject constructor(
-    private val navigator: AuthenticationNavigator,
-    private val getCurrentServerInteractor: GetCurrentServerInteractor,
-    private val getAccountInteractor: GetAccountInteractor,
-    private val settingsRepository: SettingsRepository,
-    private val localRepository: LocalRepository,
-    private val tokenRepository: TokenRepository
+        private val navigator: AuthenticationNavigator,
+        private val getCurrentServerInteractor: GetCurrentServerInteractor,
+        private val getAccountInteractor: GetAccountInteractor,
+        private val settingsRepository: SettingsRepository,
+        private val localRepository: LocalRepository,
+        private val tokenRepository: TokenRepository,
+        private val TAG: String = "AuthenticationPresenter"
 ) {
     suspend fun loadCredentials(newServer: Boolean, callback: (authenticated: Boolean) -> Unit) {
+        LogUtil.d(TAG, "loadCredentials")
         val currentServer = getCurrentServerInteractor.get()
         val serverToken = currentServer?.let { tokenRepository.get(currentServer) }
         val settings = currentServer?.let { settingsRepository.get(currentServer) }

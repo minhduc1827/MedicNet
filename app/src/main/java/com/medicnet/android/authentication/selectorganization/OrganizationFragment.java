@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.medicnet.android.R;
 import com.medicnet.android.authentication.domain.model.OrganizationElement;
 import com.medicnet.android.authentication.domain.model.Organizations;
 import com.medicnet.android.authentication.ui.AuthenticationActivity;
+import com.medicnet.android.util.LogUtil;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -109,7 +109,7 @@ public class OrganizationFragment extends Fragment {
 
     protected void setupListViewAdapter() {
         String jsonData = getArguments().getString(JSON_DATA);
-        Log.d(TAG, "json data>> " + jsonData);
+        LogUtil.d(TAG, "json data>> " + jsonData);
         if (!jsonData.isEmpty()) {
             Moshi moshi = new Moshi.Builder().build();
 //            Type type= Types.newParameterizedType(List.class, Organization.class);

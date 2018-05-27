@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.*
 import com.medicnet.android.R
 import com.medicnet.android.authentication.signup.presentation.SignupPresenter
@@ -13,6 +12,7 @@ import com.medicnet.android.authentication.signup.presentation.SignupView
 import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.TextHelper
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_authentication_sign_up.*
@@ -88,11 +88,11 @@ class SignupFragment : Fragment(), SignupView {
     override fun onResume() {
         super.onResume()
         if (!context.organzation.equals("")) {
-            Log.d(TAG, "onResume select organization>>" + context.organzation)
+            LogUtil.d(TAG, "onResume select organization>>" + context.organzation)
             txvOrganization.text = context.organzation
         }
         if (!context.role.equals("")) {
-            Log.d(TAG, "onResume select organization>>" + context.organzation)
+            LogUtil.d(TAG, "onResume select organization>>" + context.organzation)
             txvRole.text = context.role
         }
     }
