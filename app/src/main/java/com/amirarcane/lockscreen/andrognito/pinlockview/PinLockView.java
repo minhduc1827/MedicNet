@@ -38,6 +38,17 @@ public class PinLockView extends RecyclerView {
     private PinLockListener mPinLockListener;
     private CustomizationOptionsBundle mCustomizationOptionsBundle;
     private int[] mCustomKeySet;
+    private boolean isCancelable;
+
+    public boolean isCancelable() {
+        return isCancelable;
+    }
+
+    public void setCancelable(boolean cancelable) {
+        isCancelable = cancelable;
+        if (mAdapter != null)
+            mAdapter.setCancelable(isCancelable);
+    }
 
     private PinLockAdapter.OnNumberClickListener mOnNumberClickListener
             = new PinLockAdapter.OnNumberClickListener() {

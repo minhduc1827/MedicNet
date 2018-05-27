@@ -1,5 +1,6 @@
 package com.medicnet.android.authentication.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -39,7 +40,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     var organzation: String = ""
     var roleJson: String = ""
     var role: String = ""
-    val REQUEST_CODE = 123
+    val LOCKSCREEN_REQUEST_CODE = 123
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -108,12 +109,15 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         } else {
             // already pin
             val intent = Intent(this, EnterPinActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE)
+            startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+            presenter.loadChatList()
     }
 
     fun organizationCallBack() = object : Callback {

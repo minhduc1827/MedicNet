@@ -55,6 +55,7 @@ public class EnterPinActivity extends AppCompatActivity {
     public static final String EXTRA_SET_PIN = "set_pin";
     public static final String EXTRA_FONT_TEXT = "textFont";
     public static final String EXTRA_FONT_NUM = "numFont";
+    public static final String EXTRA_IS_CANCELABLE = "isCancelable";
 
     private static final int PIN_LENGTH = 5;
     private static final String FINGER_PRINT_KEY = "FingerPrintKey";
@@ -82,11 +83,13 @@ public class EnterPinActivity extends AppCompatActivity {
     private AnimatedVectorDrawable showFingerprint;
     private AnimatedVectorDrawable fingerprintToTick;
     private AnimatedVectorDrawable fingerprintToCross;
+    private boolean isCancelable;
 
     public static Intent getIntent(Context context, boolean setPin) {
         Intent intent = new Intent(context, EnterPinActivity.class);
 
         intent.putExtra(EXTRA_SET_PIN, setPin);
+        intent.putExtra(EXTRA_IS_CANCELABLE, true);
 
         return intent;
     }
@@ -165,6 +168,8 @@ public class EnterPinActivity extends AppCompatActivity {
         };
 
         mPinLockView = (PinLockView) findViewById(R.id.pinlockView);
+        isCancelable = getIntent().getBooleanExtra(EXTRA_IS_CANCELABLE, false);
+        mPinLockView.setCancelable(isCancelable);
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
@@ -456,9 +461,11 @@ public class EnterPinActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        setResult(RESULT_BACK_PRESSED);
-//        super.onBackPressed();
-        finishAffinity();
+        if (isCancelable) {
+            setResult(RESULT_BACK_PRESSED);
+            super.onBackPressed();
+        } else
+            finishAffinity();
     }
 
     private class FingerprintException extends Exception {
