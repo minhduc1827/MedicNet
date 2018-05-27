@@ -14,6 +14,7 @@ import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.authentication.ui.newServerIntent
 import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.server.ui.changeServerIntent
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragmentBackStack
 import com.medicnet.android.util.extensions.toPreviousView
 import com.medicnet.android.webview.ui.webViewIntent
@@ -78,6 +79,7 @@ class AuthenticationNavigator(internal val activity: AuthenticationActivity) {
     }
 
     fun toChatList() {
+        LogUtil.d("AuthenticationNavigator", "toChatList")
         activity.startActivity(Intent(activity, MainActivity::class.java))
         activity.finish()
     }

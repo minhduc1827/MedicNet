@@ -14,11 +14,10 @@ class AuthenticationPresenter @Inject constructor(
         private val getAccountInteractor: GetAccountInteractor,
         private val settingsRepository: SettingsRepository,
         private val localRepository: LocalRepository,
-        private val tokenRepository: TokenRepository,
-        private val TAG: String = "AuthenticationPresenter"
+        private val tokenRepository: TokenRepository
 ) {
     suspend fun loadCredentials(newServer: Boolean, callback: (authenticated: Boolean) -> Unit) {
-        LogUtil.d(TAG, "loadCredentials")
+        LogUtil.d("AuthenticationPresenter", "loadCredentials")
         val currentServer = getCurrentServerInteractor.get()
         val serverToken = currentServer?.let { tokenRepository.get(currentServer) }
         val settings = currentServer?.let { settingsRepository.get(currentServer) }

@@ -32,6 +32,7 @@ import com.amirarcane.lockscreen.fingerprint.FingerprintHandler;
 import com.amirarcane.lockscreen.util.Animate;
 import com.amirarcane.lockscreen.util.Utils;
 import com.medicnet.android.R;
+import com.medicnet.android.util.LogUtil;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -118,6 +119,7 @@ public class EnterPinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_enterpin);
+        LogUtil.d("EnterPinActivity", "onCreate");
 
         mTextAttempts = (TextView) findViewById(R.id.attempts);
         mTextTitle = (TextView) findViewById(R.id.title);

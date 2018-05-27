@@ -74,7 +74,7 @@
     <color name="text_title">@color/black</color>
     <color name="layout_background">#18191A</color>
     <color name="text_attempts">#bfc0c1</color>
-    <color name="text_fingerprint">#FF87898C</color>
+    <color name="text_fingerprint">@color/green_light</color>
     <color name="button_notpressed">@color/transparent</color>
     <color name="dot_circle">#C4C4C4</color>
     <color name="dot_emptyborder">#e2e8f3</color>
