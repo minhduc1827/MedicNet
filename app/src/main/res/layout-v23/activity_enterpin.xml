@@ -85,12 +85,12 @@
             android:gravity="center"
             android:text="@string/pinlock_instruction"
             android:textColor="@color/dark_gray"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/font_roboto_medium" />
+            android:fontFamily="@font/font_roboto_medium"
+            android:textSize="14sp" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

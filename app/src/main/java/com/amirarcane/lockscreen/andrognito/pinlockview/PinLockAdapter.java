@@ -1,8 +1,9 @@
 package com.amirarcane.lockscreen.andrognito.pinlockview;
 
-import android.graphics.PorterDuff;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,8 +13,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.medicnet.android.R;
 
@@ -34,6 +35,8 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int[] mKeyValues;
 
     private Typeface mTypeface = null;
+    private int greenLightColor;
+    private int whiteColor;
 
     public PinLockAdapter() {
         this.mKeyValues = getAdjustKeyValues(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0});
@@ -47,6 +50,9 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        Context context = parent.getContext();
+        greenLightColor = ContextCompat.getColor(context, R.color.green_light);
+        whiteColor = ContextCompat.getColor(context, R.color.white);
 
         if (viewType == VIEW_TYPE_NUMBER) {
             View view = inflater.inflate(R.layout.layout_number_item, parent, false);
@@ -103,7 +109,8 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void configureDeleteButtonHolder(DeleteViewHolder holder) {
         if (holder != null) {
             if (mCustomizationOptionsBundle.isShowDeleteButton() && mPinLength > 0) {
-                holder.mButtonImage.setVisibility(View.VISIBLE);
+                holder.txvDelete.setTextColor(greenLightColor);
+                /*holder.mButtonImage.setVisibility(View.VISIBLE);
                 if (mCustomizationOptionsBundle.getDeleteButtonDrawable() != null) {
                     holder.mButtonImage.setImageDrawable(mCustomizationOptionsBundle.getDeleteButtonDrawable());
                 }
@@ -112,8 +119,9 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         mCustomizationOptionsBundle.getDeleteButtonWidthSize(),
                         mCustomizationOptionsBundle.getDeleteButtonHeightSize());
-                holder.mButtonImage.setLayoutParams(params);
-            }
+                holder.mButtonImage.setLayoutParams(params);*/
+            } else
+                holder.txvDelete.setTextColor(whiteColor);
         }
     }
 
@@ -230,15 +238,17 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class DeleteViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mDeleteButton;
-        ImageView mButtonImage;
+        //        ImageView mButtonImage;
+        TextView txvDelete;
 
         public DeleteViewHolder(final View itemView) {
             super(itemView);
             mDeleteButton = (LinearLayout) itemView.findViewById(R.id.button);
-            mButtonImage = (ImageView) itemView.findViewById(R.id.buttonImage);
+//            mButtonImage = (ImageView) itemView.findViewById(R.id.buttonImage);
+            txvDelete = itemView.findViewById(R.id.txvDelete);
 
             if (mCustomizationOptionsBundle.isShowDeleteButton() && mPinLength > 0) {
-                mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                /*mDeleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mOnDeleteClickListener != null) {
@@ -267,6 +277,15 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
 
                         return false;
+                    }
+                });*/
+//                txvDelete.setTextColor(greenLightColor);
+                txvDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mOnDeleteClickListener != null) {
+                            mOnDeleteClickListener.onDeleteClicked();
+                        }
                     }
                 });
             }
