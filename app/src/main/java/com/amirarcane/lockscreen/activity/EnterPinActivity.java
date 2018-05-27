@@ -66,6 +66,7 @@ public class EnterPinActivity extends AppCompatActivity {
     private PinLockView mPinLockView;
     private IndicatorDots mIndicatorDots;
     private TextView mTextTitle;
+    private TextView txvPinCodeInstruction;
     private TextView mTextAttempts;
     private TextView mTextFingerText;
     private AppCompatImageView mImageViewFingerView;
@@ -120,6 +121,7 @@ public class EnterPinActivity extends AppCompatActivity {
 
         mTextAttempts = (TextView) findViewById(R.id.attempts);
         mTextTitle = (TextView) findViewById(R.id.title);
+        txvPinCodeInstruction = findViewById(R.id.txvPinCodeInstruction);
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mImageViewFingerView = (AppCompatImageView) findViewById(R.id.fingerView);
         mTextFingerText = (TextView) findViewById(R.id.fingerText);
@@ -312,6 +314,7 @@ public class EnterPinActivity extends AppCompatActivity {
             } else {
                 shake();
                 mTextTitle.setText(getString(R.string.pinlock_tryagain));
+                txvPinCodeInstruction.setText(getString(R.string.pinlock_not_match));
                 mPinLockView.resetPinLockView();
                 mFirstPin = "";
             }

@@ -244,6 +244,7 @@
     <string name="pinlock_secondtry" translatable="false">Wrong Pin Code: Second Try</string>
     <string name="pinlock_wrongpin" translatable="false">Wrong Pin code</string>
     <string name="pinlock_secondPin" translatable="false">Enter Pin Code Again</string>
-    <string name="pinlock_tryagain" translatable="false">Pin Codes Are Not The Same</string>
+    <string name="pinlock_tryagain" translatable="false">Try again</string>
+    <string name="pinlock_not_match" translatable="false">Passcodes didn\'t match</string>
     <string name="pinlock_fingerprint" translatable="false">Use Fingerprint</string>
 </resources>
