@@ -32,7 +32,7 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
     private val selectRole: String = "Select Role"
     private val selectOrganization: String = "Select Organisation"
 
-    fun signup(name: String, username: String, role: String, organization: String, password: String, email: String) {
+    fun signup(name: String, username: String, role: String, organization: String, password: String, email: String, callback: (authenticated: Boolean) -> Unit) {
         val server = serverInteractor.get()
         when {
             server == null -> {
@@ -69,7 +69,8 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
                         localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, me.username)
                         saveAccount(me)
                         registerPushToken()
-                        navigator.toChatList()
+//                        navigator.toChatList()
+                        callback(true)
                     } catch (exception: RocketChatException) {
                         exception.message?.let {
                             view.showMessage(it)

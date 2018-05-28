@@ -81,7 +81,11 @@ class SignupFragment : Fragment(), SignupView {
             }
         })
         button_sign_up.setOnClickListener {
-            presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent, text_password.textContent, text_email.textContent)
+            presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent,
+                    text_password.textContent, text_email.textContent) { authenticated ->
+                if (authenticated)
+                    context.displayLockScreen(true)
+            }
         }
     }
 
