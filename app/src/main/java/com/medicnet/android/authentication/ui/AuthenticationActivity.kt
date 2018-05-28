@@ -41,6 +41,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     var roleJson: String = ""
     var role: String = ""
     val LOCKSCREEN_REQUEST_CODE = 123
+    var isShowedChatList: Boolean = false
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -92,6 +93,8 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 if (!authenticated) {
                     showServerInput(savedInstanceState, deepLinkInfo)
                 } else {
+                    presenter.loadChatList()
+                    isShowedChatList = true
                     displayLockScreen(false)
                 }
             }
@@ -115,8 +118,8 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
-        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode + " @isShowedChatList= " + isShowedChatList)
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK && !isShowedChatList && !isShowedChatList)
             presenter.loadChatList()
     }
 
