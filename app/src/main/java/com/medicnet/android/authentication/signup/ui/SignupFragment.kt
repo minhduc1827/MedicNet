@@ -86,7 +86,7 @@ class SignupFragment : Fragment(), SignupView {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent,
                     text_password.textContent, text_email.textContent) { authenticated ->
                 if (authenticated)
-                    AppUtil.displayLockScreen(activity, true)
+                    AppUtil.displayLockScreen(activity, true, context.LOCKSCREEN_REQUEST_CODE)
             }
         }
         if (BuildConfig.BUILD_TYPE.equals("debug")) { //use test signup

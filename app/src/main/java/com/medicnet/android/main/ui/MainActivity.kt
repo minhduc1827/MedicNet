@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private val headerLayout by lazy { view_navigation.getHeaderView(0) }
     val TAG: String = MainActivity::class.java.simpleName
     var rocketChatApplication: RocketChatApplication? = null
+    val LOCKSCREEN_REQUEST_CODE: Int = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -72,13 +73,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
-        AppUtil.displayLockScreen(this, false);
+        AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->
                 LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround);
                 if (isForeGround)
-                    AppUtil.displayLockScreen(this, false);
+                    AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
             }
         }
     }
@@ -101,24 +102,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         }
     }
 
-    /*fun displayLockScreen(isCancelable: Boolean) {
-        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        var intent: Intent? = null
-        if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
-            //no pin need to set pin first
-            intent = EnterPinActivity.getIntent(this, true, isCancelable)
-        } else {
-            // already pin
-            intent = Intent(this, EnterPinActivity::class.java)
-        }
-        intent?.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
-    }*/
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
-        if (requestCode == AppUtil.LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             //passcode callback here
         }
     }

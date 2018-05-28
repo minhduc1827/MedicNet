@@ -9,9 +9,9 @@ import com.amirarcane.lockscreen.activity.EnterPinActivity;
 
 public class AppUtil {
 
-    public static final int LOCKSCREEN_REQUEST_CODE = 123;
+//    public static final int LOCKSCREEN_REQUEST_CODE = 123;
 
-    public static void displayLockScreen(Activity activity, boolean isCancelable) {
+    public static void displayLockScreen(Activity activity, boolean isCancelable, int requestCode) {
         SharedPreferences prefs = activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE);
         Intent intent = null;
         if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
@@ -23,7 +23,7 @@ public class AppUtil {
         }
         if (intent != null) {
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            activity.startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE);
+            activity.startActivityForResult(intent, requestCode);
         }
     }
 }

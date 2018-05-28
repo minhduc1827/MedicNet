@@ -12,7 +12,6 @@ import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
 import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.presentation.AuthenticationPresenter
 import com.medicnet.android.authentication.server.ui.ServerFragment
-import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 import dagger.android.AndroidInjection
@@ -41,6 +40,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     var roleJson: String = ""
     var role: String = ""
     var isShowedChatList: Boolean = false
+    val LOCKSCREEN_REQUEST_CODE: Int = 123
 
     companion object {
         //DucNM: adding unsafeOkHttp
@@ -102,23 +102,10 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         getDataFromSever(url, organizationCallBack())
     }
 
-    /*fun displayLockScreen(isCancelable: Boolean) {
-        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
-        var intent: Intent? = null
-        if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
-            //no pin need to set pin first
-            intent = EnterPinActivity.getIntent(this, true, isCancelable)
-        } else {
-            // already pin
-            intent = Intent(this, EnterPinActivity::class.java)
-        }
-        startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
-    }*/
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode + " @isShowedChatList= " + isShowedChatList)
-        if (requestCode == AppUtil.LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK && !isShowedChatList)
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK && !isShowedChatList)
             presenter.loadChatList()
     }
 

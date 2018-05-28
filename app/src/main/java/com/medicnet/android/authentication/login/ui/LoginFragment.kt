@@ -101,7 +101,7 @@ class LoginFragment : Fragment(), LoginView {
                             "martin.siebachmeyer@NHS.net",
                             "P@ssword123!") { authenticated ->
                         if (authenticated) {
-                            AppUtil.displayLockScreen(activity, true)
+                            AppUtil.displayLockScreen(activity, true, context.LOCKSCREEN_REQUEST_CODE)
                         }
                     }
                     true
@@ -206,7 +206,7 @@ class LoginFragment : Fragment(), LoginView {
                     text_password.textContent
                 ) { authenticated ->
                     if (authenticated) {
-                        AppUtil.displayLockScreen(activity, true)
+                        AppUtil.displayLockScreen(activity, true, context.LOCKSCREEN_REQUEST_CODE)
                     }
                 }
             }
