@@ -12,7 +12,7 @@
         android:background="@drawable/style_total_unread_messages"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="10sp"
+        android:textSize="10dp"
         android:visibility="gone"
         tools:text="99+"
         tools:visibility="visible" />

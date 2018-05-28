@@ -18,7 +18,7 @@
     <dimen name="divider_item_decorator_bound_start">72dp</dimen>
     <dimen name="divider_item_decorator_bound_end">0dp</dimen>
 
-    <dimen name="message_time_text_size">12sp</dimen>
+    <dimen name="message_time_text_size">12dp</dimen>
 
     <dimen name="nav_header_height">140dp</dimen>
 
@@ -42,14 +42,14 @@
     <dimen name="suggestions_box_max_height">250dp</dimen>
 
     <dimen name="viewer_toolbar_padding">16dp</dimen>
-    <dimen name="viewer_toolbar_title">16sp</dimen>
+    <dimen name="viewer_toolbar_title">16dp</dimen>
 
     <!--Navigation medic net-->
     <dimen name="nav_medicnet_header_image">40dp</dimen>
 
     <!--login-->
     <dimen name="padding_left_right_login">20dp</dimen>
-    <dimen name="text_size_login">18sp</dimen>
+    <dimen name="text_size_login">18dp</dimen>
     <dimen name="button_create_new_account_margin_top">20dp</dimen>
     <dimen name="image_size_view_login">50dp</dimen>
     <dimen name="image_icon_size_login">30dp</dimen>
@@ -66,7 +66,7 @@
     <dimen name="default_vertical_spacing">18dp</dimen>
 
     // text size
-    <dimen name="default_text_size">25sp</dimen>
+    <dimen name="default_text_size">25dp</dimen>
     <dimen name="default_button_size">70dp</dimen>
 
     // dots
@@ -76,7 +76,7 @@
 
     //attempts
     <dimen name="attempts_margintop">15dp</dimen>
-    <dimen name="textsize_attempts">13sp</dimen>
+    <dimen name="textsize_attempts">13dp</dimen>
 
     <dimen name="lockview_margin">10dp</dimen>
 
@@ -85,7 +85,7 @@
     <dimen name="layout_padding">10dp</dimen>
 
     // title
-    <dimen name="textsize_title">20sp</dimen>
+    <dimen name="textsize_title">20dp</dimen>
     <dimen name="title_margintop">54dp</dimen>
     <dimen name="title_marginstart">10dp</dimen>
     <dimen name="title_marginend">10dp</dimen>
@@ -102,6 +102,6 @@
     <dimen name="finger_icon">60dp</dimen>
     <dimen name="finger_icon_margintop">80dp</dimen>
     <dimen name="finger_icon_marginbottom">10dp</dimen>
-    <dimen name="textsize_fingerprint">14sp</dimen>
+    <dimen name="textsize_fingerprint">14dp</dimen>
 
 </resources>

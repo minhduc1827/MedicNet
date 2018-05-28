@@ -19,7 +19,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="14dp"
         tools:text="/leave" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:gravity="start"
         android:maxLines="1"
         android:textColor="@color/gray_material"
-        android:textSize="14sp"
+        android:textSize="14dp"
         tools:text="Leave a channel" />
 
 </RelativeLayout>

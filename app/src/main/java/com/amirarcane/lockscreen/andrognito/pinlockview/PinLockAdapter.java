@@ -78,7 +78,7 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             configureNumberButtonHolder(vh1, position);
         } else if (holder.getItemViewType() == VIEW_TYPE_DELETE) {
             DeleteViewHolder vh2 = (DeleteViewHolder) holder;
-            configureDeleteButtonHolder(vh2);
+//            configureDeleteButtonHolder(vh2);
         } else if (holder.getItemViewType() == VIEW_TYPE_CANCEL) {
             CancelViewHolder vh3 = (CancelViewHolder) holder;
 //            configureDeleteButtonHolder(vh2);
@@ -117,10 +117,10 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void configureDeleteButtonHolder(DeleteViewHolder holder) {
-        if (holder != null) {
+        /*if (holder != null) {
             if (mCustomizationOptionsBundle.isShowDeleteButton() && mPinLength > 0) {
                 holder.txvDelete.setTextColor(greenLightColor);
-                /*holder.mButtonImage.setVisibility(View.VISIBLE);
+                holder.mButtonImage.setVisibility(View.VISIBLE);
                 if (mCustomizationOptionsBundle.getDeleteButtonDrawable() != null) {
                     holder.mButtonImage.setImageDrawable(mCustomizationOptionsBundle.getDeleteButtonDrawable());
                 }
@@ -129,10 +129,10 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         mCustomizationOptionsBundle.getDeleteButtonWidthSize(),
                         mCustomizationOptionsBundle.getDeleteButtonHeightSize());
-                holder.mButtonImage.setLayoutParams(params);*/
+                holder.mButtonImage.setLayoutParams(params);
             } else
                 holder.txvDelete.setTextColor(whiteColor);
-        }
+        }*/
     }
 
     @Override
@@ -271,16 +271,19 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mDeleteButton = (LinearLayout) itemView.findViewById(R.id.button);
 //            mButtonImage = (ImageView) itemView.findViewById(R.id.buttonImage);
             txvDelete = itemView.findViewById(R.id.txvDelete);
+            txvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnDeleteClickListener != null) {
+                        mOnDeleteClickListener.onDeleteClicked();
+                    }
+                }
+            });
 
             if (mCustomizationOptionsBundle.isShowDeleteButton() && mPinLength > 0) {
-                txvDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mOnDeleteClickListener != null) {
-                            mOnDeleteClickListener.onDeleteClicked();
-                        }
-                    }
-                });
+                txvDelete.setEnabled(true);
+            } else {
+                txvDelete.setEnabled(false);
             }
         }
     }

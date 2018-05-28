@@ -9,9 +9,9 @@
 
     <LinearLayout
         android:id="@+id/button"
-        android:layout_width="@dimen/default_button_size"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/default_button_size"
-        android:background="@drawable/rectanglebutton_selector"
+        android:background="@color/transparent"
         android:clickable="true"
         android:gravity="center">
 
@@ -19,9 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/txvDelete"
-            android:textColor="@color/green_light"
+            android:textColor="@drawable/delete_passcode_button_pressed"
             android:text="@string/action_msg_delete"
             android:fontFamily="@font/font_roboto_medium"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
     </LinearLayout>
 </LinearLayout>

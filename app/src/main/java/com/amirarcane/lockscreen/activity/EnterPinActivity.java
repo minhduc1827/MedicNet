@@ -95,6 +95,15 @@ public class EnterPinActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent getIntent(Context context, boolean setPin, boolean isCancelable) {
+        Intent intent = new Intent(context, EnterPinActivity.class);
+
+        intent.putExtra(EXTRA_SET_PIN, setPin);
+        intent.putExtra(EXTRA_IS_CANCELABLE, isCancelable);
+
+        return intent;
+    }
+
     public static Intent getIntent(Context context, String fontText, String fontNum) {
         Intent intent = new Intent(context, EnterPinActivity.class);
 

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="@string/dialog_sort_by_alphabet"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
         <RadioButton
             android:id="@+id/radio_sort_activity"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="@string/dialog_sort_by_activity"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
     </RadioGroup>
 
     <CheckBox
@@ -34,7 +34,7 @@
         android:layout_marginTop="6dp"
         android:padding="8dp"
         android:text="@string/dialog_group_by_type"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 
     <!--TODO Add checkbox for "Group favourites after sdk support"-->
 </LinearLayout>

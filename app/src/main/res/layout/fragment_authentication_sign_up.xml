@@ -70,7 +70,7 @@
                 android:fontFamily="@font/font_roboto_regular"
                 android:text="@string/label_signup_warning_nhs"
                 android:textColor="@color/red_medium"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

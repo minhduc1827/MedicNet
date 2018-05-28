@@ -20,7 +20,7 @@
         android:paddingLeft="4dp"
         android:paddingStart="4dp"
         android:textColor="#868585"
-        android:textSize="16sp"
+        android:textSize="16dp"
         tools:text=":)" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:paddingStart="4dp"
         android:paddingTop="4dp"
         android:textColor="#868585"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         tools:text="12" />
 

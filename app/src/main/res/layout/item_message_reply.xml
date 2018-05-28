@@ -23,7 +23,7 @@
         android:text="@string/action_msg_reply"
         android:textAllCaps="false"
         android:textColor="#1D74F5"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <include

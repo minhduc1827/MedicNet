@@ -116,7 +116,7 @@
                 android:text="@string/label_forgot_password"
                 android:textAllCaps="true"
                 android:textColor="@color/green_dark"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_log_in" />
@@ -130,7 +130,7 @@
                 android:text="@string/label_or"
                 android:textAllCaps="true"
                 android:textColor="@color/dark_gray"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_forgot_your_password" />

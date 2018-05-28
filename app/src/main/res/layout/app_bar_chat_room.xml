@@ -41,7 +41,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 tools:text="Developers" />
         </android.support.constraint.ConstraintLayout>

@@ -74,23 +74,23 @@
     </style>
 
     <style name="ChatRooms.Header" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="ChatRoom.Name.TextView" parent="TextAppearance.AppCompat.Title">
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="Sender.Name.TextView" parent="TextAppearance.AppCompat.Title">
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="Message.TextView" parent="android:TextAppearance">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">15dp</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
@@ -99,7 +99,7 @@
     </style>
 
     <style name="Timestamp.TextView" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="Profile.EditText" parent="Authentication.EditText">
@@ -115,7 +115,7 @@
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/toolbar_background</item>
         <item name="android:textColor">@color/toolbar_title_color</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">32dp</item>
         <item name="android:statusBarColor">@color/status_bar_color</item>
     </style>
 </resources>

@@ -6,7 +6,7 @@
     android:padding="10dp"
     android:layout_width="match_parent"
     android:fontFamily="@font/font_roboto_medium"
-    android:textSize="16sp"
+    android:textSize="16dp"
     android:singleLine="true"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical" />

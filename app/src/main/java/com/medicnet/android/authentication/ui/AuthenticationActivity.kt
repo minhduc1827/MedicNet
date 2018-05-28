@@ -105,7 +105,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         var intent: Intent? = null
         if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
             //no pin need to set pin first
-            intent = EnterPinActivity.getIntent(this, true)
+            intent = EnterPinActivity.getIntent(this, true, false)
         } else {
             // already pin
             intent = Intent(this, EnterPinActivity::class.java)
