@@ -100,7 +100,7 @@ class LoginFragment : Fragment(), LoginView {
                             "martin.siebachmeyer@NHS.net",
                             "P@ssword123!") { authenticated ->
                         if (authenticated) {
-                            context.displayLockScreen()
+                            context.displayLockScreen(true)
                         }
                     }
                     true
@@ -203,7 +203,7 @@ class LoginFragment : Fragment(), LoginView {
                     text_password.textContent
                 ) { authenticated ->
                     if (authenticated) {
-                        context.displayLockScreen()
+                        context.displayLockScreen(true)
                     }
                 }
             }

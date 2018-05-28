@@ -92,7 +92,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 if (!authenticated) {
                     showServerInput(savedInstanceState, deepLinkInfo)
                 } else {
-                    displayLockScreen()
+                    displayLockScreen(false)
                 }
             }
         }
@@ -100,12 +100,12 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         getDataFromSever(url, organizationCallBack())
     }
 
-    fun displayLockScreen() {
+    fun displayLockScreen(isCancelable: Boolean) {
         val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
         var intent: Intent? = null
         if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
             //no pin need to set pin first
-            intent = EnterPinActivity.getIntent(this, true, false)
+            intent = EnterPinActivity.getIntent(this, true, isCancelable)
         } else {
             // already pin
             intent = Intent(this, EnterPinActivity::class.java)
