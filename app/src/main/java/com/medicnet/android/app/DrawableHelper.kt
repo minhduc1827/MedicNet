@@ -5,6 +5,7 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.widget.TextView
 import chat.rocket.common.model.UserStatus
 import com.medicnet.android.R
+import com.medicnet.android.util.LogUtil
 
 object DrawableHelper {
 
@@ -110,10 +111,22 @@ object DrawableHelper {
      */
     fun getUserStatusDrawable(userStatus: UserStatus?, context: Context): Drawable {
         return when (userStatus) {
-            is UserStatus.Online -> getDrawableFromId(R.drawable.ic_status_online_12dp, context)
-            is UserStatus.Away -> getDrawableFromId(R.drawable.ic_status_away_12dp, context)
-            is UserStatus.Busy -> getDrawableFromId(R.drawable.ic_status_busy_12dp, context)
-            else -> getDrawableFromId(R.drawable.ic_status_invisible_12dp, context)
+            is UserStatus.Online -> {
+                LogUtil.d("DrawableHelper", "setupNavHeader getUserStatusDrawable online")
+                getDrawableFromId(R.drawable.ic_status_online_12dp, context)
+            }
+            is UserStatus.Away -> {
+                LogUtil.d("DrawableHelper", "setupNavHeader getUserStatusDrawable away")
+                getDrawableFromId(R.drawable.ic_status_away_12dp, context)
+            }
+            is UserStatus.Busy -> {
+                LogUtil.d("DrawableHelper", "setupNavHeader getUserStatusDrawable busy")
+                getDrawableFromId(R.drawable.ic_status_busy_12dp, context)
+            }
+            else -> {
+                LogUtil.d("DrawableHelper", "setupNavHeader getUserStatusDrawable invisible")
+                getDrawableFromId(R.drawable.ic_status_invisible_12dp, context)
+            }
         }
     }
 }

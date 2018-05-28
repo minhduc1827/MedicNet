@@ -19,6 +19,7 @@ import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.infraestructure.RocketChatClientFactory
 import com.medicnet.android.server.presentation.CheckServerPresenter
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.launchUI
 import com.medicnet.android.util.extensions.registerPushToken
 import com.medicnet.android.util.extensions.serverLogoUrl
@@ -64,6 +65,7 @@ class MainPresenter @Inject constructor(
                 }
                 val model = navHeaderMapper.mapToViewModel(me)
                 saveAccount(model)
+                LogUtil.d("MainPresenter", "loadCurrentInfo")
                 view.setupNavHeader(model, getAccountsInteractor.get())
             } catch (ex: Exception) {
                 when (ex) {
@@ -192,6 +194,7 @@ class MainPresenter @Inject constructor(
     }
 
     private suspend fun updateMyself(myself: Myself) {
+        LogUtil.d("MainPresenter", "updateMyself")
         val model = navHeaderMapper.mapToViewModel(myself)
         view.setupNavHeader(model, getAccountsInteractor.get())
     }

@@ -81,5 +81,8 @@
     <color name="transparent">#00000000</color>
     <color name="button_pressed">#f7f7f7</color>
 
+    <!--toolbar mainactivity-->
+    <color name="toolbar_header">#e2e2e2</color>
+
 </resources>
 

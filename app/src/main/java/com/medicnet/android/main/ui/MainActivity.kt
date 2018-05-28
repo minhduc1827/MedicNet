@@ -37,6 +37,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val TAG: String = MainActivity::class.java.simpleName
     var rocketChatApplication: RocketChatApplication? = null
     val LOCKSCREEN_REQUEST_CODE: Int = 123
+    var isSetupNavView: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -140,6 +142,16 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
             setupAccountsList(headerLayout, accounts)
         }*/
+        if (viewModel.userAvatar != null) {
+            LogUtil.d(TAG, "setupNavHeader @userAvatar= " + viewModel.userAvatar)
+            image_avatar.setImageURI(viewModel.userAvatar)
+        }
+        if (viewModel.userStatus != null) {
+            LogUtil.d(TAG, "setupNavHeader @userStatus= " + viewModel.userStatus)
+            imvUserStatus.setImageDrawable(
+                    DrawableHelper.getUserStatusDrawable(viewModel.userStatus, this)
+            )
+        }
     }
 
     override fun closeServerSelection() {

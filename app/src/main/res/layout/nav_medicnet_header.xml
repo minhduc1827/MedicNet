@@ -2,114 +2,128 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="@string/action_search"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutSearch" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/nav_medicnet_header_image"
-        android:layout_height="@dimen/nav_medicnet_header_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_status_online_12dp" />
-
-    <LinearLayout
-        android:id="@+id/layoutSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintRight_toLeftOf="@+id/layoutAddContact"
-        app:layout_constraintTop_toTopOf="@+id/imageView">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="@dimen/nav_medicnet_header_image"
-            android:layout_height="@dimen/nav_medicnet_header_image"
-            app:srcCompat="@drawable/ic_search_gray_24px" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_search" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutAddContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintRight_toLeftOf="@+id/layoutAddTeam"
-        app:layout_constraintTop_toTopOf="@+id/layoutSearch">
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="@dimen/nav_medicnet_header_image"
-            android:layout_height="@dimen/nav_medicnet_header_image"
-            app:srcCompat="@drawable/ic_email_black_24dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_contact" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutAddTeam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:background="@color/toolbar_header"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layoutSearch">
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/layoutHeader"
+        android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/imageView5"
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="@string/action_search"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSearch" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image_avatar"
             android:layout_width="@dimen/nav_medicnet_header_image"
             android:layout_height="@dimen/nav_medicnet_header_image"
-            app:srcCompat="@drawable/ic_add_24dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <ImageView
+            android:id="@+id/imvUserStatus"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_avatar"
+            app:layout_constraintEnd_toEndOf="@+id/image_avatar" />
+
+        <LinearLayout
+            android:id="@+id/layoutSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_new_team" />
-    </LinearLayout>
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintRight_toLeftOf="@+id/layoutAddContact"
+            app:layout_constraintTop_toTopOf="@+id/image_avatar">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="@dimen/nav_medicnet_header_image"
+                android:layout_height="@dimen/nav_medicnet_header_image"
+                app:srcCompat="@drawable/ic_search" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_search"
+                android:textAllCaps="true"
+                android:textColor="@color/red_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAddContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintRight_toLeftOf="@+id/layoutAddTeam"
+            app:layout_constraintTop_toTopOf="@+id/layoutSearch">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="@dimen/nav_medicnet_header_image"
+                android:layout_height="@dimen/nav_medicnet_header_image"
+                app:srcCompat="@drawable/ic_contacts" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_contact"
+                android:textAllCaps="true"
+                android:textColor="@color/red_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAddTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/layoutSearch">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="@dimen/nav_medicnet_header_image"
+                android:layout_height="@dimen/nav_medicnet_header_image"
+                app:srcCompat="@drawable/ic_new_team" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_new_team"
+                android:textAllCaps="true"
+                android:textColor="@color/red_medium" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layoutMyVault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        android:gravity="center_vertical">
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader">
 
         <ImageView
             android:id="@+id/imageView6"
@@ -133,4 +147,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutMyVault" />
+
 </android.support.constraint.ConstraintLayout>
