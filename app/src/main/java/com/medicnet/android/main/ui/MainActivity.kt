@@ -53,8 +53,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private val headerLayout by lazy { view_navigation.getHeaderView(0) }
     val TAG: String = MainActivity::class.java.simpleName
     val LOCKSCREEN_REQUEST_CODE = 123
-    var needToDisplayPassCode: Boolean = false
-    var justCreateActivity: Boolean = true
     var rocketChatApplication: RocketChatApplication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,28 +74,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        displayLockScreen(false)
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->
-                LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround + " @needToDisplayPassCode= " + needToDisplayPassCode + " @justCreateActivity= " + justCreateActivity);
-                /*if(isForeGround && needToDisplayPassCode ) {
+                LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround);
+                if (isForeGround)
                     displayLockScreen(false)
-                    needToDisplayPassCode=false
-                }else{
-                    needToDisplayPassCode=true
-                    justCreateActivity=false
-                }*/
-                if (justCreateActivity) {
-                    justCreateActivity = false
-                } else {
-                    if (isForeGround && needToDisplayPassCode) {
-                        displayLockScreen(false)
-                        needToDisplayPassCode = false
-                    } else {
-                        needToDisplayPassCode = true
-//                        justCreateActivity=false
-                    }
-                }
             }
         }
     }
@@ -109,8 +92,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             presenter.toChatList()
             isFragmentAdded = true
         }
-        /*if(needToDisplayPassCode)
-            displayLockScreen(false)*/
 
     }
 
@@ -132,16 +113,16 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             // already pin
             intent = Intent(this, EnterPinActivity::class.java)
         }
-//        intent?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent?.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
-//        needToDisplayPassCode=false;
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
-        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK)
-            needToDisplayPassCode = false;
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            //passcode callback here
+        }
     }
 
     override fun showUserStatus(userStatus: UserStatus) {

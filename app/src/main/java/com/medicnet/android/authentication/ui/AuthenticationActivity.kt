@@ -95,7 +95,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 } else {
                     presenter.loadChatList()
                     isShowedChatList = true
-                    displayLockScreen(false)
+//                    displayLockScreen(false)
                 }
             }
         }
