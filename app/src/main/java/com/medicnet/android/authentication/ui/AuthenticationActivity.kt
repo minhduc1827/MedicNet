@@ -119,7 +119,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode + " @isShowedChatList= " + isShowedChatList)
-        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK && !isShowedChatList && !isShowedChatList)
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK && !isShowedChatList)
             presenter.loadChatList()
     }
 

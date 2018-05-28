@@ -97,7 +97,7 @@
         <activity
             android:name="com.amirarcane.lockscreen.activity.EnterPinActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

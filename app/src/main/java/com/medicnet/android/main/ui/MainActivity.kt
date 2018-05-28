@@ -3,6 +3,8 @@ package com.medicnet.android.main.ui
 import DrawableHelper
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -11,16 +13,19 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import chat.rocket.common.model.UserStatus
+import com.amirarcane.lockscreen.activity.EnterPinActivity
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
+import com.medicnet.android.app.RocketChatApplication
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.fadeIn
 import com.medicnet.android.util.extensions.fadeOut
 import com.medicnet.android.util.extensions.rotateBy
@@ -38,6 +43,7 @@ import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+
 class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupportFragmentInjector {
     @Inject lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
     @Inject lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -45,6 +51,11 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private var isFragmentAdded: Boolean = false
     private var expanded = false
     private val headerLayout by lazy { view_navigation.getHeaderView(0) }
+    val TAG: String = MainActivity::class.java.simpleName
+    val LOCKSCREEN_REQUEST_CODE = 123
+    var needToDisplayPassCode: Boolean = false
+    var justCreateActivity: Boolean = true
+    var rocketChatApplication: RocketChatApplication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -65,7 +76,32 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        if (rocketChatApplication == null) {
+            rocketChatApplication = application as RocketChatApplication
+            rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->
+                LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround + " @needToDisplayPassCode= " + needToDisplayPassCode + " @justCreateActivity= " + justCreateActivity);
+                /*if(isForeGround && needToDisplayPassCode ) {
+                    displayLockScreen(false)
+                    needToDisplayPassCode=false
+                }else{
+                    needToDisplayPassCode=true
+                    justCreateActivity=false
+                }*/
+                if (justCreateActivity) {
+                    justCreateActivity = false
+                } else {
+                    if (isForeGround && needToDisplayPassCode) {
+                        displayLockScreen(false)
+                        needToDisplayPassCode = false
+                    } else {
+                        needToDisplayPassCode = true
+//                        justCreateActivity=false
+                    }
+                }
+            }
+        }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -73,13 +109,39 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             presenter.toChatList()
             isFragmentAdded = true
         }
+        /*if(needToDisplayPassCode)
+            displayLockScreen(false)*/
+
     }
 
     override fun onDestroy() {
+//        unregisterReceiver(mScreenStateReceiver)
         super.onDestroy()
         if (isFinishing) {
             presenter.disconnect()
         }
+    }
+
+    fun displayLockScreen(isCancelable: Boolean) {
+        val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
+        var intent: Intent? = null
+        if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
+            //no pin need to set pin first
+            intent = EnterPinActivity.getIntent(this, true, isCancelable)
+        } else {
+            // already pin
+            intent = Intent(this, EnterPinActivity::class.java)
+        }
+//        intent?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
+//        needToDisplayPassCode=false;
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
+        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+            needToDisplayPassCode = false;
     }
 
     override fun showUserStatus(userStatus: UserStatus) {

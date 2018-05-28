@@ -19,14 +19,22 @@ class AppLifecycleObserver @Inject constructor(
     private val getAccountInteractor: GetAccountInteractor
 ) : LifecycleObserver {
 
+    var callback: ((isForeground: Boolean) -> Unit)? = null
+
+    fun setOnLifeCycleCallBack(callback: (authenticated: Boolean) -> Unit) {
+        this.callback = callback
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onEnterForeground() {
         changeTemporaryStatus(UserStatus.Online())
+        callback?.invoke(true)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onEnterBackground() {
         changeTemporaryStatus(UserStatus.Away())
+        callback?.invoke(false)
     }
 
     private fun changeTemporaryStatus(userStatus: UserStatus) {
