@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.style.ClickableSpan
 import android.view.*
+import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.authentication.signup.presentation.SignupPresenter
 import com.medicnet.android.authentication.signup.presentation.SignupView
@@ -87,17 +88,23 @@ class SignupFragment : Fragment(), SignupView {
                     context.displayLockScreen(true)
             }
         }
+        if (BuildConfig.BUILD_TYPE.equals("debug")) { //use test signup
+            text_name.textContent = "Martin"
+            text_username.textContent = "martin.siebachmeyer@nhs.net"
+            text_email.textContent = "martin.siebachmeyer@nhs.net"
+            text_password.textContent = "P@ssword123!"
+        }
     }
 
     override fun onResume() {
         super.onResume()
         if (!context.organzation.equals("")) {
             LogUtil.d(TAG, "onResume select organization>>" + context.organzation)
-            txvOrganization.text = context.organzation
+            txvOrganization.textContent = context.organzation
         }
         if (!context.role.equals("")) {
-            LogUtil.d(TAG, "onResume select organization>>" + context.organzation)
-            txvRole.text = context.role
+            LogUtil.d(TAG, "onResume select role>>" + context.role)
+            txvRole.textContent = context.role
         }
     }
 
@@ -222,8 +229,10 @@ class SignupFragment : Fragment(), SignupView {
 
     private fun enableUserInput(value: Boolean) {
         button_sign_up.isEnabled = value
+        text_name.isEnabled = value
         text_username.isEnabled = value
-        text_username.isEnabled = value
+        txvRole.isEnabled = value
+        txvOrganization.isEnabled = value
         text_password.isEnabled = value
         text_email.isEnabled = value
     }

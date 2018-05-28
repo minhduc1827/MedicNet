@@ -108,6 +108,8 @@ class LoginFragment : Fragment(), LoginView {
             }
         }
         button_create_new_account.setOnClickListener {
+            context.organzation = ""
+            context.role = ""
             presenter.signup()
         }
     }
