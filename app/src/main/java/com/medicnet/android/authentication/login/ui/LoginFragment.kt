@@ -23,6 +23,7 @@ import com.medicnet.android.authentication.login.presentation.LoginPresenter
 import com.medicnet.android.authentication.login.presentation.LoginView
 import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.TextHelper
+import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.webview.cas.ui.INTENT_CAS_TOKEN
 import com.medicnet.android.webview.cas.ui.casWebViewIntent
@@ -100,7 +101,7 @@ class LoginFragment : Fragment(), LoginView {
                             "martin.siebachmeyer@NHS.net",
                             "P@ssword123!") { authenticated ->
                         if (authenticated) {
-                            context.displayLockScreen(true)
+                            AppUtil.displayLockScreen(activity, true)
                         }
                     }
                     true
@@ -205,7 +206,7 @@ class LoginFragment : Fragment(), LoginView {
                     text_password.textContent
                 ) { authenticated ->
                     if (authenticated) {
-                        context.displayLockScreen(true)
+                        AppUtil.displayLockScreen(activity, true)
                     }
                 }
             }

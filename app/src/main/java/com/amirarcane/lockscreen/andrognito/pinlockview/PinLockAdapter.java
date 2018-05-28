@@ -299,7 +299,7 @@ public class PinLockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 mCancelButton.setVisibility(View.GONE);
             txvCancel = itemView.findViewById(R.id.txvDelete);
             txvCancel.setText(context.getString(R.string.msg_cancel));
-            txvCancel.setTextColor(greenLightColor);
+//            txvCancel.setTextColor(greenLightColor);
             txvCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

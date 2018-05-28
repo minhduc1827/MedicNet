@@ -3,7 +3,6 @@ package com.medicnet.android.main.ui
 import DrawableHelper
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,7 +12,6 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import chat.rocket.common.model.UserStatus
-import com.amirarcane.lockscreen.activity.EnterPinActivity
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
@@ -25,6 +23,7 @@ import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
+import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.fadeIn
 import com.medicnet.android.util.extensions.fadeOut
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private var expanded = false
     private val headerLayout by lazy { view_navigation.getHeaderView(0) }
     val TAG: String = MainActivity::class.java.simpleName
-    val LOCKSCREEN_REQUEST_CODE = 123
     var rocketChatApplication: RocketChatApplication? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +72,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
-        displayLockScreen(false)
+        AppUtil.displayLockScreen(this, false);
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->
                 LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround);
                 if (isForeGround)
-                    displayLockScreen(false)
+                    AppUtil.displayLockScreen(this, false);
             }
         }
     }
@@ -103,7 +101,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         }
     }
 
-    fun displayLockScreen(isCancelable: Boolean) {
+    /*fun displayLockScreen(isCancelable: Boolean) {
         val prefs = getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE)
         var intent: Intent? = null
         if (prefs.getString(EnterPinActivity.KEY_PIN, "").equals("")) {
@@ -115,12 +113,12 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         }
         intent?.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivityForResult(intent, LOCKSCREEN_REQUEST_CODE)
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         LogUtil.d(TAG, "onActivityResult @requestCode= " + requestCode + " @resultCode=" + resultCode)
-        if (requestCode == LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == AppUtil.LOCKSCREEN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             //passcode callback here
         }
     }

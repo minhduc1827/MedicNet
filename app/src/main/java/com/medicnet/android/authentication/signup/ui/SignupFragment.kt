@@ -13,6 +13,7 @@ import com.medicnet.android.authentication.signup.presentation.SignupView
 import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.TextHelper
+import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
@@ -85,7 +86,7 @@ class SignupFragment : Fragment(), SignupView {
             presenter.signup(text_name.textContent, text_username.textContent, txvRole.textContent, txvOrganization.textContent,
                     text_password.textContent, text_email.textContent) { authenticated ->
                 if (authenticated)
-                    context.displayLockScreen(true)
+                    AppUtil.displayLockScreen(activity, true)
             }
         }
         if (BuildConfig.BUILD_TYPE.equals("debug")) { //use test signup
