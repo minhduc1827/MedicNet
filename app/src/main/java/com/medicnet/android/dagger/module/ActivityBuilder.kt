@@ -44,7 +44,6 @@ abstract class ActivityBuilder {
     @PerActivity
     @ContributesAndroidInjector(modules = [MainModule::class,
         ChatRoomsFragmentProvider::class,
-        ChatRoomFragmentProvider::class, //add chat fragment to load chat when clicking item recycler
         ProfileFragmentProvider::class
     ])
     abstract fun bindMainActivity(): MainActivity
