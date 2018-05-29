@@ -238,7 +238,7 @@
 
     <!--lock screen-->
     <string name="pinlock_title" translatable="false">Create a Passcode</string>
-    <string name="pinlock_instruction" translatable="false">You will need this every time you log into MedicNet</string>
+    <string name="pinlock_instruction" translatable="false">You will need this every time you log into MedicNet.</string>
     <string name="pinlock_settitle" translatable="false">Create a Passcode</string>
     <string name="pinlock_firsttry" translatable="false">Wrong Pin Code: First Try</string>
     <string name="pinlock_secondtry" translatable="false">Wrong Pin Code: Second Try</string>
@@ -247,4 +247,6 @@
     <string name="pinlock_tryagain" translatable="false">Try again</string>
     <string name="pinlock_not_match" translatable="false">Passcodes didn\'t match</string>
     <string name="pinlock_fingerprint" translatable="false">Use Fingerprint to unlock MedicNet</string>
+    <string name="enter_passcode" translatable="false">Enter Passcode</string>
+    <string name="enter_passcode_instruction" translatable="false">Enter your passcode to proceed.</string>
 </resources>

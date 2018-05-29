@@ -147,6 +147,8 @@ public class EnterPinActivity extends AppCompatActivity {
             changeLayoutForSetPin();
         } else {
             String pin = getPinFromSharedPreferences();
+            mTextTitle.setText(getString(R.string.enter_passcode));
+            txvPinCodeInstruction.setText(getString(R.string.enter_passcode_instruction));
             if (pin.equals("")) {
                 changeLayoutForSetPin();
                 mSetPin = true;
