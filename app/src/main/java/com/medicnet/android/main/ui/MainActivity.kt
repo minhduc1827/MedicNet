@@ -76,6 +76,17 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+            val height: Int = layoutSearch.height
+            LogUtil.d(TAG, "height @layoutsearch=" + height)
+            image_avatar.layoutParams.width = height
+            image_avatar.layoutParams.height = height
+            viewAvatar.layoutParams.width = height + 2
+            viewAvatar.layoutParams.height = height + 2
+            image_avatar.requestLayout()
+            imvUserStatus.requestLayout()
+
+        }
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
         AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
         if (rocketChatApplication == null) {
@@ -148,14 +159,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             LogUtil.d(TAG, "setupNavHeader @userAvatar= " + viewModel.userAvatar)
             image_avatar.setImageURI(viewModel.userAvatar)
         }
-        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
-            val height: Int = layoutSearch.height
-            LogUtil.d(TAG, "height @layoutsearch=" + height)
-            image_avatar.layoutParams.width = height
-            image_avatar.layoutParams.height = height
-            viewAvatar.layoutParams.width = height + 2
-            viewAvatar.layoutParams.height = height + 2
-        }
+
 
         if (viewModel.userStatus != null) {
             LogUtil.d(TAG, "setupNavHeader @userStatus= " + viewModel.userStatus)

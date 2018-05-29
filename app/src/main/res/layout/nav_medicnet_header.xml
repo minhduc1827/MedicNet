@@ -17,7 +17,7 @@
 
         <EditText
             android:id="@+id/editText"
-            style="@style/Authentication.EditText"
+            style="@style/Searach.EditText"
             android:layout_width="0dp"
             android:layout_marginTop="15dp"
             android:hint="@string/action_search"
