@@ -45,7 +45,7 @@
     <dimen name="viewer_toolbar_title">16dp</dimen>
 
     <!--Navigation medic net-->
-    <dimen name="nav_medicnet_header_image">40dp</dimen>
+    <dimen name="nav_medicnet_header_image">35dp</dimen>
     <dimen name="nav_medicnet_avatar_image">80dp</dimen>
 
     <!--login-->

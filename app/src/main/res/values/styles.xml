@@ -51,6 +51,20 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="Searach.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingStart">@dimen/edit_text_margin</item>
+        <item name="android:paddingEnd">@dimen/edit_text_margin</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:drawablePadding">@dimen/edit_text_drawable_padding</item>
+        <item name="android:drawableTint" tools:ignore="NewApi">@color/colorDrawableTintGrey</item>
+        <item name="android:fontFamily">@font/font_roboto_regular</item>
+        <item name="android:background">@drawable/style_edit_text_authentication</item>
+        <item name="android:textColorHint">@color/gray_white1</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="Authentication.Button" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

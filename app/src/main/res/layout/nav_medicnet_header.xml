@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
@@ -12,14 +13,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/layoutHeader"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <EditText
             android:id="@+id/editText"
+            style="@style/Authentication.EditText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
+            android:layout_marginTop="15dp"
             android:hint="@string/action_search"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,17 +28,28 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/image_avatar"
-            android:layout_width="@dimen/nav_medicnet_header_image"
-            android:layout_height="@dimen/nav_medicnet_header_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:roundedCornerRadius="5dp"
+            tools:background="@color/red" />
 
-        <ImageView
+        <View
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/viewAvatar" />
+
+        <ImageButton
             android:id="@+id/imvUserStatus"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_avatar"
-            app:layout_constraintEnd_toEndOf="@+id/image_avatar" />
+            app:layout_constraintBottom_toBottomOf="@+id/viewAvatar"
+            tools:src="@drawable/ic_status_online_12dp"
+            android:background="@null"
+            app:layout_constraintRight_toRightOf="@+id/viewAvatar" />
 
         <LinearLayout
             android:id="@+id/layoutSearch"
@@ -54,7 +65,8 @@
                 android:id="@+id/imageView3"
                 android:layout_width="@dimen/nav_medicnet_header_image"
                 android:layout_height="@dimen/nav_medicnet_header_image"
-                app:srcCompat="@drawable/ic_search" />
+                app:srcCompat="@drawable/ic_search"
+                android:scaleType="centerInside" />
 
             <TextView
                 android:id="@+id/textView"
@@ -62,7 +74,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/action_search"
                 android:textAllCaps="true"
-                android:textColor="@color/red_medium" />
+                android:textColor="@color/red_medium"
+                android:textSize="12dp"
+                android:fontFamily="@font/font_roboto_medium" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +93,8 @@
                 android:id="@+id/imageView4"
                 android:layout_width="@dimen/nav_medicnet_header_image"
                 android:layout_height="@dimen/nav_medicnet_header_image"
-                app:srcCompat="@drawable/ic_contacts" />
+                app:srcCompat="@drawable/ic_contacts"
+                android:scaleType="centerInside" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -87,7 +102,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_contact"
                 android:textAllCaps="true"
-                android:textColor="@color/red_medium" />
+                android:textColor="@color/red_medium"
+                android:textSize="12dp"
+                android:fontFamily="@font/font_roboto_medium" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +120,8 @@
                 android:id="@+id/imageView5"
                 android:layout_width="@dimen/nav_medicnet_header_image"
                 android:layout_height="@dimen/nav_medicnet_header_image"
-                app:srcCompat="@drawable/ic_new_team" />
+                app:srcCompat="@drawable/ic_new_team"
+                android:scaleType="centerInside" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -111,7 +129,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_new_team"
                 android:textAllCaps="true"
-                android:textColor="@color/red_medium" />
+                android:textColor="@color/red_medium"
+                android:textSize="12dp"
+                android:fontFamily="@font/font_roboto_medium" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
