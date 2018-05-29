@@ -61,7 +61,7 @@ class AppModule {
             platformLogger = logger
 
             // TODO remove
-            restUrl = "https://open.rocket.chat"
+            restUrl = "https://medicappdev.eastus.cloudapp.azure.com"
         }
     }
 
