@@ -2,7 +2,8 @@ package com.medicnet.android.main.presentation
 
 import com.medicnet.android.R
 import com.medicnet.android.authentication.ui.newServerIntent
-import com.medicnet.android.chatroom.ui.chatRoomIntent
+import com.medicnet.android.chatroom.ui.ChatRoomActivity
+import com.medicnet.android.chatroom.ui.newInstance
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.profile.ui.ProfileFragment
@@ -38,9 +39,14 @@ class MainNavigator(internal val activity: MainActivity) {
                    chatRoomLastSeen: Long,
                    isChatRoomSubscribed: Boolean,
                    isChatRoomCreator: Boolean) {
-        activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
-                isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator))
-        activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)
+        /* activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
+                 isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator))
+         activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)*/
+
+        activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT, R.id.fragment_container) {
+            newInstance(chatRoomId, chatRoomName, chatRoomType, isChatRoomReadOnly, chatRoomLastSeen,
+                    isChatRoomSubscribed, isChatRoomCreator, null)
+        }
     }
 
     fun toNewServer(serverUrl: String? = null) {
