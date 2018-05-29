@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
         AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
