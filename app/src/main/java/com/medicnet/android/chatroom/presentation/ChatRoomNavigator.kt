@@ -1,13 +1,13 @@
 package com.medicnet.android.chatroom.presentation
 
 import com.medicnet.android.R
-import com.medicnet.android.chatroom.ui.ChatRoomActivity
 import com.medicnet.android.chatroom.ui.chatRoomIntent
+import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.members.ui.newInstance
 import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.util.extensions.addFragmentBackStack
 
-class ChatRoomNavigator(internal val activity: ChatRoomActivity) {
+class ChatRoomNavigator(internal val activity: MainActivity) {
 
     fun toMembersList(chatRoomId: String, chatRoomType: String) {
         activity.addFragmentBackStack("MembersFragment", R.id.fragment_container) {

@@ -12,7 +12,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.UserStatus
+import chat.rocket.common.model.roomTypeOf
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
@@ -26,17 +28,14 @@ import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
-import com.medicnet.android.util.extensions.fadeIn
-import com.medicnet.android.util.extensions.fadeOut
-import com.medicnet.android.util.extensions.rotateBy
-import com.medicnet.android.util.extensions.showToast
+import com.medicnet.android.util.extensions.*
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.app_bar_chat_room.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -265,6 +264,37 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             R.id.action_logout -> {
                 presenter.logout()
             }
+        }
+    }
+
+    fun setupToolbarTitle(toolbarTitle: String) {
+        text_room_name.textContent = toolbarTitle
+    }
+
+    fun showRoomTypeIcon(showRoomTypeIcon: Boolean, chatRoomType: String) {
+        if (showRoomTypeIcon) {
+            val roomType = roomTypeOf(chatRoomType)
+            val drawable = when (roomType) {
+                is RoomType.Channel -> {
+                    DrawableHelper.getDrawableFromId(R.drawable.ic_room_channel, this)
+                }
+                is RoomType.PrivateGroup -> {
+                    DrawableHelper.getDrawableFromId(R.drawable.ic_room_lock, this)
+                }
+                is RoomType.DirectMessage -> {
+                    DrawableHelper.getDrawableFromId(R.drawable.ic_room_dm, this)
+                }
+                else -> null
+            }
+
+            drawable?.let {
+                val wrappedDrawable = DrawableHelper.wrapDrawable(it)
+                val mutableDrawable = wrappedDrawable.mutate()
+                DrawableHelper.tintDrawable(mutableDrawable, this, R.color.white)
+                DrawableHelper.compoundDrawable(text_room_name, mutableDrawable)
+            }
+        } else {
+            text_room_name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
     }
 }

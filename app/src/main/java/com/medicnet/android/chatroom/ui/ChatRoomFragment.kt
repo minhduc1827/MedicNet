@@ -31,6 +31,10 @@ import com.medicnet.android.chatroom.viewmodel.suggestion.PeopleSuggestionViewMo
 import com.medicnet.android.helper.EndlessRecyclerViewScrollListener
 import com.medicnet.android.helper.KeyboardHelper
 import com.medicnet.android.helper.MessageParser
+import com.medicnet.android.main.ui.MainActivity
+import com.medicnet.android.server.domain.GetCurrentServerInteractor
+import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
+import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.emoji.*
 import dagger.android.support.AndroidSupportInjection
@@ -85,6 +89,10 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     lateinit var presenter: ChatRoomPresenter
     @Inject
     lateinit var parser: MessageParser
+    @Inject
+    lateinit var serverInteractor: GetCurrentServerInteractor
+    @Inject
+    lateinit var managerFactory: ConnectionManagerFactory
     private lateinit var adapter: ChatRoomAdapter
     private lateinit var chatRoomId: String
     private lateinit var chatRoomName: String
@@ -149,8 +157,38 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         return container?.inflate(R.layout.fragment_chat_room)
     }
 
+    fun init() {
+        // Workaround for when we are coming to the app via the recents app and the app was killed.
+        val serverUrl = serverInteractor.get()
+        if (serverUrl != null) {
+            managerFactory.create(serverUrl).connect()
+        } else {
+            activity!!.startActivity(activity!!.changeServerIntent())
+            activity!!.finish()
+            return
+        }
+        chatRoomId = arguments!!.getString(BUNDLE_CHAT_ROOM_ID)
+        requireNotNull(chatRoomId) { "no chat_room_id provided in Intent extras" }
+
+        chatRoomName = arguments!!.getString(BUNDLE_CHAT_ROOM_NAME)
+        requireNotNull(chatRoomName) { "no chat_room_name provided in Intent extras" }
+
+        chatRoomType = arguments!!.getString(BUNDLE_CHAT_ROOM_TYPE)
+        requireNotNull(chatRoomType) { "no chat_room_type provided in Intent extras" }
+
+        isChatRoomReadOnly = arguments!!.getBoolean(BUNDLE_IS_CHAT_ROOM_READ_ONLY, true)
+        requireNotNull(isChatRoomReadOnly) { "no chat_room_is_read_only provided in Intent extras" }
+
+        isChatRoomCreator = arguments!!.getBoolean(BUNDLE_CHAT_ROOM_IS_CREATOR, false)
+        requireNotNull(isChatRoomCreator) { "no chat_room_is_creator provided in Intent extras" }
+
+//        val chatRoomMessage = arguments!!.getString(BUNDLE_CHAT_ROOM_MESSAGE)
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
         setupToolbar(chatRoomName)
 
         presenter.setupChatRoom(chatRoomId, chatRoomName, chatRoomType, chatRoomMessage)
@@ -816,6 +854,6 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     }
 
     private fun setupToolbar(toolbarTitle: String) {
-        (activity as ChatRoomActivity).setupToolbarTitle(toolbarTitle)
+        (activity as MainActivity).setupToolbarTitle(toolbarTitle)
     }
 }

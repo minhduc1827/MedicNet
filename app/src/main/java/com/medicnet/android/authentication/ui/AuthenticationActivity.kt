@@ -44,7 +44,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     companion object {
         //DucNM: adding unsafeOkHttp
-        fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
+        fun createUnsafeOkHttpClient(): OkHttpClient.Builder {
             try {
                 // Create a trust manager that does not validate certificate chains
                 val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
@@ -123,7 +123,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     fun getDataFromSever(url: String, callback: Callback) {
 
         LogUtil.d(TAG, "getDataFromSever @url= " + url);
-        val client = getUnsafeOkHttpClient().build()
+        val client = createUnsafeOkHttpClient().build()
         val request = Request.Builder()
                 .url(url)
                 .build()
