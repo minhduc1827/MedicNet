@@ -14,7 +14,8 @@
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="?android:attr/homeAsUpIndicator"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/status_bar_color">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/toolbar_content_container"
