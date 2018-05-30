@@ -312,11 +312,17 @@ public class EnterPinActivity extends AppCompatActivity {
         return prefs.getString(KEY_PIN, "");
     }
 
-    private void setPin(String pin) {
+    private void setPin(final String pin) {
         if (mFirstPin.equals("")) {
-            mFirstPin = pin;
-            mTextTitle.setText(getString(R.string.pinlock_secondPin));
-            mPinLockView.resetPinLockView();
+            mTextTitle.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mFirstPin = pin;
+                    mTextTitle.setText(getString(R.string.pinlock_secondPin));
+                    mPinLockView.resetPinLockView();
+                }
+            }, 100);
+
         } else {
             if (pin.equals(mFirstPin)) {
                 writePinToSharedPreferences(pin);

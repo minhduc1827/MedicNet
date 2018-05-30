@@ -304,7 +304,7 @@ class LoginPresenter @Inject constructor(
                     saveToken(token)
                     registerPushToken()
                     navigator.toChatList()
-//                    callback(true)
+                    callback(true)
                 } else if (loginType == TYPE_LOGIN_OAUTH) {
                     navigator.toRegisterUsername(token.userId, token.authToken)
                 }

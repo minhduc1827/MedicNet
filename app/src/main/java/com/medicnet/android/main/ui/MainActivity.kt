@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
         }
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
-        AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
+//        AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->

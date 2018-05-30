@@ -70,7 +70,7 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
                         saveAccount(me)
                         registerPushToken()
                         navigator.toChatList()
-//                        callback(true)
+                        callback(true)
                     } catch (exception: RocketChatException) {
                         exception.message?.let {
                             view.showMessage(it)

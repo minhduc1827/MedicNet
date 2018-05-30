@@ -20,6 +20,7 @@ public class AppUtil {
         } else {
             // already pin
             intent = new Intent(activity, EnterPinActivity.class);
+            intent.putExtra(EnterPinActivity.EXTRA_IS_CANCELABLE, isCancelable);
         }
         if (intent != null) {
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
