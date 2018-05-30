@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/default_background">
+    android:background="@color/dark_gray">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/composer"
@@ -68,7 +68,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:background="@drawable/style_edit_text_authentication"
                 android:hint="@string/msg_message"
                 android:inputType="textCapSentences|textMultiLine"
                 android:lineSpacingExtra="4dp"
