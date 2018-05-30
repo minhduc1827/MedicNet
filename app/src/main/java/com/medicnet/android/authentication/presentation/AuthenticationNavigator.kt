@@ -79,8 +79,14 @@ class AuthenticationNavigator(internal val activity: AuthenticationActivity) {
     }
 
     fun toChatList() {
-        LogUtil.d("AuthenticationNavigator", "toChatList")
-        activity.startActivity(Intent(activity, MainActivity::class.java))
+        toChatList(false)
+    }
+
+    fun toChatList(isRedirect: Boolean) {
+        LogUtil.d("AuthenticationNavigator", "toChatList with fromAuthenticateActivity:Boolean")
+        val intent: Intent = Intent(activity, MainActivity::class.java)
+        intent.putExtra(MainActivity.EXTRA_REDIRECT_TO_MAIN, isRedirect)
+        activity.startActivity(intent)
         activity.finish()
     }
 

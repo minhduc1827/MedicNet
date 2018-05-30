@@ -92,7 +92,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 if (!authenticated) {
                     showServerInput(savedInstanceState, deepLinkInfo)
                 } else {
-                    presenter.loadChatList()
+                    presenter.loadChatList(true)
                     isShowedChatList = true
 //                    displayLockScreen(false)
                 }

@@ -56,6 +56,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val LOCKSCREEN_REQUEST_CODE: Int = 123
     var needShowLockScreen: Boolean = true
 
+    companion object {
+        var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -87,7 +91,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
         }
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
-//        AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
+        val isRedirect = intent.getBooleanExtra(EXTRA_REDIRECT_TO_MAIN, true)
+        LogUtil.d(TAG, "onCreate @isRedirect= " + isRedirect)
+        if (isRedirect)
+            AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
         if (rocketChatApplication == null) {
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->

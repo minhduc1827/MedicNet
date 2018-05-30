@@ -36,6 +36,10 @@ class AuthenticationPresenter @Inject constructor(
     }
 
     fun loadChatList() {
-        navigator.toChatList()
+        loadChatList(false)
+    }
+
+    fun loadChatList(isRedirect: Boolean) {
+        navigator.toChatList(isRedirect)
     }
 }
