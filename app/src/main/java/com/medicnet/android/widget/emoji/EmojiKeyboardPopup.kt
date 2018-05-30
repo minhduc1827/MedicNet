@@ -58,6 +58,13 @@ class EmojiKeyboardPopup(context: Context, view: View) : OverKeyboardPopupWindow
                 is EmojiKeyboardListener -> it
                 else -> {
                     val fragments = (it as AppCompatActivity).supportFragmentManager.fragments
+                    if (fragments != null && fragments.size > 1) {
+                        val fragment = fragments.iterator()
+                        if (fragment.hasNext()) {
+                            if (!(fragment.next() is EmojiKeyboardListener))
+                                fragment.remove()
+                        }
+                    }
                     if (fragments == null || fragments.size == 0 || !(fragments[0] is EmojiKeyboardListener)) {
                         throw IllegalStateException("activity/fragment should implement Listener interface")
                     }

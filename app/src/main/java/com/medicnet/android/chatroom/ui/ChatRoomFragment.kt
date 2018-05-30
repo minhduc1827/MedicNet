@@ -102,11 +102,14 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     private var isChatRoomReadOnly: Boolean = false
     private var isChatRoomCreator: Boolean = false
     private var isBroadcastChannel: Boolean = false
-    private lateinit var emojiKeyboardPopup: EmojiKeyboardPopup
+    private var isChatRoomSubscribed: Boolean = true
     private var chatRoomLastSeen: Long = -1
+
+    private lateinit var emojiKeyboardPopup: EmojiKeyboardPopup
     private lateinit var actionSnackbar: ActionSnackbar
     private var citation: String? = null
     private var editingMessageId: String? = null
+
 
     private val compositeDisposable = CompositeDisposable()
     private var playComposeMessageButtonsAnimation = true
@@ -136,13 +139,26 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
 
         val bundle = arguments
         if (bundle != null) {
+            val serverUrl = serverInteractor.get()
+            if (serverUrl != null) {
+                managerFactory.create(serverUrl).connect()
+            } else {
+                activity!!.startActivity(activity!!.changeServerIntent())
+                activity!!.finish()
+                return
+            }
             chatRoomId = bundle.getString(BUNDLE_CHAT_ROOM_ID)
+            requireNotNull(chatRoomId) { "no chat_room_id provided in Intent extras" }
             chatRoomName = bundle.getString(BUNDLE_CHAT_ROOM_NAME)
+            requireNotNull(chatRoomName) { "no chat_room_name provided in Intent extras" }
             chatRoomType = bundle.getString(BUNDLE_CHAT_ROOM_TYPE)
+            requireNotNull(chatRoomType) { "no chat_room_type provided in Intent extras" }
             isChatRoomReadOnly = bundle.getBoolean(BUNDLE_IS_CHAT_ROOM_READ_ONLY)
+            requireNotNull(isChatRoomReadOnly) { "no chat_room_is_read_only provided in Intent extras" }
             isSubscribed = bundle.getBoolean(BUNDLE_CHAT_ROOM_IS_SUBSCRIBED)
             chatRoomLastSeen = bundle.getLong(BUNDLE_CHAT_ROOM_LAST_SEEN)
             isChatRoomCreator = bundle.getBoolean(BUNDLE_CHAT_ROOM_IS_CREATOR)
+            requireNotNull(isChatRoomCreator) { "no chat_room_is_creator provided in Intent extras" }
             chatRoomMessage = bundle.getString(BUNDLE_CHAT_ROOM_MESSAGE)
         } else {
             requireNotNull(bundle) { "no arguments supplied when the fragment was instantiated" }
@@ -183,12 +199,15 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         requireNotNull(isChatRoomCreator) { "no chat_room_is_creator provided in Intent extras" }
 
 //        val chatRoomMessage = arguments!!.getString(BUNDLE_CHAT_ROOM_MESSAGE)
+        chatRoomLastSeen = arguments!!.getLong(BUNDLE_CHAT_ROOM_LAST_SEEN, -1)
+
+        isChatRoomSubscribed = arguments!!.getBoolean(BUNDLE_CHAT_ROOM_IS_SUBSCRIBED, true)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+
         setupToolbar(chatRoomName)
 
         presenter.setupChatRoom(chatRoomId, chatRoomName, chatRoomType, chatRoomMessage)
@@ -198,7 +217,7 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         setupSuggestionsView()
         setupActionSnackbar()
         activity?.apply {
-            (this as? ChatRoomActivity)?.showRoomTypeIcon(true)
+            (this as? MainActivity)?.showRoomTypeIcon(true, chatRoomType)
         }
     }
 
@@ -304,7 +323,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         // that the "(channels|groups).roles" endpoint is supported by the server in use.
         setupMessageComposer(userCanPost)
         isBroadcastChannel = channelIsBroadcast
-        if (isBroadcastChannel && !userCanMod) activity?.invalidateOptionsMenu()
+        //DucNM commented
+//        if (isBroadcastChannel && !userCanMod) activity?.invalidateOptionsMenu()
     }
 
     override fun openDirectMessage(chatRoom: ChatRoom, permalink: String) {
