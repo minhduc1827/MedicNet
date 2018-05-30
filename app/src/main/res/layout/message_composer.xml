@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/dark_gray">
 
@@ -59,8 +60,18 @@
                 android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/msg_content_description_show_attachment_options"
-                android:src="@drawable/ic_reaction_24dp" />
+                android:src="@drawable/ic_reaction_24dp"
+                android:visibility="gone" />
 
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add_photo_to_message"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/button_show_attachment_options"
+                android:background="?attr/selectableItemBackgroundBorderless" />
             <com.medicnet.android.widget.emoji.ComposerEditText
                 android:id="@+id/text_message"
                 android:layout_width="0dp"
@@ -73,27 +84,29 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:lineSpacingExtra="4dp"
                 android:maxLines="4"
-                android:minHeight="24dp"
+                android:minHeight="30dp"
                 android:scrollbars="vertical" />
 
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/button_show_attachment_options"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/msg_content_description_show_attachment_options"
-                android:src="@drawable/ic_add_24dp" />
+                android:src="@drawable/ic_add_24dp" />-->
 
             <ImageButton
                 android:id="@+id/button_send"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_gravity="bottom"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/msg_content_description_send_message"
-                android:src="@drawable/ic_send_24dp"
-                android:visibility="gone" />
+                android:src="@drawable/btn_msg_send"
+                android:visibility="gone"
+                android:scaleType="centerInside"
+                tools:visibility="visible" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

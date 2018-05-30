@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val TAG: String = MainActivity::class.java.simpleName
     var rocketChatApplication: RocketChatApplication? = null
     val LOCKSCREEN_REQUEST_CODE: Int = 123
-    var isSetupNavView: Boolean = true
+    var needShowLockScreen: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -92,8 +92,12 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             rocketChatApplication = application as RocketChatApplication
             rocketChatApplication!!.appLifecycleObserver.setOnLifeCycleCallBack { isForeGround ->
                 LogUtil.d(TAG, "onLifeCycle callback @isForeGround= " + isForeGround);
-                if (isForeGround)
-                    AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
+                if (isForeGround) {
+                    if (needShowLockScreen)
+                        AppUtil.displayLockScreen(this, false, LOCKSCREEN_REQUEST_CODE);
+                    else
+                        needShowLockScreen = true
+                }
             }
         }
     }

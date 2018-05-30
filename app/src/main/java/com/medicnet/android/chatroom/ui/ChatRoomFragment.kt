@@ -701,10 +701,10 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             button_join_chat.setVisible(true)
             button_join_chat.setOnClickListener { presenter.joinChat(chatRoomId) }
         } else {
-            button_send.alpha = 0f
+            /*button_send.alpha = 0f
             button_send.setVisible(false)
             button_show_attachment_options.alpha = 1f
-            button_show_attachment_options.setVisible(true)
+            button_show_attachment_options.setVisible(true)*/
 
             subscribeComposeTextMessage()
             emojiKeyboardPopup =
@@ -861,13 +861,13 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         view_dim.setVisible(true)
 
         // Play anim.
-        button_show_attachment_options.rotateBy(45F)
+//        button_show_attachment_options.rotateBy(45F)
         layout_message_attachment_options.circularRevealOrUnreveal(centerX, centerY, 0F, hypotenuse)
     }
 
     private fun hideAttachmentOptions() {
         // Play anim.
-        button_show_attachment_options.rotateBy(-45F)
+//        button_show_attachment_options.rotateBy(-45F)
         layout_message_attachment_options.circularRevealOrUnreveal(centerX, centerY, max, 0F)
 
         view_dim.setVisible(false)
