@@ -35,6 +35,7 @@ import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.ui.changeServerIntent
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.emoji.*
 import dagger.android.support.AndroidSupportInjection
@@ -734,11 +735,12 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             }
 
             button_show_attachment_options.setOnClickListener {
-                if (layout_message_attachment_options.isShown) {
+                LogUtil.d("ChatRoomFragment", "click on add photo")
+                /*if (layout_message_attachment_options.isShown) {
                     hideAttachmentOptions()
                 } else {
                     showAttachmentOptions()
-                }
+                }*/
             }
 
             view_dim.setOnClickListener {
@@ -836,15 +838,16 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     }
 
     private fun setupComposeButtons(charSequence: CharSequence) {
+        //DucNM changed code
         if (charSequence.isNotEmpty() && playComposeMessageButtonsAnimation) {
-            button_show_attachment_options.fadeOut(1F, 0F, 120)
+//            button_show_attachment_options.fadeOut(1F, 0F, 120)
             button_send.fadeIn(0F, 1F, 120)
             playComposeMessageButtonsAnimation = false
         }
 
         if (charSequence.isEmpty()) {
             button_send.fadeOut(1F, 0F, 120)
-            button_show_attachment_options.fadeIn(0F, 1F, 120)
+//            button_show_attachment_options.fadeIn(0F, 1F, 120)
             playComposeMessageButtonsAnimation = true
         }
     }
@@ -861,13 +864,13 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         view_dim.setVisible(true)
 
         // Play anim.
-//        button_show_attachment_options.rotateBy(45F)
+        button_show_attachment_options.rotateBy(45F)
         layout_message_attachment_options.circularRevealOrUnreveal(centerX, centerY, 0F, hypotenuse)
     }
 
     private fun hideAttachmentOptions() {
         // Play anim.
-//        button_show_attachment_options.rotateBy(-45F)
+        button_show_attachment_options.rotateBy(-45F)
         layout_message_attachment_options.circularRevealOrUnreveal(centerX, centerY, max, 0F)
 
         view_dim.setVisible(false)
