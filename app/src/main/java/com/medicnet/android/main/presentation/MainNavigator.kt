@@ -9,6 +9,7 @@ import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.profile.ui.ProfileFragment
 import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.settings.ui.SettingsFragment
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 
 class MainNavigator(internal val activity: MainActivity) {
@@ -42,8 +43,8 @@ class MainNavigator(internal val activity: MainActivity) {
         /* activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
                  isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator))
          activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)*/
-
-        activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT, R.id.fragment_container) {
+        LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName)
+        activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT + "_" + chatRoomId, R.id.fragment_container) {
             newInstance(chatRoomId, chatRoomName, chatRoomType, isChatRoomReadOnly, chatRoomLastSeen,
                     isChatRoomSubscribed, isChatRoomCreator, null)
         }

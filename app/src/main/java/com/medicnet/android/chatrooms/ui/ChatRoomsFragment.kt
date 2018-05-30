@@ -23,11 +23,14 @@ import com.medicnet.android.helper.ChatRoomsSortOrder
 import com.medicnet.android.helper.Constants
 import com.medicnet.android.helper.SharedPreferenceHelper
 import com.medicnet.android.infrastructure.LocalRepository
+import com.medicnet.android.main.ui.MainActivity
 import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.domain.SettingsRepository
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat_rooms.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.NonCancellable.isActive
@@ -243,6 +246,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
             val baseAdapter = ChatRoomsAdapter(it,
                 settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
+                LogUtil.d("ChatroomsFragment", "onItem chat clicked")
+                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                 presenter.loadChatRoom(chatRoom)
             }
 
