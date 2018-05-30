@@ -135,7 +135,7 @@
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/layoutMyVault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/label_my_vault" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <FrameLayout
         android:id="@+id/navigation_header_chat_room"
@@ -166,6 +166,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutMyVault" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader" />
 
 </android.support.constraint.ConstraintLayout>
