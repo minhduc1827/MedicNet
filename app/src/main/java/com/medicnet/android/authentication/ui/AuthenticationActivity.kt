@@ -12,6 +12,7 @@ import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
 import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.presentation.AuthenticationPresenter
 import com.medicnet.android.authentication.server.ui.ServerFragment
+import com.medicnet.android.dagger.module.AppModule
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 import dagger.android.AndroidInjection
@@ -21,13 +22,12 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 import javax.inject.Inject
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
-import javax.security.cert.CertificateException
 
 
 class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -42,41 +42,6 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     var isShowedChatList: Boolean = false
     val LOCKSCREEN_REQUEST_CODE: Int = 123
 
-    companion object {
-        //DucNM: adding unsafeOkHttp
-        fun createUnsafeOkHttpClient(): OkHttpClient.Builder {
-            try {
-                // Create a trust manager that does not validate certificate chains
-                val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-                    @Throws(CertificateException::class)
-                    override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-                    }
-
-                    @Throws(CertificateException::class)
-                    override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
-                    }
-
-                    override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
-                        return arrayOf()
-                    }
-                })
-
-                // Install the all-trusting trust manager
-                val sslContext = SSLContext.getInstance("SSL")
-                sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-                // Create an ssl socket factory with our all-trusting manager
-                val sslSocketFactory = sslContext.socketFactory
-
-                val builder = OkHttpClient.Builder()
-                builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-                builder.hostnameVerifier { _, _ -> true }
-
-                return builder
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -123,7 +88,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     fun getDataFromSever(url: String, callback: Callback) {
 
         LogUtil.d(TAG, "getDataFromSever @url= " + url);
-        val client = createUnsafeOkHttpClient().build()
+        val client = AppModule.createUnsafeOkHttpClient().build()
         val request = Request.Builder()
                 .url(url)
                 .build()
