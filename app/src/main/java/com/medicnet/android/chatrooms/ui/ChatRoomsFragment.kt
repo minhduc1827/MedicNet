@@ -51,6 +51,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
+    val TAG: String = ChatRoomsFragment::class.java.simpleName
 
     companion object {
         fun newInstance() = ChatRoomsFragment()
@@ -160,6 +161,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
+            LogUtil.d(TAG, "updateChatRooms")
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
             // TODO - fix this bug to re-enable DiffUtil
