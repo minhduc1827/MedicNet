@@ -1,10 +1,9 @@
 package com.medicnet.android.chatrooms.ui
 
 import android.app.AlertDialog
-import android.content.SharedPreferences
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
@@ -54,6 +53,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
+    var username: String? = ""
 
     companion object {
         fun newInstance() = ChatRoomsFragment()
@@ -82,10 +82,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
         setupToolbar()
         setupRecyclerView()
-        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        LogUtil.d(TAG, "@username= " + prefs.getString(LocalRepository.CURRENT_USERNAME_KEY, ""))
-//        prefs.edit().putString(KEY_PIN, Utils.sha256(pin)).apply()
-
+        val prefs = activity?.getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
+        username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         presenter.loadChatRooms()
     }
 
@@ -167,16 +165,26 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
-            LogUtil.d(TAG, "updateChatRooms")
+            LogUtil.d(TAG, "updateChatRooms @username= " + username)
+            val dataSet = ArrayList<ChatRoom>();
+
+            for (chatroom in newDataSet) {
+                if (username.equals(chatroom.name)) {
+                    (activity as MainActivity).setupMyVault(chatroom)
+                } else
+                    dataSet.add(chatroom)
+            }
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
             // TODO - fix this bug to re-enable DiffUtil
             /*val diff = async(CommonPool) {
                 DiffUtil.calculateDiff(RoomsDiffCallback(adapter.baseAdapter.dataSet, newDataSet))
             }.await()*/
-            text_no_search.isVisible = newDataSet.isEmpty()
+//            text_no_search.isVisible = newDataSet.isEmpty()
+            text_no_search.isVisible = dataSet.isEmpty()
             if (isActive) {
-                adapter.baseAdapter.updateRooms(newDataSet)
+//                adapter.baseAdapter.updateRooms(newDataSet)
+                adapter.baseAdapter.updateRooms(dataSet)
                 // TODO - fix crash to re-enable diff.dispatchUpdatesTo(adapter)
                 adapter.notifyDataSetChanged()
 
