@@ -15,6 +15,7 @@ import android.view.View
 import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.UserStatus
 import chat.rocket.common.model.roomTypeOf
+import chat.rocket.core.model.ChatRoom
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
@@ -36,6 +37,7 @@ import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_chat_room.*
+import kotlinx.android.synthetic.main.item_my_vault.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        setupMyVault(null)
         layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
             val height: Int = layoutSearch.height
             LogUtil.d(TAG, "height @layoutsearch=" + height)
@@ -109,6 +112,14 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         }
     }
 
+    fun setupMyVault(chatroom: ChatRoom?) {
+        if (chatroom == null) { //init text, avatar
+            text_chat_name_my_vault.text = getString(R.string.label_my_vault)
+            image_avatar_my_vault.setImageResource(R.drawable.ic_lock_12_dp)
+        } else {//update last msg,time
+
+        }
+    }
 
     override fun onResume() {
         super.onResume()
