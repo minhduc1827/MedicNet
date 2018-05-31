@@ -36,7 +36,7 @@ fun AppCompatActivity.addFragment(tag: String, layoutId: Int, newInstance: () ->
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: newInstance()
     supportFragmentManager.beginTransaction()
         .replace(layoutId, fragment, tag)
-        .commit()
+            .commitAllowingStateLoss()
 }
 
 fun AppCompatActivity.addFragmentBackStack(

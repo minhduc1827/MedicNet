@@ -154,6 +154,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
                 fragment.loadChatRoom(tagChatRoom)
             }
+            layoutMyVault.performClick()
         }
     }
 
@@ -196,7 +197,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 }
             }
         } else {
-            textView.content = getText(R.string.msg_no_messages_yet)
+//            textView.content = getText(R.string.msg_no_messages_yet)
         }
     }
 
