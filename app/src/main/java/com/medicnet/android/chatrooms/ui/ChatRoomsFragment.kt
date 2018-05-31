@@ -1,7 +1,6 @@
 package com.medicnet.android.chatrooms.ui
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -53,9 +52,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
-    var username: String? = ""
 
     companion object {
+        val TAG: String = "ChatRoomsFragment"
         fun newInstance() = ChatRoomsFragment()
     }
 
@@ -82,8 +81,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
         setupToolbar()
         setupRecyclerView()
-        val prefs = activity?.getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
-        username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         presenter.loadChatRooms()
     }
 
@@ -165,11 +162,11 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
-            LogUtil.d(TAG, "updateChatRooms @username= " + username)
-            val dataSet = ArrayList<ChatRoom>();
+            LogUtil.d(TAG, "updateChatRooms @username= " + (activity as MainActivity).username)
+            val dataSet: MutableList<ChatRoom> = ArrayList();
 
             for (chatroom in newDataSet) {
-                if (username.equals(chatroom.name)) {
+                if ((activity as MainActivity).username.equals(chatroom.name)) {
                     (activity as MainActivity).setupMyVault(chatroom)
                 } else
                     dataSet.add(chatroom)
@@ -264,13 +261,17 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
                 (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
-                presenter.loadChatRoom(chatRoom)
+                loadChatRoom(chatRoom)
             }
 
             sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
                 R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
             recycler_view.adapter = sectionedAdapter
         }
+    }
+
+    fun loadChatRoom(chatRoom: ChatRoom) {
+        presenter.loadChatRoom(chatRoom)
     }
 
     private fun setSections() {

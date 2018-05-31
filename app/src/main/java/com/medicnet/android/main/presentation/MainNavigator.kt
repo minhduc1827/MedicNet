@@ -16,7 +16,7 @@ class MainNavigator(internal val activity: MainActivity) {
 
     fun toChatList() {
 //        Log.d("DucNM","toChatList>>"+activity.headerLayout.navigation_header_chat_room.id);
-        activity.addFragment("ChatRoomsFragment", R.id.navigation_header_chat_room) {
+        activity.addFragment(ChatRoomsFragment.TAG, R.id.navigation_header_chat_room) {
             ChatRoomsFragment.newInstance()
         }
     }
