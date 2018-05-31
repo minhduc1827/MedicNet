@@ -16,7 +16,8 @@
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_lock" />
 
     <ImageView
         android:id="@+id/image_chat_icon_my_vault"
@@ -66,7 +67,8 @@
         android:textColor="@color/red_dark"
         android:textAllCaps="true"
         android:textSize="16dp"
-        android:fontFamily="@font/font_roboto_medium" />
+        android:fontFamily="@font/font_roboto_medium"
+        android:text="@string/label_my_vault" />
 
     <TextView
         android:id="@+id/text_last_message_date_time_my_vault"
