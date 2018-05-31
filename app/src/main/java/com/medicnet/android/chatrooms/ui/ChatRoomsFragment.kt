@@ -1,8 +1,10 @@
 package com.medicnet.android.chatrooms.ui
 
 import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
@@ -80,6 +82,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
         setupToolbar()
         setupRecyclerView()
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        LogUtil.d(TAG, "@username= " + prefs.getString(LocalRepository.CURRENT_USERNAME_KEY, ""))
+//        prefs.edit().putString(KEY_PIN, Utils.sha256(pin)).apply()
+
         presenter.loadChatRooms()
     }
 

@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     fun setupMyVault(chatroom: ChatRoom?) {
         if (chatroom == null) { //init text, avatar
             text_chat_name_my_vault.text = getString(R.string.label_my_vault)
-            image_avatar_my_vault.setImageResource(R.drawable.ic_lock_12_dp)
+            image_avatar_my_vault.setImageResource(R.drawable.ic_lock)
         } else {//update last msg,time
 
         }

@@ -123,11 +123,12 @@ class ChatRoomsAdapter(
         }
 
         private fun chatRoomName(chatRoom: ChatRoom): String {
-            return if (settings.useRealName()) {
+            /*return if (settings.useRealName()) {
                 chatRoom.fullName ?: chatRoom.name
             } else {
                 chatRoom.name
-            }
+            }*/
+            return chatRoom.fullName ?: chatRoom.name
         }
 
         private fun bindLastMessageDateTime(chatRoom: ChatRoom, textView: TextView) {
