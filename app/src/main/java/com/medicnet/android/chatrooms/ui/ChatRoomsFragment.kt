@@ -32,6 +32,7 @@ import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat_rooms.*
+import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.NonCancellable.isActive
 import timber.log.Timber
@@ -165,12 +166,13 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             LogUtil.d(TAG, "updateChatRooms @username= " + (activity as MainActivity).username)
             val dataSet: MutableList<ChatRoom> = ArrayList();
 
-            for (chatroom in newDataSet) {
-                if ((activity as MainActivity).username.equals(chatroom.name)) {
-                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatroom.toString())
-                    (activity as MainActivity).setupMyVault(chatroom)
+            for (chatRoom in newDataSet) {
+                if ((activity as MainActivity).username.equals(chatRoom.name)) {
+                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
+                    (activity as MainActivity).layoutMyVault.tag = chatRoom
+                    (activity as MainActivity).setupMyVault(chatRoom)
                 } else {
-                    dataSet.add(chatroom)
+                    dataSet.add(chatRoom)
                 }
             }
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter

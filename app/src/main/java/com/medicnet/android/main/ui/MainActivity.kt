@@ -122,6 +122,15 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 }
             }
         }
+        layoutMyVault.setOnClickListener {
+            LogUtil.d(TAG, "onClick my vault")
+            val tagChatRoom: ChatRoom = layoutMyVault.tag as ChatRoom
+            if (tagChatRoom != null) {
+                drawer_layout.closeDrawer(Gravity.START)
+                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                fragment.loadChatRoom(tagChatRoom)
+            }
+        }
     }
 
     fun setupMyVault(chatRoom: ChatRoom?) {
@@ -145,15 +154,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                         R.color.colorSecondaryText))
                 text_last_message_my_vault.setTextColor(ContextCompat.getColor(this,
                         R.color.colorSecondaryText))
-            }
-            layoutMyVault.tag = chatRoom
-            layoutMyVault.setOnClickListener {
-                LogUtil.d(TAG, "onClick my vault")
-                val tagChatRoom: ChatRoom = layoutMyVault.tag as ChatRoom
-                drawer_layout.closeDrawer(Gravity.START)
-//                presenterChatsRoom.loadChatRoom(tagChatRoom)
-                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
-                fragment.loadChatRoom(tagChatRoom)
             }
             if (!isMyVaultClicked) {
                 layoutMyVault.performClick()
