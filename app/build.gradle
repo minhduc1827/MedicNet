@@ -28,7 +28,7 @@ android {
         versionCode appVersion.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ext.betaDistributionEmails = crashlyticsBeta.email
-        ext.betaDistributionGroupAliases = crashlyticsBeta.group
+//        ext.betaDistributionGroupAliases = crashlyticsBeta.group
         ext.betaDistributionReleaseNotes = crashlyticsBeta.releaseNotes
         multiDexEnabled true
     }

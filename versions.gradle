@@ -7,9 +7,8 @@ ext {
     def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
     def buildName = "${versionMajor}.${versionMinor}.${versionPatch}"   //versionName
 
-    def betaDistributionEmails = "nductrung@gmail.com@gmail.com"
-    def betaDistributionGroupAlias = "android-dev-qa"
-    //def betaDistributionGroupAlias = "android-vn-tester"
+    def betaDistributionEmails = "nductrung@gmail.com"
+//    def betaDistributionGroupAlias = "android-dev-qa"
     def betaDistributionGroupNone = ""
 
     def date = new Date()
@@ -28,7 +27,7 @@ ext {
 
     crashlyticsBeta = [
             email       : betaDistributionEmails,
-            group       : betaDistributionGroupAlias,
+//            group       : betaDistributionGroupAlias,
             releaseNotes: betaDistributionReleaseNotes
     ]
 }
