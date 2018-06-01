@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import androidx.core.view.postDelayed
 import chat.rocket.common.util.ifNull
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
@@ -23,16 +24,14 @@ import com.medicnet.android.authentication.login.presentation.LoginView
 import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.TextHelper
 import com.medicnet.android.util.AppUtil
-import com.medicnet.android.util.extensions.inflate
-import com.medicnet.android.util.extensions.showToast
-import com.medicnet.android.util.extensions.ui
-import com.medicnet.android.util.extensions.vibrateSmartPhone
+import com.medicnet.android.util.extensions.*
 import com.medicnet.android.webview.cas.ui.INTENT_CAS_TOKEN
 import com.medicnet.android.webview.cas.ui.casWebViewIntent
 import com.medicnet.android.webview.oauth.ui.INTENT_OAUTH_CREDENTIAL_SECRET
 import com.medicnet.android.webview.oauth.ui.INTENT_OAUTH_CREDENTIAL_TOKEN
 import com.medicnet.android.webview.oauth.ui.oauthWebViewIntent
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_authentication_log_in.*
 import javax.inject.Inject
 
 
@@ -68,11 +67,11 @@ class LoginFragment : Fragment(), LoginView {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? =
-        container?.inflate(R.layout.fragment_authentication_log_in)
+            container?.inflate(R.layout.fragment_authentication_log_in)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -118,10 +117,10 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (isGlobalLayoutListenerSetUp) {
+        /*if (isGlobalLayoutListenerSetUp) {
             scroll_view.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
             isGlobalLayoutListenerSetUp = false
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -133,8 +132,8 @@ class LoginFragment : Fragment(), LoginView {
             } else if (requestCode == REQUEST_CODE_FOR_OAUTH) {
                 data?.apply {
                     presenter.authenticateWithOauth(
-                        getStringExtra(INTENT_OAUTH_CREDENTIAL_TOKEN),
-                        getStringExtra(INTENT_OAUTH_CREDENTIAL_SECRET)
+                            getStringExtra(INTENT_OAUTH_CREDENTIAL_TOKEN),
+                            getStringExtra(INTENT_OAUTH_CREDENTIAL_SECRET)
                     )
                 }
             }
@@ -144,15 +143,15 @@ class LoginFragment : Fragment(), LoginView {
     private fun tintEditTextDrawableStart() {
         ui {
             val personDrawable =
-                DrawableHelper.getDrawableFromId(R.drawable.ic_assignment_ind_black_24dp, it)
+                    DrawableHelper.getDrawableFromId(R.drawable.ic_assignment_ind_black_24dp, it)
             val lockDrawable = DrawableHelper.getDrawableFromId(R.drawable.ic_lock_black_24dp, it)
 
             val drawables = arrayOf(personDrawable, lockDrawable)
             DrawableHelper.wrapDrawables(drawables)
             DrawableHelper.tintDrawables(drawables, it, R.color.colorDrawableTintGrey)
             DrawableHelper.compoundDrawables(
-                arrayOf(text_username_or_email, text_password),
-                drawables
+                    arrayOf(text_username_or_email, text_password),
+                    drawables
             )
         }
     }
@@ -203,8 +202,8 @@ class LoginFragment : Fragment(), LoginView {
         ui {
             button_log_in.setOnClickListener {
                 presenter.authenticateWithUserAndPassword(
-                    text_username_or_email.textContent,
-                    text_password.textContent
+                        text_username_or_email.textContent,
+                        text_password.textContent
                 ) { authenticated ->
                     if (authenticated) {
                         AppUtil.displayLockScreen(activity, true, context.LOCKSCREEN_REQUEST_CODE)
@@ -246,8 +245,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_cas.setOnClickListener {
                 startActivityForResult(
-                    activity.casWebViewIntent(casUrl, casToken),
-                    REQUEST_CODE_FOR_CAS
+                        activity.casWebViewIntent(casUrl, casToken),
+                        REQUEST_CODE_FOR_CAS
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -294,8 +293,9 @@ class LoginFragment : Fragment(), LoginView {
 
             TextHelper.addLink(text_forgot_your_password, arrayOf(reset), arrayOf(resetListener))*/
             text_forgot_your_password.setOnClickListener {
-                //                presenter.forgotPassword() }
+                //                presenter.forgotPassword()
                 AppUtil.showAlerDialog(activity, getString(R.string.label_forgot_password_dlg), getString(R.string.forgot_password_msg_dlg), false, getString(R.string.msg_ok))
+            }
         }
     }
 
@@ -342,8 +342,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_facebook.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(facebookOauthUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(facebookOauthUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -360,8 +360,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_github.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(githubUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(githubUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -380,8 +380,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_google.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(googleUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(googleUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -398,8 +398,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_linkedin.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(linkedinUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(linkedinUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -428,8 +428,8 @@ class LoginFragment : Fragment(), LoginView {
         ui { activity ->
             button_gitlab.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(gitlabUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(gitlabUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -437,11 +437,11 @@ class LoginFragment : Fragment(), LoginView {
     }
 
     override fun addCustomOauthServiceButton(
-        customOauthUrl: String,
-        state: String,
-        serviceName: String,
-        serviceNameColor: Int,
-        buttonColor: Int
+            customOauthUrl: String,
+            state: String,
+            serviceName: String,
+            serviceNameColor: Int,
+            buttonColor: Int
     ) {
         ui { activity ->
             val button = getCustomOauthButton(serviceName, serviceNameColor, buttonColor)
@@ -449,8 +449,8 @@ class LoginFragment : Fragment(), LoginView {
 
             button.setOnClickListener {
                 startActivityForResult(
-                    activity.oauthWebViewIntent(customOauthUrl, state),
-                    REQUEST_CODE_FOR_OAUTH
+                        activity.oauthWebViewIntent(customOauthUrl, state),
+                        REQUEST_CODE_FOR_OAUTH
                 )
                 activity.overridePendingTransition(R.anim.slide_up, R.anim.hold)
             }
@@ -498,9 +498,9 @@ class LoginFragment : Fragment(), LoginView {
         social_accounts_container.postDelayed(300) {
             ui {
                 (0..social_accounts_container.childCount)
-                    .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
-                    .filter { it.isClickable }
-                    .forEach { it.isVisible = true }
+                        .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
+                        .filter { it.isClickable }
+                        .forEach { it.isVisible = true }
             }
         }
     }
@@ -534,10 +534,10 @@ class LoginFragment : Fragment(), LoginView {
 
     private fun showThreeSocialAccountsMethods() {
         (0..social_accounts_container.childCount)
-            .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
-            .filter { it.isClickable }
-            .take(3)
-            .forEach { it.isVisible = true }
+                .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
+                .filter { it.isClickable }
+                .take(3)
+                .forEach { it.isVisible = true }
     }
 
     private fun showOauthView() {
@@ -562,28 +562,28 @@ class LoginFragment : Fragment(), LoginView {
 
     private fun enabledOauthAccountsImageButtons(): Int {
         return (0..social_accounts_container.childCount)
-            .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
-            .filter { it.isClickable }
-            .size
+                .mapNotNull { social_accounts_container.getChildAt(it) as? ImageButton }
+                .filter { it.isClickable }
+                .size
     }
 
     private fun enabledServicesAccountsButtons(): Int {
         return (0..social_accounts_container.childCount)
-            .mapNotNull { social_accounts_container.getChildAt(it) as? Button }
-            .size
+                .mapNotNull { social_accounts_container.getChildAt(it) as? Button }
+                .size
     }
 
     /**
      * Gets a stylized custom OAuth button.
      */
     private fun getCustomOauthButton(
-        buttonText: String,
-        buttonTextColor: Int,
-        buttonBgColor: Int
+            buttonText: String,
+            buttonTextColor: Int,
+            buttonBgColor: Int
     ): Button {
         val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
         val margin = resources.getDimensionPixelSize(R.dimen.screen_edge_left_and_right_margins)

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
+import com.medicnet.android.R;
 
 public class AppUtil {
 
@@ -32,7 +33,7 @@ public class AppUtil {
 
     public static void showAlerDialog(Context context, String title, String msg, boolean cancelable,
                                       String buttonText) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
         builder.setCancelable(cancelable);
         builder.setTitle(title);
         builder.setMessage(msg);
