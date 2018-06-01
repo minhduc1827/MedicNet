@@ -155,10 +155,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 text_last_message_my_vault.setTextColor(ContextCompat.getColor(this,
                         R.color.colorSecondaryText))
             }
-            if (!isMyVaultClicked) {
+            /*if (!isMyVaultClicked) {
                 layoutMyVault.performClick()
                 isMyVaultClicked = true
-            }
+            }*/
         }
     }
 
