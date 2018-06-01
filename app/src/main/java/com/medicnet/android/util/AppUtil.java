@@ -1,7 +1,9 @@
 package com.medicnet.android.util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -26,5 +28,21 @@ public class AppUtil {
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             activity.startActivityForResult(intent, requestCode);
         }
+    }
+
+    public static void showAlerDialog(Context context, String title, String msg, boolean cancelable,
+                                      String buttonText) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(cancelable);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

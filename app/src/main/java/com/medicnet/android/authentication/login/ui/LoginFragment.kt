@@ -14,7 +14,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
-import androidx.core.view.postDelayed
 import chat.rocket.common.util.ifNull
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
@@ -24,14 +23,16 @@ import com.medicnet.android.authentication.login.presentation.LoginView
 import com.medicnet.android.authentication.ui.AuthenticationActivity
 import com.medicnet.android.helper.TextHelper
 import com.medicnet.android.util.AppUtil
-import com.medicnet.android.util.extensions.*
+import com.medicnet.android.util.extensions.inflate
+import com.medicnet.android.util.extensions.showToast
+import com.medicnet.android.util.extensions.ui
+import com.medicnet.android.util.extensions.vibrateSmartPhone
 import com.medicnet.android.webview.cas.ui.INTENT_CAS_TOKEN
 import com.medicnet.android.webview.cas.ui.casWebViewIntent
 import com.medicnet.android.webview.oauth.ui.INTENT_OAUTH_CREDENTIAL_SECRET
 import com.medicnet.android.webview.oauth.ui.INTENT_OAUTH_CREDENTIAL_TOKEN
 import com.medicnet.android.webview.oauth.ui.oauthWebViewIntent
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_authentication_log_in.*
 import javax.inject.Inject
 
 
@@ -117,10 +118,10 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        /*if (isGlobalLayoutListenerSetUp) {
+        if (isGlobalLayoutListenerSetUp) {
             scroll_view.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
             isGlobalLayoutListenerSetUp = false
-        }*/
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -292,7 +293,9 @@ class LoginFragment : Fragment(), LoginView {
             }
 
             TextHelper.addLink(text_forgot_your_password, arrayOf(reset), arrayOf(resetListener))*/
-            text_forgot_your_password.setOnClickListener { presenter.forgotPassword() }
+            text_forgot_your_password.setOnClickListener {
+                //                presenter.forgotPassword() }
+                AppUtil.showAlerDialog(activity, getString(R.string.label_forgot_password_dlg), getString(R.string.forgot_password_msg_dlg), false, getString(R.string.msg_ok))
         }
     }
 

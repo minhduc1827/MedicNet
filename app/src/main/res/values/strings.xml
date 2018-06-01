@@ -249,4 +249,8 @@
     <string name="pinlock_fingerprint" translatable="false">Use Fingerprint to unlock MedicNet</string>
     <string name="enter_passcode" translatable="false">Enter Passcode</string>
     <string name="enter_passcode_instruction" translatable="false">Enter your passcode to proceed.</string>
+
+    <!--signup-->
+    <string name="label_forgot_password_dlg" translatable="false">Forgot Password</string>
+    <string name="forgot_password_msg_dlg" translatable="false">Contact your Trust\'s IT helpdesk for your NHS email password</string>
 </resources>

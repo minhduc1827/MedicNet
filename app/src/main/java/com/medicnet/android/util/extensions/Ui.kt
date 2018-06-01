@@ -1,7 +1,6 @@
 package com.medicnet.android.util.extensions
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
@@ -15,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.medicnet.android.R
+import com.medicnet.android.util.AppUtil
 
 // TODO: Remove. Use KTX instead.
 fun View.setVisible(visible: Boolean) {
@@ -79,23 +79,7 @@ fun Activity.showToast(@StringRes resource: Int, duration: Int = Toast.LENGTH_SH
 
 fun Activity.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
 //    Toast.makeText(this, message, duration).show()
-    val builder = AlertDialog.Builder(this)
-    builder.setCancelable(false)
-    // Set the alert dialog title
-    builder.setTitle("Oops!")
-
-    // Display a message on alert dialog
-    builder.setMessage(message)
-
-    // Set a positive button and its click listener on alert dialog
-    builder.setPositiveButton("OK") { dialog, which ->
-        // Do something when user press the positive button
-        dialog.dismiss()
-    }
-    val dialog: AlertDialog = builder.create()
-
-    // Display the alert dialog on app interface
-    dialog.show()
+    AppUtil.showAlerDialog(this, "Oops!", message, false, "OK")
 }
 
 

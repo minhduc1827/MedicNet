@@ -4,7 +4,6 @@ import chat.rocket.common.RocketChatException
 import chat.rocket.common.util.ifNull
 import chat.rocket.core.RocketChatClient
 import chat.rocket.core.internal.rest.login
-import chat.rocket.core.internal.rest.me
 import chat.rocket.core.internal.rest.signup
 import chat.rocket.core.model.Myself
 import com.medicnet.android.authentication.presentation.AuthenticationNavigator
@@ -32,16 +31,16 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
     private val selectRole: String = "Select Role"
     private val selectOrganization: String = "Select Organisation"
 
-    fun signup(name: String, username: String, role: String, organization: String, password: String, email: String, callback: (authenticated: Boolean) -> Unit) {
+    fun signup(firstName: String, surName: String, role: String, organization: String, password: String, email: String, callback: (authenticated: Boolean) -> Unit) {
         val server = serverInteractor.get()
         when {
             server == null -> {
                 navigator.toServerScreen()
             }
-            name.isBlank() -> {
+            firstName.isBlank() -> {
                 view.alertBlankName()
             }
-            username.isBlank() -> {
+            surName.isBlank() -> {
                 view.alertBlankUsername()
             }
             role.isBlank() || role.equals(selectRole) -> {
@@ -62,12 +61,12 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
                     view.showLoading()
                     try {
                         // TODO This function returns a user so should we save it?
-                        retryIO("signup") { client.signup(email, name, role, organization, username, password) }
+                        retryIO("signup") { client.signup(email, firstName, role, organization, surName, password) }
                         // TODO This function returns a user token so should we save it?
-                        retryIO("login") { client.login(username, password) }
-                        val me = retryIO("me") { client.me() }
-                        localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, me.username)
-                        saveAccount(me)
+                        retryIO("login") { client.login(surName, password) }
+//                        val me = retryIO("me") { client.me() }
+                        localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, email)
+                        saveAccount(email)
                         registerPushToken()
                         callback(true)
                     } catch (exception: RocketChatException) {
@@ -122,6 +121,18 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
         }
         val thumb = currentServer.avatarUrl(me.username!!)
         val account = Account(currentServer, icon, logo, me.username!!, thumb)
+        saveAccountInteractor.save(account)
+    }
+
+    private suspend fun saveAccount(username: String) {
+        val icon = settings.favicon()?.let {
+            currentServer.serverLogoUrl(it)
+        }
+        val logo = settings.wideTile()?.let {
+            currentServer.serverLogoUrl(it)
+        }
+        val thumb = currentServer.avatarUrl(username)
+        val account = Account(currentServer, icon, logo, username, thumb)
         saveAccountInteractor.save(account)
     }
 }
