@@ -1,0 +1,34 @@
+ext {
+    def versionMajor = 0
+    def versionMinor = 0
+    def patch = 1
+    def build = '' + patch
+    def versionPatch = Integer.parseInt(System.getProperty("PATCH_NUMBER", "" + patch))
+    def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
+    def buildName = "${versionMajor}.${versionMinor}.${versionPatch}"   //versionName
+
+    def betaDistributionEmails = "nductrung@gmail.com@gmail.com"
+    def betaDistributionGroupAlias = "android-dev-qa"
+    //def betaDistributionGroupAlias = "android-vn-tester"
+    def betaDistributionGroupNone = ""
+
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd-HHmmss')
+    def betaDistributionReleaseNotes = 'Medicnet v' + buildName + ' (' + buildNumber + ') @ ' + formattedDate + ')\n' +
+            '- Implemented login ui+function\n'+
+            '- Implemented register ui \n'+
+            '- Implemented api to get list organization in signup\n'+
+            '- Implemented passcode screen after logining or phone idle\n'+
+            '- Implementing list group chat UI'
+
+    appVersion = [
+            versionCode: buildNumber,
+            versionName: buildName
+    ]
+
+    crashlyticsBeta = [
+            email       : betaDistributionEmails,
+            group       : betaDistributionGroupAlias,
+            releaseNotes: betaDistributionReleaseNotes
+    ]
+}

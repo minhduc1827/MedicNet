@@ -8,38 +8,28 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
-    def versionMajor = 0
+   /* def versionMajor = 0
     def versionMinor = 0
     def patch = 1
     def build = 100 + '' + patch
     def versionPatch = Integer.parseInt(System.getProperty("PATCH_NUMBER", "" + patch))
     def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
     def buildName = "${versionMajor}.${versionMinor}.${versionPatch}"   //versionName
-    def betaDistributionEmails = "nductrung@gmail.com@gmail.com"
-    def betaDistributionGroupAlias = "medicnet-android"
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMdd-HHmmss')
-    def betaDistributionReleaseNotes = 'Medicnet v' + buildName + ' (' + buildNumber + ') @ ' + formattedDate + ')\n' +
-                    '- Implemented login ui+function\n'+
-                    '- Implemented register ui \n'+
-                    '- Implemented api to get list organization in signup\n'+
-                    '- Implemented passcode screen after logining or phone idle\n'+
-                    '- Implementing list group chat UI'
-   /* crashlyticsBeta = [
-            email       : betaDistributionEmails,
-            group       : betaDistributionGroupAlias,
-            releaseNotes: betaDistributionReleaseNotes
-    ]*/
-    ext.betaDistributionEmails = betaDistributionEmails
-    ext.betaDistributionGroupAliases = betaDistributionGroupAlias
-    ext.betaDistributionReleaseNotes = betaDistributionReleaseNotes
+
+    ext.betaDistributionEmails = crashlyticsBeta.email
+    ext.betaDistributionGroupAliases = crashlyticsBeta.group
+    ext.betaDistributionReleaseNotes = crashlyticsBeta.releaseNotes*/
+
     defaultConfig {
         applicationId "com.medicnet.android"
         minSdkVersion 21
         targetSdkVersion versions.targetSdk
-        versionCode buildNumber
-        versionName buildName
+        versionName appVersion.versionName
+        versionCode appVersion.versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ext.betaDistributionEmails = crashlyticsBeta.email
+        ext.betaDistributionGroupAliases = crashlyticsBeta.group
+        ext.betaDistributionReleaseNotes = crashlyticsBeta.releaseNotes
         multiDexEnabled true
     }
 
