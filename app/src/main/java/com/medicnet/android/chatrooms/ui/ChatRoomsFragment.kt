@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.DefaultItemAnimator
@@ -264,6 +265,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
             val baseAdapter = ChatRoomsAdapter(it,
                 settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
+                recycler_view.getChildAt(0).setBackgroundColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
                 (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                 loadChatRoom(chatRoom)
