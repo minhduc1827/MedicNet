@@ -11,7 +11,6 @@ import androidx.core.content.edit
 import chat.rocket.common.model.Token
 import chat.rocket.core.model.Value
 import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.drawee.backends.pipeline.DraweeConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -257,8 +256,12 @@ class RocketChatApplication : Application(), HasActivityInjector, HasServiceInje
     }
 
     private fun setupCrashlytics() {
-        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
-        Fabric.with(this, Crashlytics.Builder().core(core).build())
+        /*val core = CrashlyticsCore.Builder()*//*.disabled(BuildConfig.DEBUG)*//*.build()
+        Fabric.with(this, Crashlytics.Builder().core(core).build())*/
+        val fabric = Fabric.Builder(this)
+                .kits(Crashlytics())
+                .build()
+        Fabric.with(fabric)
     }
 
     private fun setupFresco() {
