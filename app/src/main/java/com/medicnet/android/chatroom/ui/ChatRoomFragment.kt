@@ -706,59 +706,60 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             button_send.setVisible(false)
             button_show_attachment_options.alpha = 1f
             button_show_attachment_options.setVisible(true)*/
-
-            subscribeComposeTextMessage()
-            emojiKeyboardPopup =
-                EmojiKeyboardPopup(activity!!, activity!!.findViewById(R.id.fragment_container))
-            emojiKeyboardPopup.listener = this
-            text_message.listener = object : ComposerEditText.ComposerEditTextListener {
-                override fun onKeyboardOpened() {
-                }
-
-                override fun onKeyboardClosed() {
-                    activity?.let {
-                        if (!emojiKeyboardPopup.isKeyboardOpen) {
-                            it.onBackPressed()
-                        }
-                        KeyboardHelper.hideSoftKeyboard(it)
-                        emojiKeyboardPopup.dismiss()
+            if (text_message != null) {
+                subscribeComposeTextMessage()
+                emojiKeyboardPopup =
+                        EmojiKeyboardPopup(activity!!, activity!!.findViewById(R.id.fragment_container))
+                emojiKeyboardPopup.listener = this
+                text_message.listener = object : ComposerEditText.ComposerEditTextListener {
+                    override fun onKeyboardOpened() {
                     }
-                    setReactionButtonIcon(R.drawable.ic_reaction_24dp)
+
+                    override fun onKeyboardClosed() {
+                        activity?.let {
+                            if (!emojiKeyboardPopup.isKeyboardOpen) {
+                                it.onBackPressed()
+                            }
+                            KeyboardHelper.hideSoftKeyboard(it)
+                            emojiKeyboardPopup.dismiss()
+                        }
+                        setReactionButtonIcon(R.drawable.ic_reaction_24dp)
+                    }
                 }
-            }
 
-            button_send.setOnClickListener {
-                var textMessage = citation ?: ""
-                textMessage += text_message.textContent
-                sendMessage(textMessage)
-                clearMessageComposition()
-            }
+                button_send.setOnClickListener {
+                    var textMessage = citation ?: ""
+                    textMessage += text_message.textContent
+                    sendMessage(textMessage)
+                    clearMessageComposition()
+                }
 
-            button_show_attachment_options.setOnClickListener {
-                LogUtil.d("ChatRoomFragment", "click on add photo")
-                /*if (layout_message_attachment_options.isShown) {
+                button_show_attachment_options.setOnClickListener {
+                    LogUtil.d("ChatRoomFragment", "click on add photo")
+                    /*if (layout_message_attachment_options.isShown) {
+                        hideAttachmentOptions()
+                    } else {
+                        showAttachmentOptions()
+                    }*/
+                }
+
+                view_dim.setOnClickListener {
                     hideAttachmentOptions()
-                } else {
-                    showAttachmentOptions()
-                }*/
-            }
+                }
 
-            view_dim.setOnClickListener {
-                hideAttachmentOptions()
-            }
+                button_files.setOnClickListener {
+                    handler.postDelayed({
+                        presenter.selectFile()
+                    }, 200)
 
-            button_files.setOnClickListener {
-                handler.postDelayed({
-                    presenter.selectFile()
-                }, 200)
+                    handler.postDelayed({
+                        hideAttachmentOptions()
+                    }, 400)
+                }
 
-                handler.postDelayed({
-                    hideAttachmentOptions()
-                }, 400)
-            }
-
-            button_add_reaction.setOnClickListener { view ->
-                openEmojiKeyboardPopup()
+                button_add_reaction.setOnClickListener { view ->
+                    openEmojiKeyboardPopup()
+                }
             }
         }
     }

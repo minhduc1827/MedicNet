@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val LOCKSCREEN_REQUEST_CODE: Int = 123
     var needShowLockScreen: Boolean = true
     var username: String? = ""
+    var isMyVaultClicked: Boolean = false
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -154,7 +155,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
                 fragment.loadChatRoom(tagChatRoom)
             }
-            layoutMyVault.performClick()
+            if (!isMyVaultClicked) {
+                layoutMyVault.performClick()
+                isMyVaultClicked = true
+            }
         }
     }
 

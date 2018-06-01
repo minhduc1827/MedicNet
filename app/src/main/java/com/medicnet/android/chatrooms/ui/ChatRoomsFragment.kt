@@ -167,9 +167,11 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
             for (chatroom in newDataSet) {
                 if ((activity as MainActivity).username.equals(chatroom.name)) {
+                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatroom.toString())
                     (activity as MainActivity).setupMyVault(chatroom)
-                } else
+                } else {
                     dataSet.add(chatroom)
+                }
             }
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
@@ -188,6 +190,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 //Set sections always after data set is updated
                 setSections()
             }
+
         }
     }
 
@@ -268,6 +271,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
             recycler_view.adapter = sectionedAdapter
         }
+
     }
 
     fun loadChatRoom(chatRoom: ChatRoom) {
