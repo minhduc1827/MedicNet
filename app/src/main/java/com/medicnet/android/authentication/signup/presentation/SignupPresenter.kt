@@ -64,7 +64,10 @@ class SignupPresenter @Inject constructor(private val view: SignupView,
                         retryIO("signup") { client.signup(email, firstName, role, organization, surName, password) }
                         // TODO This function returns a user token so should we save it?
                         retryIO("login") { client.login(surName, password) }
-//                        val me = retryIO("me") { client.me() }
+                        /*val me = retryIO("me") { client.me() }
+                        localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, me.username)
+                        saveAccount(me)*/
+
                         localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, email)
                         saveAccount(email)
                         registerPushToken()
