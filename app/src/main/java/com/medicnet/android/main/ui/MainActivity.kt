@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     var needShowLockScreen: Boolean = true
     var username: String? = ""
     var isMyVaultClicked: Boolean = false
+    var chatRoomsFragment: ChatRoomsFragment? = null
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -94,18 +95,25 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         setupToolbar()
         setupNavigationView()
-        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
-            val height: Int = layoutSearch.height
-            LogUtil.d(TAG, "height @layoutsearch=" + height)
-            image_avatar.layoutParams.width = height
-            image_avatar.layoutParams.height = height
-            viewAvatar.layoutParams.width = height + 2
-            viewAvatar.layoutParams.height = height + 2
-            image_avatar.requestLayout()
-            imvUserStatus.requestLayout()
+        setupPassCodeScreen()
 
+        layoutMyVault.setOnClickListener {
+            LogUtil.d(TAG, "onClick my vault")
+            var tagChatRoom: ChatRoom? = null
+            if (layoutMyVault.tag != null)
+                tagChatRoom = layoutMyVault.tag as ChatRoom
+            if (tagChatRoom != null) {
+                drawer_layout.closeDrawer(Gravity.START)
+//                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                if (chatRoomsFragment == null)
+                    chatRoomsFragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                chatRoomsFragment?.changeItemBgColor(Color.WHITE)
+                chatRoomsFragment?.loadChatRoom(tagChatRoom)
+            }
         }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
+    }
+
+    fun setupPassCodeScreen() {
         val isRedirect = intent.getBooleanExtra(EXTRA_REDIRECT_TO_MAIN, true)
         LogUtil.d(TAG, "onCreate @isRedirect= " + isRedirect)
         if (isRedirect)
@@ -122,15 +130,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 }
             }
         }
-        layoutMyVault.setOnClickListener {
-            LogUtil.d(TAG, "onClick my vault")
-            val tagChatRoom: ChatRoom = layoutMyVault.tag as ChatRoom
-            if (tagChatRoom != null) {
-                drawer_layout.closeDrawer(Gravity.START)
-                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
-                fragment.loadChatRoom(tagChatRoom)
-            }
-        }
     }
 
     fun setupMyVault(chatRoom: ChatRoom?) {
@@ -142,14 +141,14 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             bindUnreadMessages(chatRoom, text_total_unread_messages_my_vault)
             if (chatRoom.alert || chatRoom.unread > 0) {
                 text_chat_name_my_vault.setTextColor(ContextCompat.getColor(this,
-                        R.color.colorPrimaryText))
+                        R.color.red_dark))
                 text_last_message_date_time_my_vault.setTextColor(ContextCompat.getColor(this,
                         R.color.colorAccent))
                 text_last_message_my_vault.setTextColor(ContextCompat.getColor(this,
                         android.R.color.primary_text_light))
             } else {
                 text_chat_name_my_vault.setTextColor(ContextCompat.getColor(this,
-                        R.color.colorSecondaryText))
+                        R.color.red_dark))
                 text_last_message_date_time_my_vault.setTextColor(ContextCompat.getColor(this,
                         R.color.colorSecondaryText))
                 text_last_message_my_vault.setTextColor(ContextCompat.getColor(this,
@@ -360,6 +359,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         toolbar.setNavigationOnClickListener {
             drawer_layout.openDrawer(Gravity.START)
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
     }
 
     private fun setupNavigationView() {
@@ -368,6 +368,17 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             drawer_layout.closeDrawer(Gravity.START)
             onNavDrawerItemSelected(menuItem)
             true
+        }
+        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+            val height: Int = layoutSearch.height
+            LogUtil.d(TAG, "height @layoutsearch=" + height)
+            image_avatar.layoutParams.width = height
+            image_avatar.layoutParams.height = height
+            viewAvatar.layoutParams.width = height + 2
+            viewAvatar.layoutParams.height = height + 2
+            image_avatar.requestLayout()
+            imvUserStatus.requestLayout()
+
         }
     }
 

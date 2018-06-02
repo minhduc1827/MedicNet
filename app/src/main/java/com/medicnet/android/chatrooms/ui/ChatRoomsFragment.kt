@@ -54,6 +54,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
+    var itemRecyclerView: View? = null
 
     companion object {
         val TAG: String = "ChatRoomsFragment"
@@ -265,7 +266,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
             val baseAdapter = ChatRoomsAdapter(it,
                 settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
-                recycler_view.getChildAt(0).setBackgroundColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
+                itemRecyclerView = recycler_view.getChildAt(0)
+                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
                 (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                 loadChatRoom(chatRoom)
@@ -276,6 +278,11 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             recycler_view.adapter = sectionedAdapter
         }
 
+    }
+
+    fun changeItemBgColor(color: Int) {
+        if (itemRecyclerView != null)
+            itemRecyclerView?.setBackgroundColor(color)
     }
 
     fun loadChatRoom(chatRoom: ChatRoom) {

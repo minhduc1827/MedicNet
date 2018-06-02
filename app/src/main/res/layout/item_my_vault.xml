@@ -66,11 +66,12 @@
         app:layout_constraintStart_toEndOf="@+id/image_chat_icon_my_vault"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="general"
-        android:textColor="@color/red_dark"
+        android:textColor="@color/red_medium"
         android:textAllCaps="true"
         android:textSize="16dp"
-        android:fontFamily="@font/font_roboto_medium"
-        android:text="@string/label_my_vault" />
+        android:fontFamily="@font/font_roboto_regular"
+        android:text="@string/label_my_vault"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_last_message_date_time_my_vault"
