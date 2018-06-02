@@ -94,7 +94,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.chatrooms, menu)
+        /*inflater.inflate(R.menu.chatrooms, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
         searchView = searchItem?.actionView as SearchView
@@ -107,7 +107,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return queryChatRoomsByName(newText)
             }
-        })
+        })*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

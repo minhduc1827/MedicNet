@@ -96,13 +96,12 @@ class ChatRoomsPresenter @Inject constructor(
 
     fun loadChatRoom(chatRoom: ChatRoom) {
         val isDirectMessage = chatRoom.type is RoomType.DirectMessage
-        val roomName = if (isDirectMessage
-            && chatRoom.fullName != null
-            && settings.useRealName()) {
+        val roomName = if (chatRoom.fullName != null) {
             chatRoom.fullName!!
         } else {
             chatRoom.name
         }
+        //DucNM changed
 
         launchUI(strategy) {
             val myself = getCurrentUser()
