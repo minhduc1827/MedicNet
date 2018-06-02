@@ -28,8 +28,6 @@ import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
-import com.medicnet.android.helper.Constants
-import com.medicnet.android.helper.SharedPreferenceHelper
 import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
@@ -114,11 +112,11 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     }
 
     fun groupChatRooms() {
-        val groupByType = SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)
+        /*val groupByType = SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)
         if (!groupByType) {
             SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
             chatRoomsFragment?.presenter?.updateSortedChatRooms()
-        }
+        }*/
     }
 
     fun setupPassCodeScreen() {

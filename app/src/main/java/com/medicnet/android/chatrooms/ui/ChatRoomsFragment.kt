@@ -165,12 +165,13 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
-            LogUtil.d(TAG, "updateChatRooms @username= " + (activity as MainActivity).username)
+            //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
 
             for (chatRoom in newDataSet) {
+                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
                 if ((activity as MainActivity).username.equals(chatRoom.name)) {
-                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
+//                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
                     (activity as MainActivity).layoutMyVault.tag = chatRoom
                     (activity as MainActivity).setupMyVault(chatRoom)
                 } else {
