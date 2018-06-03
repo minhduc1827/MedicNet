@@ -400,10 +400,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     private fun setSections() {
         //Don't add section if not grouping by RoomType
-        /*if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
+        if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
             sectionedAdapter?.clearSections()
             return
-        }*/
+        }
 
         val sections = ArrayList<SimpleSectionedRecyclerViewAdapter.Section>()
 
