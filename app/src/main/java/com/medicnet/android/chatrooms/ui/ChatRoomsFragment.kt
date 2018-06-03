@@ -400,10 +400,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     private fun setSections() {
         //Don't add section if not grouping by RoomType
-        if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
+        /*if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
             sectionedAdapter?.clearSections()
             return
-        }
+        }*/
 
         val sections = ArrayList<SimpleSectionedRecyclerViewAdapter.Section>()
 
@@ -414,18 +414,23 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 val type = chatRoom.type.toString()
                 if (type != previousChatRoomType) {
                     val title = when (type) {
-                        RoomType.CHANNEL.toString() -> resources.getString(R.string.header_channel)
-                        RoomType.PRIVATE_GROUP.toString() -> resources.getString(R.string.header_private_groups)
-                        RoomType.DIRECT_MESSAGE.toString() -> resources.getString(R.string.header_direct_messages)
+                        RoomType.CHANNEL.toString() -> resources.getString(R.string.label_team_chat_group)
+                        RoomType.PRIVATE_GROUP.toString() -> resources.getString(R.string.label_team_chat_group)
+                        RoomType.DIRECT_MESSAGE.toString() -> resources.getString(R.string.label_direct_chat_group)
                         RoomType.LIVECHAT.toString() -> resources.getString(R.string.header_live_chats)
                         else -> resources.getString(R.string.header_unknown)
                     }
-                    sections.add(SimpleSectionedRecyclerViewAdapter.Section(position, title))
+                    /* var title:String=""
+                     if( type.equals(RoomType.CHANNEL.toString() )or type.equals(RoomType.PRIVATE_GROUP.toString()))
+                         title= resources.getString(R.string.label_team_chat_group)
+                     if( type.equals(RoomType.DIRECT_MESSAGE.toString()))
+                         title= resources.getString(R.string.label_team_chat_group)
+                     sections.add(SimpleSectionedRecyclerViewAdapter.Section(position, title))*/
                 }
                 previousChatRoomType = chatRoom.type.toString()
             }
         }
-
+        LogUtil.d(TAG, "setSections @sectionSize= " + sections.size)
         val dummy = arrayOfNulls<SimpleSectionedRecyclerViewAdapter.Section>(sections.size)
         sectionedAdapter?.setSections(sections.toArray(dummy))
     }
