@@ -18,6 +18,7 @@ import android.view.*
 import android.widget.CheckBox
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import chat.rocket.common.model.RoomType
 import chat.rocket.core.internal.realtime.socket.model.State
 import chat.rocket.core.model.ChatRoom

@@ -9,15 +9,16 @@ import android.support.v7.app.AppCompatActivity
 import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.roomTypeOf
 import com.medicnet.android.R
-import com.medicnet.android.R.id.text_room_name
 import com.medicnet.android.chatroom.presentation.ChatRoomNavigator
 import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.util.extensions.addFragment
+import com.medicnet.android.util.extensions.textContent
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.app_bar_chat_room.*
 import javax.inject.Inject
 
 fun Context.chatRoomIntent(
