@@ -3,6 +3,7 @@ package com.medicnet.android.main.ui
 import DrawableHelper
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,6 +21,7 @@ import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
+import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
@@ -28,15 +30,12 @@ import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
-import com.medicnet.android.util.extensions.*
+import com.medicnet.android.util.extensions.showToast
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_chat_room.*
-import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
@@ -55,6 +54,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val LOCKSCREEN_REQUEST_CODE: Int = 123
     var isSetupNavView: Boolean = true
     var needShowLockScreen: Boolean = true
+    var username: String? = ""
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -79,6 +79,8 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
+        val prefs = getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
+        username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         /*layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
             val height: Int = layoutSearch.height
             LogUtil.d(TAG, "height @layoutsearch=" + height)

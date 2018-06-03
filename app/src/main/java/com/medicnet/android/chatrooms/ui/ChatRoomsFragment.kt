@@ -1,18 +1,23 @@
 package com.medicnet.android.chatrooms.ui
 
+import DateTimeHelper
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.CheckBox
 import android.widget.RadioGroup
-import androidx.core.view.isVisible
+import android.widget.TextView
 import chat.rocket.common.model.RoomType
 import chat.rocket.core.internal.realtime.socket.model.State
 import chat.rocket.core.model.ChatRoom
@@ -30,8 +35,6 @@ import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_chat_rooms.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.NonCancellable.isActive
 import timber.log.Timber
@@ -51,7 +54,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
-//    val TAG: String = ChatRoomsFragment::class.java.simpleName
+    var mainActivity: MainActivity? = null
 
     companion object {
         fun newInstance() = ChatRoomsFragment()
@@ -82,6 +85,103 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         setupToolbar()
         setupRecyclerView()
         presenter.loadChatRooms()
+        mainActivity = activity as MainActivity
+        layoutMyVault.setOnClickListener {
+            LogUtil.d(TAG, "onClick my vault")
+            var tagChatRoom: ChatRoom? = null
+            if (layoutMyVault.tag != null)
+                tagChatRoom = layoutMyVault.tag as ChatRoom
+            if (tagChatRoom != null) {
+                presenter.loadChatRoom(tagChatRoom)
+            }
+        }
+    }
+
+    fun setupMyVault(chatRoom: ChatRoom?) {
+        if (chatRoom != null) {
+            text_last_message_my_vault.setVisible(true)
+            text_last_message_date_time_my_vault.setVisible(true)
+            bindLastMessageDateTime(chatRoom, text_last_message_date_time_my_vault)
+            bindLastMessage(chatRoom, text_last_message_my_vault)
+            bindUnreadMessages(chatRoom, text_total_unread_messages_my_vault)
+            if (chatRoom.alert || chatRoom.unread > 0) {
+                text_chat_name_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        R.color.red_dark))
+                text_last_message_date_time_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        R.color.colorAccent))
+                text_last_message_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        android.R.color.primary_text_light))
+            } else {
+                text_chat_name_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        R.color.red_dark))
+                text_last_message_date_time_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        R.color.colorSecondaryText))
+                text_last_message_my_vault.setTextColor(ContextCompat.getColor(activity!!,
+                        R.color.colorSecondaryText))
+            }
+            /*if (!isMyVaultClicked) {
+                layoutMyVault.performClick()
+                isMyVaultClicked = true
+            }*/
+        }
+    }
+
+    private fun bindLastMessageDateTime(chatRoom: ChatRoom, textView: TextView) {
+        val lastMessage = chatRoom.lastMessage
+        if (lastMessage != null) {
+            val localDateTime = DateTimeHelper.getLocalDateTime(lastMessage.timestamp)
+            textView.content = DateTimeHelper.getDate(localDateTime, activity!!)
+        } else {
+            textView.content = ""
+        }
+    }
+
+    private fun bindLastMessage(chatRoom: ChatRoom, textView: TextView) {
+        val lastMessage = chatRoom.lastMessage
+        val lastMessageSender = lastMessage?.sender
+        if (lastMessage != null && lastMessageSender != null) {
+            val message = lastMessage.message
+            val senderUsername = lastMessageSender.name ?: lastMessageSender.username
+            when (senderUsername) {
+                chatRoom.name -> {
+                    textView.content = message
+                }
+                else -> {
+                    /*val user = if (localRepository.checkIfMyself(lastMessageSender.username!!)) {
+                        "${this.getString(R.string.msg_you)}: "
+                    } else {
+                        "$senderUsername: "
+                    }*/
+                    val user = if (mainActivity!!.username.equals(chatRoom.name)) {
+                        "${this.getString(R.string.msg_you)}: "
+                    } else {
+                        "$senderUsername: "
+                    }
+                    val spannable = SpannableStringBuilder(user)
+                    val len = spannable.length
+                    spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, len - 1, 0)
+                    spannable.append(message)
+                    textView.content = spannable
+                }
+            }
+        } else {
+//            textView.content = getText(R.string.msg_no_messages_yet)
+        }
+    }
+
+    private fun bindUnreadMessages(chatRoom: ChatRoom, textView: TextView) {
+        val totalUnreadMessage = chatRoom.unread
+        when {
+            totalUnreadMessage in 1..99 -> {
+                textView.textContent = totalUnreadMessage.toString()
+                textView.setVisible(true)
+            }
+            totalUnreadMessage > 99 -> {
+                textView.textContent = getString(R.string.msg_more_than_ninety_nine_unread_messages)
+                textView.setVisible(true)
+            }
+            else -> textView.setVisible(false)
+        }
     }
 
     override fun onDestroyView() {
@@ -162,16 +262,27 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
-            LogUtil.d(TAG, "updateChatRooms")
+            val dataSet: MutableList<ChatRoom> = ArrayList();
+            for (chatRoom in newDataSet) {
+                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
+                if (mainActivity!!.username.equals(chatRoom.name)) {
+//                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
+                    layoutMyVault.tag = chatRoom
+                    setupMyVault(chatRoom)
+                } else {
+                    dataSet.add(chatRoom)
+                }
+            }
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
             // TODO - fix this bug to re-enable DiffUtil
             /*val diff = async(CommonPool) {
                 DiffUtil.calculateDiff(RoomsDiffCallback(adapter.baseAdapter.dataSet, newDataSet))
             }.await()*/
-            text_no_search.isVisible = newDataSet.isEmpty()
+//            text_no_search.isVisible = newDataSet.isEmpty()
+            text_no_search.isVisible = dataSet.isEmpty()
             if (isActive) {
-                adapter.baseAdapter.updateRooms(newDataSet)
+                adapter.baseAdapter.updateRooms(dataSet)
                 // TODO - fix crash to re-enable diff.dispatchUpdatesTo(adapter)
                 adapter.notifyDataSetChanged()
 
