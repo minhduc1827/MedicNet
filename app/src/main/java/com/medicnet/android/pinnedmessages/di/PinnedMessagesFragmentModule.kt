@@ -1,11 +1,13 @@
 package com.medicnet.android.chatroom.di
 
 import android.arch.lifecycle.LifecycleOwner
+import com.medicnet.android.core.lifecycle.CancelStrategy
 import com.medicnet.android.dagger.scope.PerFragment
 import com.medicnet.android.pinnedmessages.presentation.PinnedMessagesView
 import com.medicnet.android.pinnedmessages.ui.PinnedMessagesFragment
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.experimental.Job
 
 @Module
 @PerFragment
@@ -16,10 +18,10 @@ class PinnedMessagesFragmentModule {
         return frag
     }
 
-    /*@Provides
+    @Provides
     fun provideCancelStrategy(owner: LifecycleOwner, jobs: Job): CancelStrategy {
         return CancelStrategy(owner, jobs)
-    }*/
+    }
 
     @Provides
     fun providePinnedMessagesView(frag: PinnedMessagesFragment): PinnedMessagesView {

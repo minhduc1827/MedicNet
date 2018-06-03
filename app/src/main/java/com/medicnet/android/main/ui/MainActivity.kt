@@ -3,7 +3,6 @@ package com.medicnet.android.main.ui
 import DrawableHelper
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -21,8 +20,6 @@ import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
-import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
-import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
@@ -57,10 +54,8 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val TAG: String = MainActivity::class.java.simpleName
     var rocketChatApplication: RocketChatApplication? = null
     val LOCKSCREEN_REQUEST_CODE: Int = 123
+    var isSetupNavView: Boolean = true
     var needShowLockScreen: Boolean = true
-    var username: String? = ""
-
-    var chatRoomsFragment: ChatRoomsFragment? = null
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -83,20 +78,20 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
         presenter.connect()
         presenter.loadCurrentInfo()
-        val prefs = getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
-        username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         setupToolbar()
         setupNavigationView()
+        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+            val height: Int = layoutSearch.height
+            LogUtil.d(TAG, "height @layoutsearch=" + height)
+            image_avatar.layoutParams.width = height
+            image_avatar.layoutParams.height = height
+            viewAvatar.layoutParams.width = height + 2
+            viewAvatar.layoutParams.height = height + 2
+            image_avatar.requestLayout()
+            imvUserStatus.requestLayout()
+
+        }
         setupPassCodeScreen()
-
-    }
-
-    fun groupChatRooms() {
-        /*val groupByType = SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)
-        if (!groupByType) {
-            SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
-            chatRoomsFragment?.presenter?.updateSortedChatRooms()
-        }*/
     }
 
     fun setupPassCodeScreen() {
@@ -124,12 +119,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         if (!isFragmentAdded) {
             presenter.toChatList()
             isFragmentAdded = true
-            fragment_container.postDelayed(Runnable {
-                if (chatRoomsFragment == null)
-                    chatRoomsFragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
-                groupChatRooms()
-            }, 200)
-
         }
 
     }
@@ -153,7 +142,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     override fun showUserStatus(userStatus: UserStatus) {
         headerLayout.apply {
             image_user_status.setImageDrawable(
-                DrawableHelper.getUserStatusDrawable(userStatus, this.context)
+                    DrawableHelper.getUserStatusDrawable(userStatus, this.context)
             )
         }
     }
@@ -274,17 +263,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             drawer_layout.closeDrawer(Gravity.START)
             onNavDrawerItemSelected(menuItem)
             true
-        }
-        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
-            val height: Int = layoutSearch.height
-            LogUtil.d(TAG, "height @layoutsearch=" + height)
-            image_avatar.layoutParams.width = height
-            image_avatar.layoutParams.height = height
-            viewAvatar.layoutParams.width = height + 2
-            viewAvatar.layoutParams.height = height + 2
-            image_avatar.requestLayout()
-            imvUserStatus.requestLayout()
-
         }
     }
 
