@@ -37,7 +37,6 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_chat_room.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.loadCurrentInfo()
         setupToolbar()
         setupNavigationView()
-        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+        /*layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
             val height: Int = layoutSearch.height
             LogUtil.d(TAG, "height @layoutsearch=" + height)
             image_avatar.layoutParams.width = height
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             image_avatar.requestLayout()
             imvUserStatus.requestLayout()
 
-        }
+        }*/
         setupPassCodeScreen()
     }
 
@@ -149,7 +148,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
     override fun setupNavHeader(viewModel: NavHeaderViewModel, accounts: List<Account>) {
         Timber.d("Setting up nav header: $viewModel")
-        /*with(headerLayout) {
+        with(headerLayout) {
             with(viewModel) {
                 if (userStatus != null) {
                     image_user_status.setImageDrawable(
@@ -168,8 +167,8 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 text_server_url.text = viewModel.serverUrl
             }
             setupAccountsList(headerLayout, accounts)
-        }*/
-        if (viewModel.userAvatar != null) {
+        }
+        /*if (viewModel.userAvatar != null) {
             LogUtil.d(TAG, "setupNavHeader @userAvatar= " + viewModel.userAvatar)
             image_avatar.setImageURI(viewModel.userAvatar)
         }
@@ -180,7 +179,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             imvUserStatus.setImageDrawable(
                     DrawableHelper.getUserStatusDrawable(viewModel.userStatus, this)
             )
-        }
+        }*/
     }
 
     override fun closeServerSelection() {
