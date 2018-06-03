@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                     image_avatar.setImageURI(userAvatar)
                 }
                 if (serverLogo != null) {
-                    server_logo.setImageURI(serverLogo)
+//                    server_logo.setImageURI(serverLogo)
                 }
                 text_server_url.text = viewModel.serverUrl
             }
