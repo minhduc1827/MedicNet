@@ -35,6 +35,9 @@ import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_chat_rooms.*
+import kotlinx.android.synthetic.main.item_my_vault.*
+import kotlinx.android.synthetic.main.unread_messages_badge_my_vault.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.NonCancellable.isActive
 import timber.log.Timber
@@ -361,7 +364,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             val baseAdapter = ChatRoomsAdapter(it,
                     settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
-                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+//                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                 presenter.loadChatRoom(chatRoom)
             }
 
