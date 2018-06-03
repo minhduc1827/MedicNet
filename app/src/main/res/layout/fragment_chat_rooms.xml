@@ -6,10 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".chatrooms.ui.ChatRoomsFragment">
 
+    <include
+        layout="@layout/item_my_vault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        android:id="@+id/layoutMyVault"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/connection_status_text" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layoutMyVault" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/view_loading"
@@ -54,6 +65,7 @@
         android:textSize="20dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:layout_below="@+id/layoutMyVault" />
 
 </RelativeLayout>
