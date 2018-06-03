@@ -12,6 +12,7 @@ import com.medicnet.android.chatroom.di.ChatRoomFragmentProvider
 import com.medicnet.android.chatroom.di.ChatRoomModule
 import com.medicnet.android.chatroom.di.FavoriteMessagesFragmentProvider
 import com.medicnet.android.chatroom.di.PinnedMessagesFragmentProvider
+import com.medicnet.android.chatroom.ui.ChatRoomActivity
 import com.medicnet.android.chatrooms.di.ChatRoomsFragmentProvider
 import com.medicnet.android.dagger.scope.PerActivity
 import com.medicnet.android.main.di.MainModule
@@ -43,16 +44,16 @@ abstract class ActivityBuilder {
     @PerActivity
     @ContributesAndroidInjector(modules = [MainModule::class,
         ChatRoomsFragmentProvider::class,
-        ProfileFragmentProvider::class,
-        ChatRoomModule::class,
+        ProfileFragmentProvider::class
+        /*ChatRoomModule::class,
         ChatRoomFragmentProvider::class,
         MembersFragmentProvider::class,
         PinnedMessagesFragmentProvider::class,
-        FavoriteMessagesFragmentProvider::class
+        FavoriteMessagesFragmentProvider::class*/
     ])
     abstract fun bindMainActivity(): MainActivity
 
-    /*@PerActivity
+    @PerActivity
     @ContributesAndroidInjector(
         modules = [
             ChatRoomModule::class,
@@ -62,7 +63,7 @@ abstract class ActivityBuilder {
             FavoriteMessagesFragmentProvider::class
         ]
     )
-    abstract fun bindChatRoomActivity(): ChatRoomActivity*/
+    abstract fun bindChatRoomActivity(): ChatRoomActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [PasswordFragmentProvider::class])
