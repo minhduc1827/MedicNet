@@ -30,15 +30,12 @@ import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
-import com.medicnet.android.util.extensions.*
+import com.medicnet.android.util.extensions.showToast
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_chat_room.*
-import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
@@ -283,6 +280,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
             R.id.action_logout -> {
                 presenter.logout()
+                AppUtil.clearPasscode(this)
             }
         }
     }

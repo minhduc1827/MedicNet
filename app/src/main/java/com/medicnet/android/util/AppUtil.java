@@ -46,4 +46,9 @@ public class AppUtil {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    public static void clearPasscode(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE);
+        prefs.edit().clear().commit();
+    }
 }
