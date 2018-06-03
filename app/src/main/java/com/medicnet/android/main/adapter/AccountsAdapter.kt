@@ -17,14 +17,16 @@ class AccountsAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_CHANGE_STATUS -> StatusViewHolder(parent.inflate(R.layout.item_change_status))
-            VIEW_TYPE_ACCOUNT -> AccountViewHolder(parent.inflate(R.layout.item_account))
-            else -> AddAccountViewHolder(parent.inflate(R.layout.item_add_account))
-        }
+        /* return when (viewType) {
+             VIEW_TYPE_CHANGE_STATUS -> StatusViewHolder(parent.inflate(R.layout.item_change_status))
+             VIEW_TYPE_ACCOUNT -> AccountViewHolder(parent.inflate(R.layout.item_account))
+             else -> AddAccountViewHolder(parent.inflate(R.layout.item_add_account))
+         }*/
+        return StatusViewHolder(parent.inflate(R.layout.item_change_status))
     }
 
-    override fun getItemCount() = accounts.size + 2
+    /*override fun getItemCount() = accounts.size + 2*/
+    override fun getItemCount() = 1
 
     override fun getItemViewType(position: Int): Int {
         return when {
