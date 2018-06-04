@@ -29,6 +29,7 @@ import com.medicnet.android.server.infraestructure.ConnectionManager
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.infraestructure.chatRooms
 import com.medicnet.android.server.infraestructure.state
+import com.medicnet.android.util.extensions.avatarUrl
 import com.medicnet.android.util.extensions.launchUI
 import com.medicnet.android.util.retryIO
 import kotlinx.coroutines.experimental.*
@@ -65,6 +66,7 @@ class ChatRoomsPresenter @Inject constructor(
     private val subscriptionsChannel = Channel<StreamMessage<BaseRoom>>()
     private val activeUserChannel = Channel<User>()
     private var lastState = manager.state
+    val TAG: String = ChatRoomsPresenter::class.java.simpleName
 
     fun loadChatRooms() {
         refreshSettingsInteractor.refreshAsync(currentServer)
@@ -108,11 +110,17 @@ class ChatRoomsPresenter @Inject constructor(
             if (myself?.username == null) {
                 view.showMessage(R.string.msg_generic_error)
             } else {
+                val chatRoomAvatarUrl = if (chatRoom.type is RoomType.DirectMessage) {
+                    chatRoom.client.url.avatarUrl(chatRoom.name)
+                } else {
+                    chatRoom.client.url.avatarUrl(chatRoom.name, true)
+                }
                 val isChatRoomOwner = chatRoom.user?.username == myself.username || isDirectMessage
+//                LogUtil.d(TAG,"loadChatRoom @chatroom @avtarUrl="+chatRoomAvatarUrl)
                 navigator.toChatRoom(chatRoom.id, roomName,
                     chatRoom.type.toString(), chatRoom.readonly ?: false,
                     chatRoom.lastSeen ?: -1,
-                    chatRoom.open, isChatRoomOwner)
+                        chatRoom.open, isChatRoomOwner, chatRoomAvatarUrl)
             }
         }
     }

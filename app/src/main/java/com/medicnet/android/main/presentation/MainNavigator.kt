@@ -38,6 +38,20 @@ class MainNavigator(internal val activity: MainActivity) {
                    isChatRoomReadOnly: Boolean,
                    chatRoomLastSeen: Long,
                    isChatRoomSubscribed: Boolean,
+                   isChatRoomCreator: Boolean,
+                   avatarUrl: String) {
+        LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName)
+        activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
+                isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator, null, avatarUrl))
+        activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)
+    }
+
+    fun toChatRoom(chatRoomId: String,
+                   chatRoomName: String,
+                   chatRoomType: String,
+                   isChatRoomReadOnly: Boolean,
+                   chatRoomLastSeen: Long,
+                   isChatRoomSubscribed: Boolean,
                    isChatRoomCreator: Boolean) {
         LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName)
         activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,

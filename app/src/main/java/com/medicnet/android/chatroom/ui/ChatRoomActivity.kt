@@ -1,17 +1,15 @@
 package com.medicnet.android.chatroom.ui
 
-import DrawableHelper
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import chat.rocket.common.model.RoomType
-import chat.rocket.common.model.roomTypeOf
 import com.medicnet.android.R
 import com.medicnet.android.chatroom.presentation.ChatRoomNavigator
 import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 import com.medicnet.android.util.extensions.textContent
 import dagger.android.AndroidInjection
@@ -22,14 +20,15 @@ import kotlinx.android.synthetic.main.app_bar_chat_room.*
 import javax.inject.Inject
 
 fun Context.chatRoomIntent(
-    chatRoomId: String,
-    chatRoomName: String,
-    chatRoomType: String,
-    isChatRoomReadOnly: Boolean,
-    chatRoomLastSeen: Long,
-    isChatRoomSubscribed: Boolean = true,
-    isChatRoomCreator: Boolean = false,
-    chatRoomMessage: String? = null
+        chatRoomId: String,
+        chatRoomName: String,
+        chatRoomType: String,
+        isChatRoomReadOnly: Boolean,
+        chatRoomLastSeen: Long,
+        isChatRoomSubscribed: Boolean = true,
+        isChatRoomCreator: Boolean = false,
+        chatRoomMessage: String? = null,
+        chatRoomAvatarUrl: String? = null
 ): Intent {
     return Intent(this, ChatRoomActivity::class.java).apply {
         putExtra(INTENT_CHAT_ROOM_ID, chatRoomId)
@@ -39,7 +38,7 @@ fun Context.chatRoomIntent(
         putExtra(INTENT_CHAT_ROOM_LAST_SEEN, chatRoomLastSeen)
         putExtra(INTENT_CHAT_IS_SUBSCRIBED, isChatRoomSubscribed)
         putExtra(INTENT_CHAT_ROOM_IS_CREATOR, isChatRoomCreator)
-        putExtra(INTENT_CHAT_ROOM_MESSAGE, chatRoomMessage)
+        putExtra(INTENT_CHAT_ROOM_AVATAR_URL, chatRoomAvatarUrl)
     }
 }
 
@@ -51,6 +50,7 @@ private const val INTENT_CHAT_ROOM_IS_CREATOR = "chat_room_is_creator"
 private const val INTENT_CHAT_ROOM_LAST_SEEN = "chat_room_last_seen"
 private const val INTENT_CHAT_IS_SUBSCRIBED = "is_chat_room_subscribed"
 private const val INTENT_CHAT_ROOM_MESSAGE = "chat_room_message"
+private const val INTENT_CHAT_ROOM_AVATAR_URL = "chat_room_avatar"
 
 class ChatRoomActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
@@ -67,10 +67,12 @@ class ChatRoomActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private lateinit var chatRoomId: String
     private lateinit var chatRoomName: String
     private lateinit var chatRoomType: String
+    private lateinit var chatRoomAvatarUrl: String
     private var isChatRoomReadOnly: Boolean = false
     private var isChatRoomSubscribed: Boolean = true
     private var isChatRoomCreator: Boolean = false
     private var chatRoomLastSeen: Long = -1L
+    val TAG: String = ChatRoomActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -102,6 +104,8 @@ class ChatRoomActivity : AppCompatActivity(), HasSupportFragmentInjector {
         requireNotNull(isChatRoomCreator) { "no chat_room_is_creator provided in Intent extras" }
 
         val chatRoomMessage = intent.getStringExtra(INTENT_CHAT_ROOM_MESSAGE)
+        chatRoomAvatarUrl = intent.getStringExtra(INTENT_CHAT_ROOM_AVATAR_URL)
+        requireNotNull(chatRoomName) { "no chat_room_avatar provided in Intent extras" }
 
         setupToolbar()
 
@@ -129,16 +133,18 @@ class ChatRoomActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        LogUtil.d(TAG, "setupToolbar @chatRoomName= " + chatRoomName)
         text_room_name.textContent = chatRoomName
 
         showRoomTypeIcon(true)
 
         toolbar.setNavigationOnClickListener { finishActivity() }
+        image_room_avatar.setImageURI(chatRoomAvatarUrl)
 //        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
     }
 
     fun showRoomTypeIcon(showRoomTypeIcon: Boolean) {
-        if (showRoomTypeIcon) {
+        /*if (showRoomTypeIcon) {
             val roomType = roomTypeOf(chatRoomType)
             val drawable = when (roomType) {
                 is RoomType.Channel -> {
@@ -161,7 +167,7 @@ class ChatRoomActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         } else {
             text_room_name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-        }
+        }*/
     }
 
 
