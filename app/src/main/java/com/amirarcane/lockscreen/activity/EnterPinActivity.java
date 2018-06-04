@@ -482,6 +482,13 @@ public class EnterPinActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        //DucNM: finish enterPinActivty to recreate fingerprint listener
+        finish();
+    }
+
+    @Override
     public void onBackPressed() {
         if (isCancelable) {
             setResult(RESULT_BACK_PRESSED);
