@@ -1,24 +1,20 @@
 ext {
     def versionMajor = 0
     def versionMinor = 0
-    def patch = 1
+    def patch = 2
     def build = '' + patch
     def versionPatch = Integer.parseInt(System.getProperty("PATCH_NUMBER", "" + patch))
     def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
     def buildName = "${versionMajor}.${versionMinor}.${versionPatch}"   //versionName
 
-    def betaDistributionEmails = "nductrung@gmail.com,martin.siebachmeyer@nhs.net,vfa.ducnm@gmail.com,sandeshnorthtees@gmail.com"
+    def betaDistributionEmails = "nductrung@gmail.com,martin.siebachmeyer@nhs.net,vfa.ducnm@gmail.com,sandeshnorthtees@gmail.com,krishna.boddusivarama@nhs.net"
 //    def betaDistributionGroupAlias = "android-dev-qa"
     def betaDistributionGroupNone = ""
 
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmmss')
     def betaDistributionReleaseNotes = 'Medicnet v' + buildName + ' (' + buildNumber + ') @ ' + formattedDate + ')\n' +
-            '- Implemented login ui+function\n'+
-            '- Implemented register ui \n'+
-            '- Implemented api to get list organization in signup\n'+
-            '- Implemented passcode screen after logining or phone idle\n'+
-            '- Implementing list group chat UI'
+            'Changing new design chat list like ios'
 
     appVersion = [
             versionCode: buildNumber,
