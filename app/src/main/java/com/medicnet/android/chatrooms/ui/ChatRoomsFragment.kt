@@ -36,6 +36,7 @@ import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat_rooms.*
 import kotlinx.android.synthetic.main.item_my_vault.*
 import kotlinx.android.synthetic.main.unread_messages_badge_my_vault.*
@@ -58,11 +59,15 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
+    val TAG: String = ChatRoomsFragment::class.java.simpleName
+    var itemRecyclerView: View? = null
+    var isMyVaultClicked: Boolean = false
     var mainActivity: MainActivity? = null
+    var sortByActivity: Boolean = false
 
     companion object {
+        val TAG: String = "ChatRoomsFragment"
         fun newInstance() = ChatRoomsFragment()
-        var TAG: String = ChatRoomsFragment::class.java.simpleName
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,9 +83,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = container?.inflate(R.layout.fragment_chat_rooms)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,6 +94,12 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         setupToolbar()
         setupRecyclerView()
         presenter.loadChatRooms()
+        if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
+//            sectionedAdapter?.clearSections()
+//            return
+            SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
+            SharedPreferenceHelper.putInt(Constants.CHATROOM_SORT_TYPE_KEY, ChatRoomsSortOrder.ACTIVITY)
+        }
         mainActivity = activity as MainActivity
         layoutMyVault.setOnClickListener {
             LogUtil.d(TAG, "onClick my vault")
@@ -96,9 +107,17 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             if (layoutMyVault.tag != null)
                 tagChatRoom = layoutMyVault.tag as ChatRoom
             if (tagChatRoom != null) {
-                presenter.loadChatRoom(tagChatRoom)
+                mainActivity!!.drawer_layout.closeDrawer(Gravity.START)
+//                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                changeItemBgColor(Color.WHITE)
+                loadChatRoom(tagChatRoom)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        listJob?.cancel()
+        super.onDestroyView()
     }
 
     fun setupMyVault(chatRoom: ChatRoom?) {
@@ -188,27 +207,22 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         }
     }
 
-    override fun onDestroyView() {
-        listJob?.cancel()
-        super.onDestroyView()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.chatrooms, menu)
+        /* inflater.inflate(R.menu.chatrooms, menu)
 
-        val searchItem = menu.findItem(R.id.action_search)
-        searchView = searchItem?.actionView as SearchView
-        searchView?.maxWidth = Integer.MAX_VALUE
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return queryChatRoomsByName(query)
-            }
+         val searchItem = menu.findItem(R.id.action_search)
+         searchView = searchItem?.actionView as SearchView
+         searchView?.maxWidth = Integer.MAX_VALUE
+         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+             override fun onQueryTextSubmit(query: String?): Boolean {
+                 return queryChatRoomsByName(query)
+             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return queryChatRoomsByName(newText)
-            }
-        })
+             override fun onQueryTextChange(newText: String?): Boolean {
+                 return queryChatRoomsByName(newText)
+             }
+         })*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -245,9 +259,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 })
 
                 val dialogSort = AlertDialog.Builder(context)
-                        .setTitle(R.string.dialog_sort_title)
-                        .setView(dialogLayout)
-                        .setPositiveButton("Done", { dialog, _ -> dialog.dismiss() })
+                    .setTitle(R.string.dialog_sort_title)
+                    .setView(dialogLayout)
+                    .setPositiveButton("Done", { dialog, _ -> dialog.dismiss() })
 
                 dialogSort.show()
             }
@@ -266,7 +280,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
+            //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
+
             for (chatRoom in newDataSet) {
                 LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
                 if (mainActivity!!.username.equals(chatRoom.name)) {
@@ -274,6 +290,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     layoutMyVault.tag = chatRoom
                     setupMyVault(chatRoom)
                 } else {
+                    val type = chatRoom.type.toString()
+                    if (type.equals(RoomType.CHANNEL.toString()))
+                        chatRoom.type = RoomType.PRIVATE_GROUP
                     dataSet.add(chatRoom)
                 }
             }
@@ -286,14 +305,75 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 //            text_no_search.isVisible = newDataSet.isEmpty()
             text_no_search.isVisible = dataSet.isEmpty()
             if (isActive) {
+//                adapter.baseAdapter.updateRooms(newDataSet)
                 adapter.baseAdapter.updateRooms(dataSet)
                 // TODO - fix crash to re-enable diff.dispatchUpdatesTo(adapter)
                 adapter.notifyDataSetChanged()
 
                 //Set sections always after data set is updated
-                setSections()
+                if (!sortByActivity) {
+                    sortByActivity = true
+                    presenter.updateSortedChatRooms()
+                } else
+                    setSections()
+            }
+
+        }
+    }
+
+    private fun setSections() {
+        LogUtil.d(TAG, "setSections")
+        //Don't add section if not grouping by RoomType
+        val sections = ArrayList<SimpleSectionedRecyclerViewAdapter.Section>()
+        sectionedAdapter?.baseAdapter?.dataSet?.let {
+            var previousChatRoomType = ""
+
+            for ((position, chatRoom) in it.withIndex()) {
+                val type = chatRoom.type.toString()
+                if (/*!type.equals(RoomType.PRIVATE_GROUP.toString()) &&*/ type != previousChatRoomType) {
+                    val title = when (type) {
+                        RoomType.CHANNEL.toString() -> resources.getString(R.string.label_team_chat_group)
+                        RoomType.PRIVATE_GROUP.toString() -> resources.getString(R.string.label_team_chat_group)
+                        RoomType.DIRECT_MESSAGE.toString() -> resources.getString(R.string.label_direct_chat_group)
+                        RoomType.LIVECHAT.toString() -> resources.getString(R.string.header_live_chats)
+                        else -> resources.getString(R.string.header_unknown)
+                    }
+                    sections.add(SimpleSectionedRecyclerViewAdapter.Section(position, title))
+                }
+                previousChatRoomType = chatRoom.type.toString()
             }
         }
+        LogUtil.d(TAG, "setSections @sectionSize= " + sections.size)
+        val dummy = arrayOfNulls<SimpleSectionedRecyclerViewAdapter.Section>(sections.size)
+        sectionedAdapter?.setSections(sections.toArray(dummy))
+    }
+
+    private fun setupRecyclerView() {
+        ui {
+            recycler_view.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
+            recycler_view.addItemDecoration(DividerItemDecoration(it,
+                    resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_start),
+                    resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_end)))
+            recycler_view.itemAnimator = DefaultItemAnimator()
+            // TODO - use a ViewModel Mapper instead of using settings on the adapter
+
+            val baseAdapter = ChatRoomsAdapter(it,
+                    settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
+                //                itemRecyclerView = recycler_view.getChildAt(0)
+//                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
+                LogUtil.d("ChatroomsFragment", "onItem chat clicked")
+                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+                loadChatRoom(chatRoom)
+                sectionedAdapter?.clearSections()
+                sortByActivity = false
+                presenter.loadChatRooms()
+            }
+
+            sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
+                    R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
+            recycler_view.adapter = sectionedAdapter
+        }
+
     }
 
     override fun showNoChatRoomsToDisplay() {
@@ -350,61 +430,16 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     }
 
     private fun setupToolbar() {
-        (activity as AppCompatActivity?)?.supportActionBar?.title = getString(R.string.title_chats)
+        (activity as AppCompatActivity?)?.supportActionBar?.title = ""
     }
 
-    private fun setupRecyclerView() {
-        ui {
-            recycler_view.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
-            recycler_view.addItemDecoration(DividerItemDecoration(it,
-                    resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_start),
-                    resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_end)))
-            recycler_view.itemAnimator = DefaultItemAnimator()
-            // TODO - use a ViewModel Mapper instead of using settings on the adapter
-
-            val baseAdapter = ChatRoomsAdapter(it,
-                    settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
-                LogUtil.d("ChatroomsFragment", "onItem chat clicked")
-//                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
-                presenter.loadChatRoom(chatRoom)
-            }
-
-            sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
-                    R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
-            recycler_view.adapter = sectionedAdapter
-        }
+    fun changeItemBgColor(color: Int) {
+        if (itemRecyclerView != null)
+            itemRecyclerView?.setBackgroundColor(color)
     }
 
-    private fun setSections() {
-        //Don't add section if not grouping by RoomType
-        if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
-            sectionedAdapter?.clearSections()
-            return
-        }
-
-        val sections = ArrayList<SimpleSectionedRecyclerViewAdapter.Section>()
-
-        sectionedAdapter?.baseAdapter?.dataSet?.let {
-            var previousChatRoomType = ""
-
-            for ((position, chatRoom) in it.withIndex()) {
-                val type = chatRoom.type.toString()
-                if (type != previousChatRoomType) {
-                    val title = when (type) {
-                        RoomType.CHANNEL.toString() -> resources.getString(R.string.header_channel)
-                        RoomType.PRIVATE_GROUP.toString() -> resources.getString(R.string.header_private_groups)
-                        RoomType.DIRECT_MESSAGE.toString() -> resources.getString(R.string.header_direct_messages)
-                        RoomType.LIVECHAT.toString() -> resources.getString(R.string.header_live_chats)
-                        else -> resources.getString(R.string.header_unknown)
-                    }
-                    sections.add(SimpleSectionedRecyclerViewAdapter.Section(position, title))
-                }
-                previousChatRoomType = chatRoom.type.toString()
-            }
-        }
-
-        val dummy = arrayOfNulls<SimpleSectionedRecyclerViewAdapter.Section>(sections.size)
-        sectionedAdapter?.setSections(sections.toArray(dummy))
+    fun loadChatRoom(chatRoom: ChatRoom) {
+        presenter.loadChatRoom(chatRoom)
     }
 
     private fun queryChatRoomsByName(name: String?): Boolean {

@@ -73,8 +73,7 @@
             app:layout_constraintEnd_toStartOf="@+id/image_account_expand"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_user_name"
-            tools:text="https://open.rocket.chat"
-            android:visibility="gone" />
+            tools:text="https://open.rocket.chat" />
 
         <ImageView
             android:id="@+id/image_account_expand"

@@ -13,14 +13,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.UserStatus
-import chat.rocket.common.model.roomTypeOf
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
+import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
@@ -39,6 +38,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_chat_room.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import timber.log.Timber
@@ -55,9 +55,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val TAG: String = MainActivity::class.java.simpleName
     var rocketChatApplication: RocketChatApplication? = null
     val LOCKSCREEN_REQUEST_CODE: Int = 123
-    var isSetupNavView: Boolean = true
     var needShowLockScreen: Boolean = true
     var username: String? = ""
+
+    var chatRoomsFragment: ChatRoomsFragment? = null
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -80,22 +81,20 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
 
         presenter.connect()
         presenter.loadCurrentInfo()
-        setupToolbar()
-        setupNavigationView()
         val prefs = getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
         username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
-        /*layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
-            val height: Int = layoutSearch.height
-            LogUtil.d(TAG, "height @layoutsearch=" + height)
-            image_avatar.layoutParams.width = height
-            image_avatar.layoutParams.height = height
-            viewAvatar.layoutParams.width = height + 2
-            viewAvatar.layoutParams.height = height + 2
-            image_avatar.requestLayout()
-            imvUserStatus.requestLayout()
-
-        }*/
+        setupToolbar()
+        setupNavigationView()
         setupPassCodeScreen()
+
+    }
+
+    fun groupChatRooms() {
+        /*val groupByType = SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)
+        if (!groupByType) {
+            SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
+            chatRoomsFragment?.presenter?.updateSortedChatRooms()
+        }*/
     }
 
     fun setupPassCodeScreen() {
@@ -123,6 +122,12 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         if (!isFragmentAdded) {
             presenter.toChatList()
             isFragmentAdded = true
+            fragment_container.postDelayed(Runnable {
+                if (chatRoomsFragment == null)
+                    chatRoomsFragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                groupChatRooms()
+            }, 200)
+
         }
 
     }
@@ -146,14 +151,14 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     override fun showUserStatus(userStatus: UserStatus) {
         headerLayout.apply {
             image_user_status.setImageDrawable(
-                    DrawableHelper.getUserStatusDrawable(userStatus, this.context)
+                DrawableHelper.getUserStatusDrawable(userStatus, this.context)
             )
         }
     }
 
     override fun setupNavHeader(viewModel: NavHeaderViewModel, accounts: List<Account>) {
         Timber.d("Setting up nav header: $viewModel")
-        with(headerLayout) {
+        /*with(headerLayout) {
             with(viewModel) {
                 if (userStatus != null) {
                     image_user_status.setImageDrawable(
@@ -167,13 +172,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                     image_avatar.setImageURI(userAvatar)
                 }
                 if (serverLogo != null) {
-//                    server_logo.setImageURI(serverLogo)
+                    server_logo.setImageURI(serverLogo)
                 }
                 text_server_url.text = viewModel.serverUrl
             }
             setupAccountsList(headerLayout, accounts)
-        }
-        /*if (viewModel.userAvatar != null) {
+        }*/
+        if (viewModel.userAvatar != null) {
             LogUtil.d(TAG, "setupNavHeader @userAvatar= " + viewModel.userAvatar)
             image_avatar.setImageURI(viewModel.userAvatar)
         }
@@ -184,7 +189,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             imvUserStatus.setImageDrawable(
                     DrawableHelper.getUserStatusDrawable(viewModel.userStatus, this)
             )
-        }*/
+        }
     }
 
     override fun closeServerSelection() {
@@ -268,6 +273,17 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             onNavDrawerItemSelected(menuItem)
             true
         }
+        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+            val height: Int = layoutSearch.height
+            LogUtil.d(TAG, "height @layoutsearch=" + height)
+            image_avatar.layoutParams.width = height
+            image_avatar.layoutParams.height = height
+            viewAvatar.layoutParams.width = height + 2
+            viewAvatar.layoutParams.height = height + 2
+            image_avatar.requestLayout()
+            imvUserStatus.requestLayout()
+
+        }
     }
 
     private fun onNavDrawerItemSelected(menuItem: MenuItem) {
@@ -283,7 +299,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
             R.id.action_logout -> {
                 presenter.logout()
-                AppUtil.clearPasscode(this)
             }
         }
     }
@@ -293,7 +308,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     }
 
     fun showRoomTypeIcon(showRoomTypeIcon: Boolean, chatRoomType: String) {
-        if (showRoomTypeIcon) {
+        /*if (showRoomTypeIcon) {
             val roomType = roomTypeOf(chatRoomType)
             val drawable = when (roomType) {
                 is RoomType.Channel -> {
@@ -316,6 +331,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
         } else {
             text_room_name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-        }
+        }*/
     }
 }

@@ -29,6 +29,7 @@ import com.medicnet.android.server.infraestructure.ConnectionManager
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.infraestructure.chatRooms
 import com.medicnet.android.server.infraestructure.state
+import com.medicnet.android.util.extensions.avatarUrl
 import com.medicnet.android.util.extensions.launchUI
 import com.medicnet.android.util.retryIO
 import kotlinx.coroutines.experimental.*
@@ -65,6 +66,7 @@ class ChatRoomsPresenter @Inject constructor(
     private val subscriptionsChannel = Channel<StreamMessage<BaseRoom>>()
     private val activeUserChannel = Channel<User>()
     private var lastState = manager.state
+    private val TAG: String = ChatRoomsPresenter::class.java.simpleName
 
     fun loadChatRooms() {
         refreshSettingsInteractor.refreshAsync(currentServer)
@@ -109,10 +111,15 @@ class ChatRoomsPresenter @Inject constructor(
                 view.showMessage(R.string.msg_generic_error)
             } else {
                 val isChatRoomOwner = chatRoom.user?.username == myself.username || isDirectMessage
+                val chatRoomAvatarUrl = if (chatRoom.type is RoomType.DirectMessage) {
+                    chatRoom.client.url.avatarUrl(chatRoom.name)
+                } else {
+                    chatRoom.client.url.avatarUrl(chatRoom.name, true)
+                }
                 navigator.toChatRoom(chatRoom.id, roomName,
                     chatRoom.type.toString(), chatRoom.readonly ?: false,
                     chatRoom.lastSeen ?: -1,
-                    chatRoom.open, isChatRoomOwner)
+                        chatRoom.open, isChatRoomOwner, chatRoomAvatarUrl)
             }
         }
     }
@@ -278,6 +285,7 @@ class ChatRoomsPresenter @Inject constructor(
                     false -> openChatRooms.sortedByDescending { chatRoom ->
                         chatRoomTimestamp(chatRoom)
                     }
+
                 }
             }
             else -> {
@@ -290,12 +298,25 @@ class ChatRoomsPresenter @Inject constructor(
         return if (settings.hasShowLastMessage() && settings.showLastMessage()) {
             chatRoom.lastMessage?.timestamp ?: chatRoom.updatedAt
         } else {
-            chatRoom.updatedAt
+            chatRoom.lastSeen
         }
+        /*if(chatRoom.lastSeen==null)
+            return chatRoom.updatedAt
+        else
+            return chatRoom.lastSeen*/
     }
 
     private fun compareBy(selector: KProperty1<ChatRoom, RoomType>): Comparator<ChatRoom> {
-        return Comparator { a, b -> getTypeConstant(a.type) - getTypeConstant(b.type) }
+        /*return Comparator { a, b ->
+            getTypeConstant(a.type) - getTypeConstant(b.type)
+        }*/
+        return object : Comparator<ChatRoom> {
+            override fun compare(a: ChatRoom?, b: ChatRoom?): Int = when {
+                getTypeConstant(a!!.type) > getTypeConstant(b!!.type) -> 1
+                getTypeConstant(a!!.type) == getTypeConstant(b!!.type) -> 0
+                else -> -1
+            }
+            }
     }
 
     private fun getTypeConstant(roomType: RoomType): Int {

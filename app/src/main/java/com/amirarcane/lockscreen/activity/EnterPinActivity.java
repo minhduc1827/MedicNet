@@ -195,6 +195,12 @@ public class EnterPinActivity extends AppCompatActivity {
         checkForFont();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
     private void checkForFont() {
         Intent intent = getIntent();
 
