@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
-import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.text.SpannableStringBuilder
@@ -34,7 +33,6 @@ import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.domain.SettingsRepository
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
-import com.medicnet.android.widget.DividerItemDecoration
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat_rooms.*
@@ -60,18 +58,14 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
-    private var itemRecyclerView: View? = null
 
     private var mainActivity: MainActivity? = null
     private var chatRoomSelected: ChatRoom? = null
-    private var chatRoomSelectedColor: Int = 0
-    private var chatRoomUnSelectedColor: Int = Color.WHITE
     private var baseAdapter: ChatRoomsAdapter? = null
     private val recyclerViewlayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
-//                    loadChatRoom(chatRoomSelected!!)
         if (!isGlobalLayoutListenerSetUp) {
-            setItemSelected(chatRoomSelected!!, chatRoomSelectedColor)
+            setItemSelected(chatRoomSelected!!)
             isGlobalLayoutListenerSetUp = true
         }
     }
@@ -111,8 +105,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         setupRecyclerView()
         presenter.loadChatRooms()
         if (!SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)) {
-//            sectionedAdapter?.clearSections()
-//            return
             SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
             SharedPreferenceHelper.putInt(Constants.CHATROOM_SORT_TYPE_KEY, ChatRoomsSortOrder.ACTIVITY)
         }
@@ -126,10 +118,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 /*mainActivity!!.drawer_layout.closeDrawer(Gravity.START)
                 changeItemBgColor(Color.WHITE)
                 loadChatRoom(tagChatRoom)*/
-                setItemSelected(tagChatRoom, chatRoomUnSelectedColor)
+                setItemSelected(tagChatRoom)
             }
         }
-        chatRoomSelectedColor = ContextCompat.getColor(this!!.activity!!, R.color.dark_gray)
     }
 
     override fun onDestroyView() {
@@ -374,25 +365,16 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private fun setupRecyclerView() {
         ui {
             recycler_view.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
-            recycler_view.addItemDecoration(DividerItemDecoration(it,
+            /*recycler_view.addItemDecoration(DividerItemDecoration(it,
                     resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_start),
                     resources.getDimensionPixelSize(R.dimen.divider_item_decorator_bound_end)))
-            recycler_view.itemAnimator = DefaultItemAnimator()
+            recycler_view.itemAnimator = DefaultItemAnimator()*/
             // TODO - use a ViewModel Mapper instead of using settings on the adapter
 
             baseAdapter = ChatRoomsAdapter(it,
                     settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
-                //                itemRecyclerView = recycler_view.getChildAt(0)
-//                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
-//                setItemSelected(chatRoom, chatRoomSelectedColor)
-                /* (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
-                 chatRoomSelected = chatRoom
-                 loadChatRoom(chatRoom)*/
-                /*sectionedAdapter?.clearSections()
-                sortByActivity = false
-                presenter.loadChatRooms()*/
-                setItemSelected(chatRoom, chatRoomSelectedColor)
+                setItemSelected(chatRoom)
             }
             recycler_view.viewTreeObserver.addOnGlobalLayoutListener(recyclerViewlayoutListener)
 
@@ -404,20 +386,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     }
 
 
-    private fun setItemSelected(chatRoom: ChatRoom, color: Int) {
+    private fun setItemSelected(chatRoom: ChatRoom) {
         (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
         chatRoomSelected = chatRoom
         presenter.loadChatRoom(chatRoom)
-        /*var postion = 0
-        for (chatRoomAdapter in baseAdapter!!.dataSet) {
-            if (chatRoomAdapter.equals(chatRoom)) {
-                LogUtil.d(TAG, "setItemSelected @position= " + postion+" @chatRoom= "+chatRoomAdapter.toString())
-//                itemRecyclerView = recycler_view.getChildAt(postion)
-//                changeItemBgColor(color)
-                break
-            }
-            postion++
-        }*/
     }
 
     override fun showNoChatRoomsToDisplay() {
@@ -476,15 +448,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private fun setupToolbar() {
         (activity as AppCompatActivity?)?.supportActionBar?.title = ""
     }
-
-    fun changeItemBgColor(color: Int) {
-        if (itemRecyclerView != null)
-            itemRecyclerView?.setBackgroundColor(color)
-    }
-
-    /*private fun loadChatRoom(chatRoom: ChatRoom) {
-        presenter.loadChatRoom(chatRoom)
-    }*/
 
     private fun queryChatRoomsByName(name: String?): Boolean {
         presenter.chatRoomsByName(name ?: "")

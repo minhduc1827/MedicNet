@@ -52,7 +52,7 @@ class ChatRoomsAdapter(
             bindName(chatRoom, text_chat_name)
             bindIcon(chatRoom, image_chat_icon)
             if (chatRoom.selected) {
-                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.dark_gray))
+                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.light_gray))
             } else
                 itemView.setBackgroundColor(Color.WHITE)
             if (settings.showLastMessage()) {
@@ -75,11 +75,11 @@ class ChatRoomsAdapter(
                     android.R.color.primary_text_light))
             } else {
                 text_chat_name.setTextColor(ContextCompat.getColor(context,
-                    R.color.colorSecondaryText))
+                        R.color.dark_gray))
                 text_last_message_date_time.setTextColor(ContextCompat.getColor(context,
                     R.color.colorSecondaryText))
                 text_last_message.setTextColor(ContextCompat.getColor(context,
-                    R.color.colorSecondaryText))
+                        R.color.dark_gray))
             }
 
             setOnClickListener { listener(chatRoom) }
