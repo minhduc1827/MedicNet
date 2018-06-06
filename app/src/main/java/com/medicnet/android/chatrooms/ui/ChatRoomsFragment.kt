@@ -63,8 +63,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     var itemRecyclerView: View? = null
     //    var isMyVaultClicked: Boolean = false
     var mainActivity: MainActivity? = null
+    var chatRoomSelected: ChatRoom? = null
 //    var sortByActivity: Boolean = false
-var chatRoomSelected: ChatRoom? = null
+
 
     companion object {
         val TAG: String = "ChatRoomsFragment"
