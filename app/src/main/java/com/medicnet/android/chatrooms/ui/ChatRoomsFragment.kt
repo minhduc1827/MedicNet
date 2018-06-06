@@ -60,10 +60,13 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var listJob: Job? = null
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
-    var itemRecyclerView: View? = null
+    private var itemRecyclerView: View? = null
     //    var isMyVaultClicked: Boolean = false
-    var mainActivity: MainActivity? = null
-    var chatRoomSelected: ChatRoom? = null
+    private var mainActivity: MainActivity? = null
+    private var chatRoomSelected: ChatRoom? = null
+    private var chatRoomSelectedColor: Int = 0
+    private var chatRoomUnSelectedColor: Int = Color.WHITE
+    private var baseAdapter: ChatRoomsAdapter? = null
 //    var sortByActivity: Boolean = false
 
 
@@ -109,12 +112,13 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             if (layoutMyVault.tag != null)
                 tagChatRoom = layoutMyVault.tag as ChatRoom
             if (tagChatRoom != null) {
-                mainActivity!!.drawer_layout.closeDrawer(Gravity.START)
-//                val fragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
+                /*mainActivity!!.drawer_layout.closeDrawer(Gravity.START)
                 changeItemBgColor(Color.WHITE)
-                loadChatRoom(tagChatRoom)
+                loadChatRoom(tagChatRoom)*/
+                setItemSelected(tagChatRoom, chatRoomUnSelectedColor)
             }
         }
+        chatRoomSelectedColor = ContextCompat.getColor(this!!.activity!!, R.color.dark_gray)
     }
 
     override fun onDestroyView() {
@@ -144,10 +148,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 text_last_message_my_vault.setTextColor(ContextCompat.getColor(activity!!,
                         R.color.colorSecondaryText))
             }
-            /*if (!isMyVaultClicked) {
-                layoutMyVault.performClick()
-                isMyVaultClicked = true
-            }*/
         }
     }
 
@@ -361,14 +361,15 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             recycler_view.itemAnimator = DefaultItemAnimator()
             // TODO - use a ViewModel Mapper instead of using settings on the adapter
 
-            val baseAdapter = ChatRoomsAdapter(it,
+            baseAdapter = ChatRoomsAdapter(it,
                     settingsRepository.get(serverInteractor.get()!!), localRepository) { chatRoom ->
                 //                itemRecyclerView = recycler_view.getChildAt(0)
 //                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
-                (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
-                chatRoomSelected = chatRoom
-                loadChatRoom(chatRoom)
+                setItemSelected(chatRoom, chatRoomSelectedColor)
+                /* (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+                 chatRoomSelected = chatRoom
+                 loadChatRoom(chatRoom)*/
                 /*sectionedAdapter?.clearSections()
                 sortByActivity = false
                 presenter.loadChatRooms()*/
@@ -376,19 +377,35 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
-                    loadChatRoom(chatRoomSelected!!)
+//                    loadChatRoom(chatRoomSelected!!)
+                    setItemSelected(chatRoomSelected!!, chatRoomSelectedColor)
                     recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
 
 
             sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
-                    R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
+                    R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter!!)
             recycler_view.adapter = sectionedAdapter
         }
 
     }
 
+    private fun setItemSelected(chatRoom: ChatRoom, color: Int) {
+        (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+        chatRoomSelected = chatRoom
+        loadChatRoom(chatRoom)
+        var postion = 0
+        for (chatRoomAdapter in baseAdapter!!.dataSet) {
+            if (chatRoomAdapter.equals(chatRoom)) {
+                LogUtil.d(TAG, "setItemSelected @position= " + postion)
+                itemRecyclerView = recycler_view.getChildAt(postion)
+                changeItemBgColor(color)
+                break
+            }
+            postion++
+        }
+    }
 
     override fun showNoChatRoomsToDisplay() {
         ui { text_no_data_to_display.setVisible(true) }
