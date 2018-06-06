@@ -51,6 +51,10 @@ class ChatRoomsAdapter(
             bindAvatar(chatRoom, image_avatar)
             bindName(chatRoom, text_chat_name)
             bindIcon(chatRoom, image_chat_icon)
+            if (chatRoom.selected) {
+                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.dark_gray))
+            } else
+                itemView.setBackgroundColor(Color.WHITE)
             if (settings.showLastMessage()) {
                 text_last_message.setVisible(true)
                 text_last_message_date_time.setVisible(true)

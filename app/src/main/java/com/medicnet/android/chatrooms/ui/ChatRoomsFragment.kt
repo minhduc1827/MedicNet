@@ -61,13 +61,23 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
     private var itemRecyclerView: View? = null
-    //    var isMyVaultClicked: Boolean = false
+
     private var mainActivity: MainActivity? = null
     private var chatRoomSelected: ChatRoom? = null
     private var chatRoomSelectedColor: Int = 0
     private var chatRoomUnSelectedColor: Int = Color.WHITE
     private var baseAdapter: ChatRoomsAdapter? = null
+    private val recyclerViewlayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
+//                    loadChatRoom(chatRoomSelected!!)
+        if (!isGlobalLayoutListenerSetUp) {
+            setItemSelected(chatRoomSelected!!, chatRoomSelectedColor)
+            isGlobalLayoutListenerSetUp = true
+        }
+    }
+    private var isGlobalLayoutListenerSetUp = false
 //    var sortByActivity: Boolean = false
+//    var isMyVaultClicked: Boolean = false
 
 
     companion object {
@@ -123,6 +133,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     override fun onDestroyView() {
         listJob?.cancel()
+        if (isGlobalLayoutListenerSetUp) {
+            recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(recyclerViewlayoutListener)
+            isGlobalLayoutListenerSetUp = false
+        }
         super.onDestroyView()
     }
 
@@ -286,21 +300,41 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
             LogUtil.d(TAG, "updateChatRooms>>")
-            for (chatRoom in newDataSet) {
+
+            /*for (chatRoom in newDataSet) {
 //                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
-                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!))
+                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
                     chatRoomSelected = chatRoom
+                }
                 if (mainActivity!!.username.equals(chatRoom.name)) {
 //                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
                     layoutMyVault.tag = chatRoom
                     setupMyVault(chatRoom)
                 } else {
-                    /*val type = chatRoom.type.toString()
+                    *//*val type = chatRoom.type.toString()
                     if (type.equals(RoomType.CHANNEL.toString()))
-                        chatRoom.type = RoomType.PRIVATE_GROUP*/
+                        chatRoom.type = RoomType.PRIVATE_GROUP*//*
+                    dataSet.add(chatRoom)
+                }
+            }*/
+            var selectedPos = 0
+            for (i in 0..newDataSet.size - 1) {
+                var chatRoom: ChatRoom = newDataSet.get(i)
+                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
+                    chatRoomSelected = chatRoom
+                    selectedPos = i
+                }
+                if (mainActivity!!.username.equals(chatRoom.name)) {
+//                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
+                    layoutMyVault.tag = chatRoom
+                    setupMyVault(chatRoom)
+                } else {
                     dataSet.add(chatRoom)
                 }
             }
+            LogUtil.d(TAG, "updateChatRooms @selectedPos= " + selectedPos)
+            dataSet.get(selectedPos).selected = true
+
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
             // TODO - fix this bug to re-enable DiffUtil
@@ -367,23 +401,16 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 //                itemRecyclerView = recycler_view.getChildAt(0)
 //                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
-                setItemSelected(chatRoom, chatRoomSelectedColor)
+//                setItemSelected(chatRoom, chatRoomSelectedColor)
                 /* (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                  chatRoomSelected = chatRoom
                  loadChatRoom(chatRoom)*/
                 /*sectionedAdapter?.clearSections()
                 sortByActivity = false
                 presenter.loadChatRooms()*/
+                setItemSelected(chatRoom, chatRoomSelectedColor)
             }
-            recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
-//                    loadChatRoom(chatRoomSelected!!)
-                    setItemSelected(chatRoomSelected!!, chatRoomSelectedColor)
-                    recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
-
+            recycler_view.viewTreeObserver.addOnGlobalLayoutListener(recyclerViewlayoutListener)
 
             sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
                     R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter!!)
@@ -392,16 +419,17 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
     }
 
+
     private fun setItemSelected(chatRoom: ChatRoom, color: Int) {
         (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
         chatRoomSelected = chatRoom
-        loadChatRoom(chatRoom)
+        presenter.loadChatRoom(chatRoom)
         /*var postion = 0
         for (chatRoomAdapter in baseAdapter!!.dataSet) {
             if (chatRoomAdapter.equals(chatRoom)) {
-                LogUtil.d(TAG, "setItemSelected @position= " + postion)
-                itemRecyclerView = recycler_view.getChildAt(postion)
-                changeItemBgColor(color)
+                LogUtil.d(TAG, "setItemSelected @position= " + postion+" @chatRoom= "+chatRoomAdapter.toString())
+//                itemRecyclerView = recycler_view.getChildAt(postion)
+//                changeItemBgColor(color)
                 break
             }
             postion++
@@ -470,9 +498,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             itemRecyclerView?.setBackgroundColor(color)
     }
 
-    private fun loadChatRoom(chatRoom: ChatRoom) {
+    /*private fun loadChatRoom(chatRoom: ChatRoom) {
         presenter.loadChatRoom(chatRoom)
-    }
+    }*/
 
     private fun queryChatRoomsByName(name: String?): Boolean {
         presenter.chatRoomsByName(name ?: "")
