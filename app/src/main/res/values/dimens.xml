@@ -23,7 +23,7 @@
     <dimen name="nav_header_height">140dp</dimen>
 
     <!-- ChatRoom -->
-    <dimen name="chat_item_top_and_bottom_padding">5dp</dimen>
+    <dimen name="chat_item_top_and_bottom_padding">12dp</dimen>
 
 
     <!-- Emoji -->
