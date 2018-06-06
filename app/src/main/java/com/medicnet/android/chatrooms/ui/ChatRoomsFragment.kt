@@ -61,9 +61,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var sectionedAdapter: SimpleSectionedRecyclerViewAdapter? = null
     val TAG: String = ChatRoomsFragment::class.java.simpleName
     var itemRecyclerView: View? = null
-    var isMyVaultClicked: Boolean = false
+    //    var isMyVaultClicked: Boolean = false
     var mainActivity: MainActivity? = null
-    var sortByActivity: Boolean = false
+//    var sortByActivity: Boolean = false
 
     companion object {
         val TAG: String = "ChatRoomsFragment"
@@ -207,9 +207,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        /* inflater.inflate(R.menu.chatrooms, menu)
+         inflater.inflate(R.menu.chatrooms, menu)
 
          val searchItem = menu.findItem(R.id.action_search)
          searchView = searchItem?.actionView as SearchView
@@ -222,8 +222,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
              override fun onQueryTextChange(newText: String?): Boolean {
                  return queryChatRoomsByName(newText)
              }
-         })*/
-    }
+         })
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -290,9 +290,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     layoutMyVault.tag = chatRoom
                     setupMyVault(chatRoom)
                 } else {
-                    val type = chatRoom.type.toString()
+                    /*val type = chatRoom.type.toString()
                     if (type.equals(RoomType.CHANNEL.toString()))
-                        chatRoom.type = RoomType.PRIVATE_GROUP
+                        chatRoom.type = RoomType.PRIVATE_GROUP*/
                     dataSet.add(chatRoom)
                 }
             }
@@ -311,11 +311,11 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 adapter.notifyDataSetChanged()
 
                 //Set sections always after data set is updated
-                if (!sortByActivity) {
+                /*if (!sortByActivity) {
                     sortByActivity = true
                     presenter.updateSortedChatRooms()
-                } else
-                    setSections()
+                } else*/
+                setSections()
             }
 
         }
@@ -330,7 +330,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
             for ((position, chatRoom) in it.withIndex()) {
                 val type = chatRoom.type.toString()
-                if (/*!type.equals(RoomType.PRIVATE_GROUP.toString()) &&*/ type != previousChatRoomType) {
+                if (/*!type.equals(RoomType.PRIVATE_GROUP.toString()) && */type != previousChatRoomType) {
                     val title = when (type) {
                         RoomType.CHANNEL.toString() -> resources.getString(R.string.label_team_chat_group)
                         RoomType.PRIVATE_GROUP.toString() -> resources.getString(R.string.label_team_chat_group)
@@ -364,9 +364,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
                 (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
                 loadChatRoom(chatRoom)
-                sectionedAdapter?.clearSections()
+                /*sectionedAdapter?.clearSections()
                 sortByActivity = false
-                presenter.loadChatRooms()
+                presenter.loadChatRooms()*/
             }
 
             sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,

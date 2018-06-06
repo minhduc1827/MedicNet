@@ -307,16 +307,9 @@ class ChatRoomsPresenter @Inject constructor(
     }
 
     private fun compareBy(selector: KProperty1<ChatRoom, RoomType>): Comparator<ChatRoom> {
-        /*return Comparator { a, b ->
+        return Comparator { a, b ->
             getTypeConstant(a.type) - getTypeConstant(b.type)
-        }*/
-        return object : Comparator<ChatRoom> {
-            override fun compare(a: ChatRoom?, b: ChatRoom?): Int = when {
-                getTypeConstant(a!!.type) > getTypeConstant(b!!.type) -> 1
-                getTypeConstant(a!!.type) == getTypeConstant(b!!.type) -> 0
-                else -> -1
-            }
-            }
+        }
     }
 
     private fun getTypeConstant(roomType: RoomType): Int {
