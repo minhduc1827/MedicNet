@@ -76,6 +76,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         }
     }
     private var isGlobalLayoutListenerSetUp = false
+    private var selectedPos = 0
 //    var sortByActivity: Boolean = false
 //    var isMyVaultClicked: Boolean = false
 
@@ -299,25 +300,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         listJob = ui {
             //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
-            LogUtil.d(TAG, "updateChatRooms>>")
 
-            /*for (chatRoom in newDataSet) {
-//                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
-                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
-                    chatRoomSelected = chatRoom
-                }
-                if (mainActivity!!.username.equals(chatRoom.name)) {
-//                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
-                    layoutMyVault.tag = chatRoom
-                    setupMyVault(chatRoom)
-                } else {
-                    *//*val type = chatRoom.type.toString()
-                    if (type.equals(RoomType.CHANNEL.toString()))
-                        chatRoom.type = RoomType.PRIVATE_GROUP*//*
-                    dataSet.add(chatRoom)
-                }
-            }*/
-            var selectedPos = 0
             for (i in 0..newDataSet.size - 1) {
                 var chatRoom: ChatRoom = newDataSet.get(i)
                 if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
@@ -332,7 +315,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     dataSet.add(chatRoom)
                 }
             }
-            LogUtil.d(TAG, "updateChatRooms @selectedPos= " + selectedPos)
+            LogUtil.d(TAG, "updateChatRooms final @selectedPos= " + selectedPos + " @lastSeen= " + dataSet.get(selectedPos).lastSeen)
             dataSet.get(selectedPos).selected = true
 
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
@@ -354,6 +337,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     sortByActivity = true
                     presenter.updateSortedChatRooms()
                 } else*/
+                sectionedAdapter!!.clearSections()
                 setSections()
             }
 
