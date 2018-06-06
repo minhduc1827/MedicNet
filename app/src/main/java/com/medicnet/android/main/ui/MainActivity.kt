@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         }*/
     }
 
-    fun setupPassCodeScreen() {
+    private fun setupPassCodeScreen() {
         val isRedirect = intent.getBooleanExtra(EXTRA_REDIRECT_TO_MAIN, true)
         LogUtil.d(TAG, "onCreate @isRedirect= " + isRedirect)
         if (isRedirect)
@@ -272,17 +272,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             onNavDrawerItemSelected(menuItem)
             true
         }
-        /*layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
-            val height: Int = layoutSearch.height
-            LogUtil.d(TAG, "height @layoutsearch=" + height)
-            image_avatar.layoutParams.width = height
-            image_avatar.layoutParams.height = height
-            viewAvatar.layoutParams.width = height + 2
-            viewAvatar.layoutParams.height = height + 2
-            image_avatar.requestLayout()
-            imvUserStatus.requestLayout()
-
-        }*/
         layoutSearch.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 val height: Int = layoutSearch.height

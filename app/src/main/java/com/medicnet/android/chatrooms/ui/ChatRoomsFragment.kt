@@ -366,16 +366,12 @@ var chatRoomSelected: ChatRoom? = null
 //                changeItemBgColor(ContextCompat.getColor(this!!.activity!!, R.color.dark_gray))
                 LogUtil.d("ChatroomsFragment", "onItem chat clicked")
                 (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+                chatRoomSelected = chatRoom
                 loadChatRoom(chatRoom)
                 /*sectionedAdapter?.clearSections()
                 sortByActivity = false
                 presenter.loadChatRooms()*/
             }
-            /*recycler_view.viewTreeObserver.addOnGlobalLayoutListener{
-                LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>"+chatRoomSelected.toString())
-                loadChatRoom(chatRoomSelected!!)
-                recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }*/
             recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
@@ -391,6 +387,7 @@ var chatRoomSelected: ChatRoom? = null
         }
 
     }
+
 
     override fun showNoChatRoomsToDisplay() {
         ui { text_no_data_to_display.setVisible(true) }
@@ -454,7 +451,7 @@ var chatRoomSelected: ChatRoom? = null
             itemRecyclerView?.setBackgroundColor(color)
     }
 
-    fun loadChatRoom(chatRoom: ChatRoom) {
+    private fun loadChatRoom(chatRoom: ChatRoom) {
         presenter.loadChatRoom(chatRoom)
     }
 

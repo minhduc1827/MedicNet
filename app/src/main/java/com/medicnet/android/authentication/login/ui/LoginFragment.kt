@@ -117,10 +117,10 @@ class LoginFragment : Fragment(), LoginView {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        /*if (isGlobalLayoutListenerSetUp) {
+        if (isGlobalLayoutListenerSetUp) {
             scroll_view.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
             isGlobalLayoutListenerSetUp = false
-        }*/
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

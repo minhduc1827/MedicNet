@@ -74,7 +74,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             presenter.loadChatList()
     }
 
-    fun organizationCallBack() = object : Callback {
+    private fun organizationCallBack() = object : Callback {
         override fun onFailure(call: Call, e: IOException) {
             LogUtil.d(TAG, "onFailure getDataFromSever: " + e.message)
         }
@@ -85,7 +85,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    fun getDataFromSever(url: String, callback: Callback) {
+    private fun getDataFromSever(url: String, callback: Callback) {
 
         LogUtil.d(TAG, "getDataFromSever @url= " + url);
         val client = AppModule.createUnsafeOkHttpClient().build()
@@ -114,7 +114,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return fragmentDispatchingAndroidInjector
     }
 
-    fun showServerInput(savedInstanceState: Bundle?, deepLinkInfo: LoginDeepLinkInfo?) {
+    private fun showServerInput(savedInstanceState: Bundle?, deepLinkInfo: LoginDeepLinkInfo?) {
         addFragment("ServerFragment", R.id.fragment_container) {
             ServerFragment.newInstance(deepLinkInfo)
         }
