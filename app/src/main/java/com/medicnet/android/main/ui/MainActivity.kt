@@ -13,13 +13,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import chat.rocket.common.model.UserStatus
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
-import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     var needShowLockScreen: Boolean = true
     var username: String? = ""
 
-    var chatRoomsFragment: ChatRoomsFragment? = null
+//    var chatRoomsFragment: ChatRoomsFragment? = null
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
@@ -122,11 +122,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         if (!isFragmentAdded) {
             presenter.toChatList()
             isFragmentAdded = true
-            fragment_container.postDelayed(Runnable {
+            /*fragment_container.postDelayed(Runnable {
                 if (chatRoomsFragment == null)
                     chatRoomsFragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
-                groupChatRooms()
-            }, 200)
+            }, 200)*/
 
         }
 
@@ -273,7 +272,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             onNavDrawerItemSelected(menuItem)
             true
         }
-        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
+        /*layoutSearch.viewTreeObserver.addOnGlobalLayoutListener {
             val height: Int = layoutSearch.height
             LogUtil.d(TAG, "height @layoutsearch=" + height)
             image_avatar.layoutParams.width = height
@@ -283,7 +282,20 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             image_avatar.requestLayout()
             imvUserStatus.requestLayout()
 
-        }
+        }*/
+        layoutSearch.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val height: Int = layoutSearch.height
+                LogUtil.d(TAG, "height @layoutsearch=" + height)
+                image_avatar.layoutParams.width = height
+                image_avatar.layoutParams.height = height
+                viewAvatar.layoutParams.width = height + 2
+                viewAvatar.layoutParams.height = height + 2
+                image_avatar.requestLayout()
+                imvUserStatus.requestLayout()
+                layoutSearch.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     private fun onNavDrawerItemSelected(menuItem: MenuItem) {

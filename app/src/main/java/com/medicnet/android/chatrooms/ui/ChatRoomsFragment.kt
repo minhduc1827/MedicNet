@@ -64,6 +64,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     //    var isMyVaultClicked: Boolean = false
     var mainActivity: MainActivity? = null
 //    var sortByActivity: Boolean = false
+var chatRoomSelected: ChatRoom? = null
 
     companion object {
         val TAG: String = "ChatRoomsFragment"
@@ -282,9 +283,11 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         listJob = ui {
             //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
-
+            LogUtil.d(TAG, "updateChatRooms>>")
             for (chatRoom in newDataSet) {
-                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
+//                LogUtil.d(TAG, "updateChatRooms>>" + chatRoom.toString())
+                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!))
+                    chatRoomSelected = chatRoom
                 if (mainActivity!!.username.equals(chatRoom.name)) {
 //                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
                     layoutMyVault.tag = chatRoom
@@ -368,6 +371,19 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 sortByActivity = false
                 presenter.loadChatRooms()*/
             }
+            /*recycler_view.viewTreeObserver.addOnGlobalLayoutListener{
+                LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>"+chatRoomSelected.toString())
+                loadChatRoom(chatRoomSelected!!)
+                recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }*/
+            recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
+                    loadChatRoom(chatRoomSelected!!)
+                    recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
+
 
             sectionedAdapter = SimpleSectionedRecyclerViewAdapter(it,
                     R.layout.item_chatroom_header, R.id.text_chatroom_header, baseAdapter)
