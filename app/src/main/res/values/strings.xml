@@ -257,4 +257,7 @@
     <!--chatrooms recycler-->
     <string name="label_team_chat_group" translatable="false">Team Chats</string>
     <string name="label_direct_chat_group" translatable="false">Chats</string>
+
+    <!--chatroom-->
+    <string name="empty_msg_chat_room" translatable="false">This is the start of the conversation on %s</string>
 </resources>
