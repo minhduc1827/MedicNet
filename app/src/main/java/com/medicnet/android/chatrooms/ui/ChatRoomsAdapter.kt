@@ -169,7 +169,8 @@ class ChatRoomsAdapter(
                     }
                 }
             } else {
-                textView.content = context.getText(R.string.msg_no_messages_yet)
+//                textView.content = context.getText(R.string.msg_no_messages_yet)
+                textView.visibility = View.GONE
             }
         }
 

@@ -191,6 +191,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             }
         } else {
 //            textView.content = getText(R.string.msg_no_messages_yet)
+            textView.visibility = View.GONE
         }
     }
 
@@ -395,7 +396,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
         chatRoomSelected = chatRoom
         loadChatRoom(chatRoom)
-        var postion = 0
+        /*var postion = 0
         for (chatRoomAdapter in baseAdapter!!.dataSet) {
             if (chatRoomAdapter.equals(chatRoom)) {
                 LogUtil.d(TAG, "setItemSelected @position= " + postion)
@@ -404,7 +405,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 break
             }
             postion++
-        }
+        }*/
     }
 
     override fun showNoChatRoomsToDisplay() {

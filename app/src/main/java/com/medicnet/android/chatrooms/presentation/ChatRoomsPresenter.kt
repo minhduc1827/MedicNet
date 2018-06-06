@@ -295,15 +295,12 @@ class ChatRoomsPresenter @Inject constructor(
     }
 
     private fun chatRoomTimestamp(chatRoom: ChatRoom): Long? {
-        return if (settings.hasShowLastMessage() && settings.showLastMessage()) {
-            chatRoom.lastMessage?.timestamp ?: chatRoom.updatedAt
-        } else {
-            chatRoom.lastSeen
-        }
-        /*if(chatRoom.lastSeen==null)
-            return chatRoom.updatedAt
-        else
-            return chatRoom.lastSeen*/
+        /* return if (settings.hasShowLastMessage() && settings.showLastMessage()) {
+             chatRoom.lastMessage?.timestamp ?: chatRoom.updatedAt
+         } else {
+             chatRoom.lastSeen
+         }*/
+        return chatRoom.lastSeen
     }
 
     private fun compareBy(selector: KProperty1<ChatRoom, RoomType>): Comparator<ChatRoom> {
