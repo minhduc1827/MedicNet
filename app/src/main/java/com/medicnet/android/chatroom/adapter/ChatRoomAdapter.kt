@@ -110,7 +110,7 @@ class ChatRoomAdapter(
         when (holder) {
             is MessageViewHolder -> {
                 val messageModel = dataSet[position] as MessageViewModel
-                LogUtil.d(TAG, "onBindViewHolder @timestamp=" + messageModel.message.timestamp + " @convertdate= " + messageModel.dateDisplay)
+                LogUtil.d(TAG, "onBindViewHolder @timestamp=" + messageModel.message.timestamp + " @convertdate= " + messageModel.dateDisplay + " @message= " + messageModel.message.message)
                 holder.bind(messageModel)
             }
             is ImageAttachmentViewHolder ->
@@ -151,14 +151,18 @@ class ChatRoomAdapter(
             val messageModel=baseViewModel as MessageViewModel
             LogUtil.d(TAG,"appendData= "+messageModel.toString()+"\n")
         }*/
-        for (i in 0..dataSet.size - 1) {
+        for (i in dataSet.size - 1 downTo 0) {
             var prevMessageMode: MessageViewModel? = null
-            if (i > 0)
-                prevMessageMode = dataSet.get(i - 1) as MessageViewModel
             val curMessageModel = dataSet.get(i) as MessageViewModel
+            LogUtil.d(TAG, "appendData @i= " + i + " @msg= " + curMessageModel.message.message)
+            if (i < dataSet.size - 1) {
+                prevMessageMode = dataSet.get(i + 1) as MessageViewModel
+                LogUtil.d(TAG, "appendData @prevMessageMode= " + AppUtil.convertToDate(prevMessageMode.message.timestamp) + " curMessageModel= " + AppUtil.convertToDate(curMessageModel.message.timestamp))
+            }
 
-            if (prevMessageMode == null || !prevMessageMode.dateDisplay.equals(AppUtil.convertToDate(curMessageModel.message.timestamp)))
+            if (prevMessageMode == null || !AppUtil.convertToDate(prevMessageMode.message.timestamp).equals(AppUtil.convertToDate(curMessageModel.message.timestamp))) {
                 curMessageModel.dateDisplay = AppUtil.convertToDate(curMessageModel.message.timestamp)
+            }
         }
         notifyItemChanged(previousDataSetSize, dataSet.size)
     }
