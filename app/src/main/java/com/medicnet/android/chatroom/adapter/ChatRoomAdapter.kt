@@ -146,11 +146,6 @@ class ChatRoomAdapter(
 
     fun appendData(dataSet: List<BaseViewModel<*>>) {
         val previousDataSetSize = this.dataSet.size
-        this.dataSet.addAll(dataSet)
-        /*for(baseViewModel in dataSet){
-            val messageModel=baseViewModel as MessageViewModel
-            LogUtil.d(TAG,"appendData= "+messageModel.toString()+"\n")
-        }*/
         for (i in dataSet.size - 1 downTo 0) {
             var prevMessageMode: MessageViewModel? = null
             val curMessageModel = dataSet.get(i) as MessageViewModel
@@ -164,6 +159,8 @@ class ChatRoomAdapter(
                 curMessageModel.dateDisplay = AppUtil.convertToDate(curMessageModel.message.timestamp)
             }
         }
+        this.dataSet.addAll(dataSet)
+
         notifyItemChanged(previousDataSetSize, dataSet.size)
     }
 
