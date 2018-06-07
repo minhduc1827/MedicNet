@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import chat.rocket.core.model.isSystemMessage
 import com.medicnet.android.chatroom.viewmodel.MessageViewModel
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.widget.emoji.EmojiReactionListener
 import kotlinx.android.synthetic.main.avatar.view.*
 import kotlinx.android.synthetic.main.item_message.view.*
@@ -15,19 +16,23 @@ class MessageViewHolder(
     listener: ActionsListener,
     reactionListener: EmojiReactionListener? = null
 ) : BaseViewHolder<MessageViewModel>(itemView, listener, reactionListener) {
-
+    private val TAG: String = MessageViewHolder::class.java.simpleName
     init {
         with(itemView) {
             setupActionMenu(message_container)
             text_content.movementMethod = LinkMovementMethod()
         }
     }
-
     override fun bindViews(data: MessageViewModel) {
         with(itemView) {
             if (data.isFirstUnread) new_messages_notif.visibility = View.VISIBLE
             else new_messages_notif.visibility = View.GONE
+            LogUtil.d(TAG, "bindViews @unread= " + data.unRead)
+            if (data.unRead) {
+//                imvMsgStatus
+            } else {
 
+            }
             text_message_time.text = data.time
             text_sender.text = data.senderName
             text_content.text = data.content
