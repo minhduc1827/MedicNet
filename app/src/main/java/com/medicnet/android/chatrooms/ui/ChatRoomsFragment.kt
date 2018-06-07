@@ -65,8 +65,10 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private val recyclerViewlayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
         if (!isGlobalLayoutListenerSetUp) {
-            setItemSelected(chatRoomSelected!!)
-            isGlobalLayoutListenerSetUp = true
+            if (chatRoomSelected != null) {
+                setItemSelected(chatRoomSelected!!)
+                isGlobalLayoutListenerSetUp = true
+            }
         }
     }
     private var isGlobalLayoutListenerSetUp = false

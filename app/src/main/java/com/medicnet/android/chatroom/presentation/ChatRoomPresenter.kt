@@ -34,7 +34,6 @@ import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.server.domain.*
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.infraestructure.state
-import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.avatarUrl
 import com.medicnet.android.util.extensions.launchUI
 import com.medicnet.android.util.retryIO
@@ -165,7 +164,7 @@ class ChatRoomPresenter @Inject constructor(
             retryIO(description = "messages chatRoom: $chatRoomId, type: $chatRoomType, offset: $offset") {
                 client.messages(chatRoomId, roomTypeOf(chatRoomType), offset, 30).result
             }
-        LogUtil.d(TAG, "loadAndShowMessages @msg= " + messages.toString())
+//        LogUtil.d(TAG, "loadAndShowMessages @msg= " + messages.toString())
         messagesRepository.saveAll(messages)
         view.showMessages(mapper.map(messages, RoomViewModel(roles = chatRoles,
             isBroadcast = chatIsBroadcast)))
@@ -343,7 +342,7 @@ class ChatRoomPresenter @Inject constructor(
                                 client.history(chatRoomId!!, roomType, count = 50,
                                     oldest = instant)
                             }
-                            LogUtil.d(TAG, "loadMissingMessages @msg= " + messages.toString())
+//                            LogUtil.d(TAG, "loadMissingMessages @msg= " + messages.toString())
                             Timber.d("History: $messages")
 
                             if (messages.result.isNotEmpty()) {

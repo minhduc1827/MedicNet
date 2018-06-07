@@ -116,9 +116,9 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     private var citation: String? = null
     private var editingMessageId: String? = null
 
-
     private val compositeDisposable = CompositeDisposable()
     private var playComposeMessageButtonsAnimation = true
+    private val TAG: String = ChatRoomFragment::class.java.simpleName
 
     // For reveal and unreveal anim.
     private val hypotenuse by lazy {
@@ -287,7 +287,7 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             // Loop over received messages to determine first unread
             for (i in dataSet.indices) {
                 val msgModel = dataSet[i]
-
+                LogUtil.d(TAG, "showMessages @msg= " + msgModel)
                 if (msgModel is MessageViewModel) {
                     val msg = msgModel.rawData
                     if (msg.timestamp < chatRoomLastSeen) {
