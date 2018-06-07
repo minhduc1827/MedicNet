@@ -17,6 +17,7 @@ import android.view.*
 import android.widget.CheckBox
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import chat.rocket.common.model.RoomType
 import chat.rocket.core.internal.realtime.socket.model.State
 import chat.rocket.core.model.ChatRoom
@@ -33,6 +34,7 @@ import com.medicnet.android.server.domain.SettingsRepository
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_chat_rooms.*
 import kotlinx.android.synthetic.main.item_my_vault.*
 import kotlinx.android.synthetic.main.unread_messages_badge_my_vault.*
