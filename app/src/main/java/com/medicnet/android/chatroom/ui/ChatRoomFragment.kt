@@ -335,7 +335,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         endlessRecyclerViewScrollListener = object :
                 EndlessRecyclerViewScrollListener(recycler_view.layoutManager as LinearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, recyclerView: RecyclerView?) {
-                presenter.loadMessages(chatRoomId, chatRoomType, page * 30L)
+                //DucNM: maybe page starts to 0 so next page load more is page+1
+                presenter.loadMessages(chatRoomId, chatRoomType, (page + 1) * 30L)
             }
         }
         recycler_view.addOnScrollListener(fabScrollListener)
