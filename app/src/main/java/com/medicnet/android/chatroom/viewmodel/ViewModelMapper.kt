@@ -270,7 +270,7 @@ class ViewModelMapper @Inject constructor(
         MessageViewModel(message = stripMessageQuotes(message), rawData = message,
             messageId = message.id, avatar = avatar!!, time = time, senderName = sender,
             content = content, isPinned = message.pinned, reactions = getReactions(message),
-                isFirstUnread = false, preview = preview, isTemporary = isTemp, unRead = message.unread!!)
+                isFirstUnread = false, preview = preview, isTemporary = isTemp)
     }
 
     private fun mapMessagePreview(message: Message): Message {

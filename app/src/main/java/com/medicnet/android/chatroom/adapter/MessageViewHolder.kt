@@ -27,8 +27,9 @@ class MessageViewHolder(
         with(itemView) {
             if (data.isFirstUnread) new_messages_notif.visibility = View.VISIBLE
             else new_messages_notif.visibility = View.GONE
-            LogUtil.d(TAG, "bindViews @unread= " + data.unRead)
-            if (data.unRead) {
+            val unread = data.message.unread ?: false
+            LogUtil.d(TAG, "bindViews @unread= " + unread)
+            if (unread) {
 //                imvMsgStatus
             } else {
 
