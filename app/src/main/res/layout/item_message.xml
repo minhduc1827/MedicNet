@@ -38,13 +38,14 @@
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@color/red" />
+            android:background="@color/dark_gray" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/msg_unread_messages"
-            android:textColor="@color/red" />
+            android:textColor="@color/dark_gray"
+            android:id="@+id/txvTimeSeperation" />
 
         <View
             android:layout_width="0dp"
@@ -52,7 +53,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            android:background="@color/red" />
+            android:background="@color/dark_gray" />
     </LinearLayout>
 
     <LinearLayout

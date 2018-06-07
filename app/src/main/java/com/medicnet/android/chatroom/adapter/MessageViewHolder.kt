@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import chat.rocket.core.model.isSystemMessage
 import com.medicnet.android.chatroom.viewmodel.MessageViewModel
-import com.medicnet.android.util.LogUtil
 import com.medicnet.android.widget.emoji.EmojiReactionListener
 import kotlinx.android.synthetic.main.avatar.view.*
 import kotlinx.android.synthetic.main.item_message.view.*
@@ -17,18 +16,29 @@ class MessageViewHolder(
     reactionListener: EmojiReactionListener? = null
 ) : BaseViewHolder<MessageViewModel>(itemView, listener, reactionListener) {
     private val TAG: String = MessageViewHolder::class.java.simpleName
+
+    //    private var strCurrentDate:String=""
     init {
         with(itemView) {
             setupActionMenu(message_container)
             text_content.movementMethod = LinkMovementMethod()
         }
     }
+
     override fun bindViews(data: MessageViewModel) {
         with(itemView) {
-            if (data.isFirstUnread) new_messages_notif.visibility = View.VISIBLE
-            else new_messages_notif.visibility = View.GONE
             val unread = data.message.unread ?: false
-            LogUtil.d(TAG, "bindViews @unread= " + unread)
+            var strCurrentDate = ""
+            /*if(tag!=null)
+                strCurrentDate=tag as String
+            LogUtil.d(TAG, "bindViews @unread= " + unread+" @data.time= "+data.message.timestamp+" @strCurrentDate= "+strCurrentDate)
+            if (!strCurrentDate.equals(AppUtil.convertToDate(data.message.timestamp))){
+                new_messages_notif.visibility = View.VISIBLE
+                tag=AppUtil.convertToDate(data.message.timestamp)
+                txvTimeSeperation.textContent=strCurrentDate
+            }
+            else new_messages_notif.visibility = View.GONE*/
+
             if (unread) {
 //                imvMsgStatus
             } else {

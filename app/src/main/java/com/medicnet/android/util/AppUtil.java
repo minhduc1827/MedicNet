@@ -10,6 +10,9 @@ import android.content.SharedPreferences;
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.medicnet.android.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AppUtil {
 
 //    public static final int LOCKSCREEN_REQUEST_CODE = 123;
@@ -51,5 +54,10 @@ public class AppUtil {
         SharedPreferences prefs = activity.getSharedPreferences(EnterPinActivity.PREFERENCES,
                 Context.MODE_PRIVATE);
         prefs.edit().clear().commit();
+    }
+
+    public static String convertToDate(long timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        return formatter.format(new Date(timestamp));
     }
 }
