@@ -357,11 +357,11 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
 
     private fun toggleNoChatView(size: Int) {
         if (size == 0) {
-            image_chat_icon.setVisible(false)
+            image_chat_icon.setVisible(true)
             text_chat_title.setVisible(true)
-            text_chat_title.textContent = chatRoomName
             text_chat_description.setVisible(true)
-            text_chat_description.textContent = String.format(getString(R.string.empty_msg_chat_room), chatRoomName)
+//            text_chat_title.textContent = chatRoomName
+//            text_chat_description.textContent = String.format(getString(R.string.empty_msg_chat_room), chatRoomName)
         } else {
             image_chat_icon.setVisible(false)
             text_chat_title.setVisible(false)

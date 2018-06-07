@@ -5,6 +5,7 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.view.isVisible
 import chat.rocket.core.model.isSystemMessage
+import com.medicnet.android.R
 import com.medicnet.android.chatroom.viewmodel.MessageViewModel
 import com.medicnet.android.util.extensions.textContent
 import com.medicnet.android.widget.emoji.EmojiReactionListener
@@ -32,9 +33,9 @@ class MessageViewHolder(
                 txvTimeSeperation.textContent = data.dateDisplay
             } else new_messages_notif.visibility = View.GONE
             if (unread) {
-//                imvMsgStatus
+                imvMsgStatus.setImageResource(R.drawable.ic_unread)
             } else {
-
+                imvMsgStatus.setImageResource(R.drawable.ic_read)
             }
             text_message_time.text = data.time
             text_sender.text = data.senderName

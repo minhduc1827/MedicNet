@@ -169,11 +169,10 @@ class ChatRoomPresenter @Inject constructor(
                 client.messages(chatRoomId, roomTypeOf(chatRoomType), offset, 30).result
             }
         LogUtil.d(TAG, "loadAndShowMessages @msg= " + messages.toString())
-        if (messages.size > 0) {
-            messagesRepository.saveAll(messages)
-            view.showMessages(mapper.map(messages, RoomViewModel(roles = chatRoles,
-                    isBroadcast = chatIsBroadcast)))
-        }
+        messagesRepository.saveAll(messages)
+        view.showMessages(mapper.map(messages, RoomViewModel(roles = chatRoles,
+                isBroadcast = chatIsBroadcast)))
+
     }
 
     fun sendMessage(chatRoomId: String, text: String, messageId: String?) {
