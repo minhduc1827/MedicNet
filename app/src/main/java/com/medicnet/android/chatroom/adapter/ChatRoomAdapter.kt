@@ -8,6 +8,8 @@ import chat.rocket.core.model.isSystemMessage
 import com.medicnet.android.R
 import com.medicnet.android.chatroom.presentation.ChatRoomPresenter
 import com.medicnet.android.chatroom.viewmodel.*
+import com.medicnet.android.util.AppUtil
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.inflate
 import com.medicnet.android.widget.emoji.EmojiReactionListener
 import timber.log.Timber
@@ -22,6 +24,8 @@ class ChatRoomAdapter(
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private val dataSet = ArrayList<BaseViewModel<*>>()
+    private var strDateDisplay: String = ""
+    private val TAG = ChatRoomAdapter::class.java.simpleName
 
     init {
         setHasStableIds(true)
@@ -104,8 +108,11 @@ class ChatRoomAdapter(
         }
 
         when (holder) {
-            is MessageViewHolder ->
-                holder.bind(dataSet[position] as MessageViewModel)
+            is MessageViewHolder -> {
+                val messageModel = dataSet[position] as MessageViewModel
+                LogUtil.d(TAG, "onBindViewHolder @timestamp=" + messageModel.message.timestamp + " @convertdate= " + messageModel.dateDisplay)
+                holder.bind(messageModel)
+            }
             is ImageAttachmentViewHolder ->
                 holder.bind(dataSet[position] as ImageAttachmentViewModel)
             is AudioAttachmentViewHolder ->
@@ -140,6 +147,19 @@ class ChatRoomAdapter(
     fun appendData(dataSet: List<BaseViewModel<*>>) {
         val previousDataSetSize = this.dataSet.size
         this.dataSet.addAll(dataSet)
+        /*for(baseViewModel in dataSet){
+            val messageModel=baseViewModel as MessageViewModel
+            LogUtil.d(TAG,"appendData= "+messageModel.toString()+"\n")
+        }*/
+        for (i in 0..dataSet.size - 1) {
+            var prevMessageMode: MessageViewModel? = null
+            if (i > 0)
+                prevMessageMode = dataSet.get(i - 1) as MessageViewModel
+            val curMessageModel = dataSet.get(i) as MessageViewModel
+
+            if (prevMessageMode == null || !prevMessageMode.dateDisplay.equals(AppUtil.convertToDate(curMessageModel.message.timestamp)))
+                curMessageModel.dateDisplay = AppUtil.convertToDate(curMessageModel.message.timestamp)
+        }
         notifyItemChanged(previousDataSetSize, dataSet.size)
     }
 

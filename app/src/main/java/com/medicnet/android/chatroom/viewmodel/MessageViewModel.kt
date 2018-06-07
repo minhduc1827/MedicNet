@@ -18,6 +18,7 @@ data class MessageViewModel(
         var isFirstUnread: Boolean,
         override var isTemporary: Boolean = false
 ) : BaseMessageViewModel<Message> {
+    var dateDisplay: String = ""
     override val viewType: Int
         get() = BaseViewModel.ViewType.MESSAGE.viewType
 
