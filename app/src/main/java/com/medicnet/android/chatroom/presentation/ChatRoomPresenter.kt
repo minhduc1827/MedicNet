@@ -128,12 +128,15 @@ class ChatRoomPresenter @Inject constructor(
                     val oldMessages = mapper.map(localMessages, RoomViewModel(roles = chatRoles,
                         isBroadcast = chatIsBroadcast))
                     if (oldMessages.isNotEmpty()) {
+                        LogUtil.d(TAG, "loadMessages with old message not empty")
                         view.showMessages(oldMessages)
                         loadMissingMessages()
                     } else {
+                        LogUtil.d(TAG, "loadMessages loadAndShowMessages with 0L")
                         loadAndShowMessages(chatRoomId, chatRoomType, offset)
                     }
                 } else {
+                    LogUtil.d(TAG, "loadMessages loadAndShowMessages with @offset= " + offset)
                     loadAndShowMessages(chatRoomId, chatRoomType, offset)
                 }
 
@@ -166,9 +169,11 @@ class ChatRoomPresenter @Inject constructor(
                 client.messages(chatRoomId, roomTypeOf(chatRoomType), offset, 30).result
             }
         LogUtil.d(TAG, "loadAndShowMessages @msg= " + messages.toString())
-        messagesRepository.saveAll(messages)
-        view.showMessages(mapper.map(messages, RoomViewModel(roles = chatRoles,
-            isBroadcast = chatIsBroadcast)))
+        if (messages.size > 0) {
+            messagesRepository.saveAll(messages)
+            view.showMessages(mapper.map(messages, RoomViewModel(roles = chatRoles,
+                    isBroadcast = chatIsBroadcast)))
+        }
     }
 
     fun sendMessage(chatRoomId: String, text: String, messageId: String?) {

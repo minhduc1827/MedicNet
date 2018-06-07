@@ -326,6 +326,21 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         }
     }
 
+    private fun setupRecyclerView() {
+        // Initialize the endlessRecyclerViewScrollListener so we don't NPE at onDestroyView
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        linearLayoutManager.stackFromEnd = true
+        recycler_view.layoutManager = linearLayoutManager
+        recycler_view.itemAnimator = DefaultItemAnimator()
+        endlessRecyclerViewScrollListener = object :
+                EndlessRecyclerViewScrollListener(recycler_view.layoutManager as LinearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, recyclerView: RecyclerView?) {
+                presenter.loadMessages(chatRoomId, chatRoomType, page * 30L)
+            }
+        }
+        recycler_view.addOnScrollListener(fabScrollListener)
+    }
+
     override fun onRoomUpdated(userCanPost: Boolean, channelIsBroadcast: Boolean, userCanMod: Boolean) {
         // TODO: We should rely solely on the user being able to post, but we cannot guarantee
         // that the "(channels|groups).roles" endpoint is supported by the server in use.
@@ -677,21 +692,6 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
 
     private val dismissStatus = {
         connection_status_text.fadeOut()
-    }
-
-    private fun setupRecyclerView() {
-        // Initialize the endlessRecyclerViewScrollListener so we don't NPE at onDestroyView
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-        linearLayoutManager.stackFromEnd = true
-        recycler_view.layoutManager = linearLayoutManager
-        recycler_view.itemAnimator = DefaultItemAnimator()
-        endlessRecyclerViewScrollListener = object :
-            EndlessRecyclerViewScrollListener(recycler_view.layoutManager as LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, recyclerView: RecyclerView?) {
-                presenter.loadMessages(chatRoomId, chatRoomType, page * 30L)
-            }
-        }
-        recycler_view.addOnScrollListener(fabScrollListener)
     }
 
     private fun setupFab() {
