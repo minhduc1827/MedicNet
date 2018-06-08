@@ -57,14 +57,12 @@ class MainNavigator(internal val activity: MainActivity) {
                    chatRoomLastSeen: Long,
                    isChatRoomSubscribed: Boolean,
                    isChatRoomCreator: Boolean,
-                   avatarUrl: String) {
-        /* activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
-                 isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator))
-         activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)*/
+                   avatarUrl: String,
+                   isMyVault: Boolean) {
         LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName + " @avatarUrl= " + avatarUrl)
         activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT + "_" + chatRoomId, R.id.fragment_container) {
             newInstance(chatRoomId, chatRoomName, chatRoomType, isChatRoomReadOnly, chatRoomLastSeen,
-                    isChatRoomSubscribed, isChatRoomCreator, null, avatarUrl)
+                    isChatRoomSubscribed, isChatRoomCreator, null, avatarUrl, isMyVault)
         }
     }
 

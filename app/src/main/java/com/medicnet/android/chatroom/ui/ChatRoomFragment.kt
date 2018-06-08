@@ -19,6 +19,7 @@ import androidx.core.text.bold
 import androidx.core.view.isVisible
 import chat.rocket.core.internal.realtime.socket.model.State
 import chat.rocket.core.model.ChatRoom
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.medicnet.android.R
 import com.medicnet.android.chatroom.adapter.*
 import com.medicnet.android.chatroom.presentation.ChatRoomPresenter
@@ -60,7 +61,8 @@ fun newInstance(
         isSubscribed: Boolean = true,
         isChatRoomCreator: Boolean = false,
         chatRoomMessage: String? = null,
-        chatRoomAvatarUrl: String? = null
+        chatRoomAvatarUrl: String? = null,
+        isMyVault: Boolean = false
 ): Fragment {
     return ChatRoomFragment().apply {
         arguments = Bundle(1).apply {
@@ -73,6 +75,7 @@ fun newInstance(
             putBoolean(BUNDLE_CHAT_ROOM_IS_CREATOR, isChatRoomCreator)
             putString(BUNDLE_CHAT_ROOM_MESSAGE, chatRoomMessage)
             putString(BUNDLE_CHAT_ROOM_AVATAR_URL, chatRoomAvatarUrl)
+            putBoolean(BUNDLE_IS_MY_VAULT, isMyVault)
         }
     }
 }
@@ -87,6 +90,7 @@ private const val BUNDLE_CHAT_ROOM_IS_SUBSCRIBED = "chat_room_is_subscribed"
 private const val BUNDLE_CHAT_ROOM_IS_CREATOR = "chat_room_is_creator"
 private const val BUNDLE_CHAT_ROOM_MESSAGE = "chat_room_message"
 private const val BUNDLE_CHAT_ROOM_AVATAR_URL = "chat_room_avatar"
+private const val BUNDLE_IS_MY_VAULT = "is_my_vault"
 
 class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiReactionListener {
 
@@ -110,6 +114,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     private var isBroadcastChannel: Boolean = false
     private var isChatRoomSubscribed: Boolean = true
     private var chatRoomLastSeen: Long = -1
+    private var isMyVault: Boolean = false
+
 
     private lateinit var emojiKeyboardPopup: EmojiKeyboardPopup
     private lateinit var actionSnackbar: ActionSnackbar
@@ -137,6 +143,7 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     private val centerY by lazy { recycler_view.bottom }
     private val handler = Handler()
     private var verticalScrollOffset = AtomicInteger(0)
+    private var mainActivity: MainActivity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,6 +164,7 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             requireNotNull(chatRoomId) { "no chat_room_id provided in Intent extras" }
             chatRoomName = bundle.getString(BUNDLE_CHAT_ROOM_NAME)
             requireNotNull(chatRoomName) { "no chat_room_name provided in Intent extras" }
+
             chatRoomType = bundle.getString(BUNDLE_CHAT_ROOM_TYPE)
             requireNotNull(chatRoomType) { "no chat_room_type provided in Intent extras" }
             isChatRoomReadOnly = bundle.getBoolean(BUNDLE_IS_CHAT_ROOM_READ_ONLY)
@@ -168,6 +176,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             chatRoomAvatarUrl = bundle.getString(BUNDLE_CHAT_ROOM_AVATAR_URL)
             requireNotNull(chatRoomName) { "no chat_room_avatar provided in Intent extras" }
             chatRoomMessage = bundle.getString(BUNDLE_CHAT_ROOM_MESSAGE)
+            isChatRoomSubscribed = bundle.getBoolean(BUNDLE_CHAT_ROOM_IS_SUBSCRIBED, true)
+            isMyVault = bundle.getBoolean(BUNDLE_IS_MY_VAULT, false)
         } else {
             requireNotNull(bundle) { "no arguments supplied when the fragment was instantiated" }
         }
@@ -181,41 +191,14 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         return container?.inflate(R.layout.fragment_chat_room)
     }
 
-    fun init() {
-        // Workaround for when we are coming to the app via the recents app and the app was killed.
-        val serverUrl = serverInteractor.get()
-        if (serverUrl != null) {
-            managerFactory.create(serverUrl).connect()
-        } else {
-            activity!!.startActivity(activity!!.changeServerIntent())
-            activity!!.finish()
-            return
-        }
-        chatRoomId = arguments!!.getString(BUNDLE_CHAT_ROOM_ID)
-        requireNotNull(chatRoomId) { "no chat_room_id provided in Intent extras" }
-
-        chatRoomName = arguments!!.getString(BUNDLE_CHAT_ROOM_NAME)
-        requireNotNull(chatRoomName) { "no chat_room_name provided in Intent extras" }
-
-        chatRoomType = arguments!!.getString(BUNDLE_CHAT_ROOM_TYPE)
-        requireNotNull(chatRoomType) { "no chat_room_type provided in Intent extras" }
-
-        isChatRoomReadOnly = arguments!!.getBoolean(BUNDLE_IS_CHAT_ROOM_READ_ONLY, true)
-        requireNotNull(isChatRoomReadOnly) { "no chat_room_is_read_only provided in Intent extras" }
-
-        isChatRoomCreator = arguments!!.getBoolean(BUNDLE_CHAT_ROOM_IS_CREATOR, false)
-        requireNotNull(isChatRoomCreator) { "no chat_room_is_creator provided in Intent extras" }
-
-//        val chatRoomMessage = arguments!!.getString(BUNDLE_CHAT_ROOM_MESSAGE)
-        chatRoomLastSeen = arguments!!.getLong(BUNDLE_CHAT_ROOM_LAST_SEEN, -1)
-
-        isChatRoomSubscribed = arguments!!.getBoolean(BUNDLE_CHAT_ROOM_IS_SUBSCRIBED, true)
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
 
+        if (isMyVault) {
+            chatRoomName = getString(R.string.label_my_vault)
+            chatRoomAvatarUrl = ImageRequestBuilder.newBuilderWithResourceId(R.drawable.ic_lock).build().sourceUri.toString()
+        }
         setupToolbar(chatRoomName)
 
         presenter.setupChatRoom(chatRoomId, chatRoomName, chatRoomType, chatRoomMessage)
@@ -224,8 +207,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
         setupFab()
         setupSuggestionsView()
         setupActionSnackbar()
-        activity?.apply {
-            (this as? MainActivity)?.showRoomTypeIcon(true, chatRoomType)
+        mainActivity?.apply {
+            mainActivity?.showRoomTypeIcon(true, chatRoomType)
         }
     }
 
@@ -888,8 +871,15 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
     }
 
     private fun setupToolbar(toolbarTitle: String) {
-        (activity as MainActivity).setupToolbarTitle(toolbarTitle)
-        (activity as MainActivity).image_room_avatar.setImageURI(chatRoomAvatarUrl)
+        if (mainActivity != null) {
+            mainActivity!!.setupToolbarTitle(toolbarTitle)
+            mainActivity!!.image_room_avatar.setImageURI(chatRoomAvatarUrl)
+            if (isMyVault) {
+                mainActivity!!.text_room_description.visibility = View.VISIBLE
+            } else {
+                mainActivity!!.text_room_description.visibility = View.GONE
+            }
+        }
 
     }
 }

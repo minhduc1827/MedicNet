@@ -260,4 +260,5 @@
 
     <!--chatroom-->
     <string name="empty_msg_chat_room" translatable="false">This is the start of the conversation on %s</string>
+    <string name="my_vault_description_header" translatable="false">Store text and pictures here</string>
 </resources>

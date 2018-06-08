@@ -29,6 +29,7 @@ import com.medicnet.android.server.infraestructure.ConnectionManager
 import com.medicnet.android.server.infraestructure.ConnectionManagerFactory
 import com.medicnet.android.server.infraestructure.chatRooms
 import com.medicnet.android.server.infraestructure.state
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.avatarUrl
 import com.medicnet.android.util.extensions.launchUI
 import com.medicnet.android.util.retryIO
@@ -116,10 +117,12 @@ class ChatRoomsPresenter @Inject constructor(
                 } else {
                     chatRoom.client.url.avatarUrl(chatRoom.name, true)
                 }
+                val isMyVault = myself.username.equals(chatRoom.name)
+                LogUtil.d(TAG, "loadChatRoom navigate to chatroom @isMyVault= " + isMyVault)
                 navigator.toChatRoom(chatRoom.id, roomName,
                     chatRoom.type.toString(), chatRoom.readonly ?: false,
                     chatRoom.lastSeen ?: -1,
-                        chatRoom.open, isChatRoomOwner, chatRoomAvatarUrl)
+                        chatRoom.open, isChatRoomOwner, chatRoomAvatarUrl, isMyVault)
             }
         }
     }

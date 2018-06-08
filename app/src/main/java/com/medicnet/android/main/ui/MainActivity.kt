@@ -307,7 +307,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     fun setupToolbarTitle(toolbarTitle: String) {
         text_room_name.textContent = toolbarTitle
     }
-
     fun showRoomTypeIcon(showRoomTypeIcon: Boolean, chatRoomType: String) {
         /*if (showRoomTypeIcon) {
             val roomType = roomTypeOf(chatRoomType)

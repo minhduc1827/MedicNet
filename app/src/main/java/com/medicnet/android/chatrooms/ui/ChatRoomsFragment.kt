@@ -68,6 +68,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             if (chatRoomSelected != null) {
                 setItemSelected(chatRoomSelected!!)
                 isGlobalLayoutListenerSetUp = true
+
             }
         }
     }
