@@ -63,7 +63,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var chatRoomSelected: ChatRoom? = null
     private var baseAdapter: ChatRoomsAdapter? = null
     private val recyclerViewlayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-        LogUtil.d(TAG, "recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
+        LogUtil.d(TAG, "updateChatRooms recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
         if (!isGlobalLayoutListenerSetUp) {
             if (chatRoomSelected != null) {
                 setItemSelected(chatRoomSelected!!)
@@ -72,7 +72,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         }
     }
     private var isGlobalLayoutListenerSetUp = false
-    private var selectedPos = 0
+//    private var selectedPos = 0
+//    private var isMyVaultClicked=false
 //    var sortByActivity: Boolean = false
 //    var isMyVaultClicked: Boolean = false
 
@@ -117,9 +118,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             if (layoutMyVault.tag != null)
                 tagChatRoom = layoutMyVault.tag as ChatRoom
             if (tagChatRoom != null) {
-                /*mainActivity!!.drawer_layout.closeDrawer(Gravity.START)
-                changeItemBgColor(Color.WHITE)
-                loadChatRoom(tagChatRoom)*/
                 setItemSelected(tagChatRoom)
             }
         }
@@ -293,12 +291,12 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         listJob = ui {
             //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
             val dataSet: MutableList<ChatRoom> = ArrayList();
-
             for (i in 0..newDataSet.size - 1) {
                 var chatRoom: ChatRoom = newDataSet.get(i)
                 if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen != null && chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
                     chatRoomSelected = chatRoom
-                    selectedPos = i
+                    chatRoom.selected = true
+                    LogUtil.d(TAG, "updateChatRooms @chatRoomSelected= " + chatRoom.toString())
                 }
                 if (mainActivity!!.username.equals(chatRoom.name)) {
 //                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
@@ -308,8 +306,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     dataSet.add(chatRoom)
                 }
             }
-            LogUtil.d(TAG, "updateChatRooms final @selectedPos= " + selectedPos + " @lastSeen= " + dataSet.get(selectedPos).lastSeen)
-            dataSet.get(selectedPos).selected = true
 
             val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
             // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
