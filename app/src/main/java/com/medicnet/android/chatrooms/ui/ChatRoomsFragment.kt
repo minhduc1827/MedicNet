@@ -293,7 +293,8 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             val dataSet: MutableList<ChatRoom> = ArrayList();
             for (i in 0..newDataSet.size - 1) {
                 var chatRoom: ChatRoom = newDataSet.get(i)
-                if (chatRoomSelected == null || (chatRoomSelected != null && chatRoomSelected!!.lastSeen != null && chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! < chatRoom?.lastSeen!!)) {
+                if (chatRoomSelected == null ||
+                        (chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! <= chatRoom?.lastSeen!!)) {
                     chatRoomSelected = chatRoom
                     chatRoom.selected = true
                     LogUtil.d(TAG, "updateChatRooms @chatRoomSelected= " + chatRoom.toString())
@@ -322,10 +323,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                 adapter.notifyDataSetChanged()
 
                 //Set sections always after data set is updated
-                /*if (!sortByActivity) {
-                    sortByActivity = true
-                    presenter.updateSortedChatRooms()
-                } else*/
                 sectionedAdapter!!.clearSections()
                 setSections()
             }
