@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import chat.rocket.core.model.isSystemMessage
 import com.medicnet.android.R
 import com.medicnet.android.chatroom.viewmodel.MessageViewModel
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.textContent
 import com.medicnet.android.widget.emoji.EmojiReactionListener
 import kotlinx.android.synthetic.main.avatar.view.*
@@ -27,18 +28,21 @@ class MessageViewHolder(
 
     override fun bindViews(data: MessageViewModel) {
         with(itemView) {
-            val unread = data.message.unread ?: false
+            val unread = data.message.unread
+            LogUtil.d(TAG, "bindViews @message= " + data.message);
             if (!data.dateDisplay.equals("")) {
                 new_messages_notif.visibility = View.VISIBLE
                 txvTimeSeperation.textContent = data.dateDisplay
             } else new_messages_notif.visibility = View.GONE
-            if (unread) {
-                imvMsgStatus.setImageResource(R.drawable.ic_unread)
-            } else {
-                imvMsgStatus.setImageResource(R.drawable.ic_read)
+            if (unread != null) {
+                if (unread)
+                    imvMsgStatus.setImageResource(R.drawable.ic_unread)
+                else {
+                    imvMsgStatus.setImageResource(R.drawable.ic_read)
+                }
             }
             text_message_time.text = data.time
-            text_sender.text = data.senderName
+            text_sender.text = if (data.message.sender != null) data.message.sender!!.name else data.senderName
             text_content.text = data.content
             image_avatar.setImageURI(data.avatar)
             text_content.setTextColor(

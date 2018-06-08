@@ -113,7 +113,7 @@
     </style>
 
     <style name="Timestamp.TextView" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="Profile.EditText" parent="Authentication.EditText">
