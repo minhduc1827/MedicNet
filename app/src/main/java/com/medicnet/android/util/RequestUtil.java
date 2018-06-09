@@ -7,12 +7,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class RequestUtil {
-    //    public static final int LOCKSCREEN_REQUEST_CODE = 123;
     public static String token = "";
     public static String userId = "";
     private static final String HEADER_TOKEN = "X-Auth-Token";
     private static final String HEADER_USER_ID = "X-User-Id";
     private static final String TAG = "RequestUtil";
+    private static final String HOST = "https://medicappdev.eastus.cloudapp.azure.com/api/v1/";
+    public static final String GET_ORGANIZATION_LIST_URL = HOST + "organizations.list";
+    public static final String GET_USER_LIST_URL = HOST + "users.list";
 
     public static void request(String url, Callback callback) {
         LogUtil.d(TAG, "request @token= " + token + " @userid= " + userId + " @url= " + url);

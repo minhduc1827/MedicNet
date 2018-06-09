@@ -62,8 +62,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 }
             }
         }
-        val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
-        RequestUtil.request(url, organizationCallBack())
+        RequestUtil.request(RequestUtil.GET_ORGANIZATION_LIST_URL, organizationCallBack())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

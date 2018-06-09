@@ -42,7 +42,11 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -87,16 +91,19 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         setupToolbar()
         setupNavigationView()
         setupPassCodeScreen()
+        RequestUtil.request(RequestUtil.GET_USER_LIST_URL, object : Callback {
+            override fun onFailure(call: Call?, e: IOException?) {
+                LogUtil.d(TAG, "onFailure get user list")
+            }
 
+            override fun onResponse(call: Call?, response: Response?) {
+                if (response?.body() != null)
+                    LogUtil.d(TAG, "onResponse get user list>>" + response!!.body()!!.string().toString())
+            }
+
+        })
     }
 
-    fun groupChatRooms() {
-        /*val groupByType = SharedPreferenceHelper.getBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, false)
-        if (!groupByType) {
-            SharedPreferenceHelper.putBoolean(Constants.CHATROOM_GROUP_BY_TYPE_KEY, true)
-            chatRoomsFragment?.presenter?.updateSortedChatRooms()
-        }*/
-    }
 
     private fun setupPassCodeScreen() {
         val isRedirect = intent.getBooleanExtra(EXTRA_REDIRECT_TO_MAIN, true)
