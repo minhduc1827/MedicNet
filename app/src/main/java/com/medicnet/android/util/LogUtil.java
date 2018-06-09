@@ -10,4 +10,9 @@ public class LogUtil {
         if (BuildConfig.BUILD_TYPE.equals("debug"))
             Log.d(tag, msg);
     }
+
+    public static void e(String tag, String msg) {
+        if (BuildConfig.BUILD_TYPE.equals("debug"))
+            Log.e(tag, msg);
+    }
 }

@@ -29,6 +29,7 @@ import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
+import com.medicnet.android.util.RequestUtil
 import com.medicnet.android.util.extensions.*
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 Timber.d(ex, "Missing play services...")
             }
         }
-
+        LogUtil.d(TAG, "@token= " + RequestUtil.token + " @userId= " + RequestUtil.userId)
         presenter.connect()
         presenter.loadCurrentInfo()
         val prefs = getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)

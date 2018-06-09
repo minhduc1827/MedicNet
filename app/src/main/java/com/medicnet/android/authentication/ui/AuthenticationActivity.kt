@@ -12,8 +12,8 @@ import com.medicnet.android.authentication.domain.model.getLoginDeepLinkInfo
 import com.medicnet.android.authentication.login.ui.LoginFragment
 import com.medicnet.android.authentication.presentation.AuthenticationPresenter
 import com.medicnet.android.authentication.server.ui.ServerFragment
-import com.medicnet.android.dagger.module.AppModule
 import com.medicnet.android.util.LogUtil
+import com.medicnet.android.util.RequestUtil
 import com.medicnet.android.util.extensions.addFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -24,7 +24,6 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 import javax.inject.Inject
@@ -64,7 +63,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
         val url = getString(R.string.default_protocol) + getString(R.string.default_server) + getString(R.string.organization_list_api)
-        getDataFromSever(url, organizationCallBack())
+        RequestUtil.request(url, organizationCallBack())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,15 +84,14 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    private fun getDataFromSever(url: String, callback: Callback) {
-
-        LogUtil.d(TAG, "getDataFromSever @url= " + url);
-        val client = AppModule.createUnsafeOkHttpClient().build()
-        val request = Request.Builder()
-                .url(url)
-                .build()
-        client.newCall(request).enqueue(callback)
-    }
+    /* private fun getDataFromSever(url: String, callback: Callback) {
+         LogUtil.d(TAG, "getDataFromSever @url= " + url);
+         val client = AppModule.createUnsafeOkHttpClient().build()
+         val request = Request.Builder()
+                 .url(url)
+                 .build()
+         client.newCall(request).enqueue(callback)
+     }*/
 
     override fun onDestroy() {
         job.cancel()

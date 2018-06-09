@@ -15,7 +15,6 @@ import java.util.Date;
 
 public class AppUtil {
 
-//    public static final int LOCKSCREEN_REQUEST_CODE = 123;
 
     public static void displayLockScreen(Activity activity, boolean isCancelable, int requestCode) {
         SharedPreferences prefs = activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE);

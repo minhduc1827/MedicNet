@@ -290,42 +290,45 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     override suspend fun updateChatRooms(newDataSet: List<ChatRoom>) {
         listJob?.cancel()
         listJob = ui {
-            //            LogUtil.d(TAG, "updateChatRooms @newDataSet= " + newDataSet.toString())
-            val dataSet: MutableList<ChatRoom> = ArrayList();
-            for (i in 0..newDataSet.size - 1) {
-                var chatRoom: ChatRoom = newDataSet.get(i)
-                if (chatRoomSelected == null ||
-                        (chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! <= chatRoom?.lastSeen!!)) {
-                    chatRoomSelected = chatRoom
-                    chatRoom.selected = true
-                    LogUtil.d(TAG, "updateChatRooms @chatRoomSelected= " + chatRoom.toString())
-                }
-                if (mainActivity!!.username.equals(chatRoom.name)) {
+            try {
+                val dataSet: MutableList<ChatRoom> = ArrayList();
+                for (i in 0..newDataSet.size - 1) {
+                    var chatRoom: ChatRoom = newDataSet.get(i)
+                    if (chatRoomSelected == null ||
+                            (chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! <= chatRoom?.lastSeen!!)) {
+                        chatRoomSelected = chatRoom
+                        chatRoom.selected = true
+                        LogUtil.d(TAG, "updateChatRooms @chatRoomSelected= " + chatRoom.toString())
+                    }
+                    if (mainActivity!!.username.equals(chatRoom.name)) {
 //                    LogUtil.d(TAG, "updateChatRooms has myVault @chatroom= " + chatRoom.toString())
-                    layoutMyVault.tag = chatRoom
-                    setupMyVault(chatRoom)
-                } else {
-                    dataSet.add(chatRoom)
+                        layoutMyVault.tag = chatRoom
+                        setupMyVault(chatRoom)
+                    } else {
+                        dataSet.add(chatRoom)
+                    }
                 }
-            }
 
-            val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
-            // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
-            // TODO - fix this bug to re-enable DiffUtil
-            /*val diff = async(CommonPool) {
+                val adapter = recycler_view.adapter as SimpleSectionedRecyclerViewAdapter
+                // FIXME https://fabric.io/rocketchat3/android/apps/com.medicnet.android/issues/5ac2916c36c7b235275ccccf
+                // TODO - fix this bug to re-enable DiffUtil
+                /*val diff = async(CommonPool) {
                 DiffUtil.calculateDiff(RoomsDiffCallback(adapter.baseAdapter.dataSet, newDataSet))
             }.await()*/
 //            text_no_search.isVisible = newDataSet.isEmpty()
-            text_no_search.isVisible = dataSet.isEmpty()
-            if (isActive) {
+                text_no_search.isVisible = dataSet.isEmpty()
+                if (isActive) {
 //                adapter.baseAdapter.updateRooms(newDataSet)
-                adapter.baseAdapter.updateRooms(dataSet)
-                // TODO - fix crash to re-enable diff.dispatchUpdatesTo(adapter)
-                adapter.notifyDataSetChanged()
+                    adapter.baseAdapter.updateRooms(dataSet)
+                    // TODO - fix crash to re-enable diff.dispatchUpdatesTo(adapter)
+                    adapter.notifyDataSetChanged()
 
-                //Set sections always after data set is updated
-                sectionedAdapter!!.clearSections()
-                setSections()
+                    //Set sections always after data set is updated
+                    sectionedAdapter!!.clearSections()
+                    setSections()
+                }
+            } catch (ex: Exception) {
+                LogUtil.e(TAG, "updateChatRooms exception= " + ex.toString())
             }
 
         }

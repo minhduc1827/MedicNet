@@ -6,6 +6,7 @@ import com.medicnet.android.server.domain.GetCurrentServerInteractor
 import com.medicnet.android.server.domain.SettingsRepository
 import com.medicnet.android.server.domain.TokenRepository
 import com.medicnet.android.util.LogUtil
+import com.medicnet.android.util.RequestUtil
 import javax.inject.Inject
 
 class AuthenticationPresenter @Inject constructor(
@@ -24,6 +25,8 @@ class AuthenticationPresenter @Inject constructor(
         val account = currentServer?.let { getAccountInteractor.get(currentServer) }
 
         account?.let {
+            RequestUtil.token = serverToken?.authToken
+            RequestUtil.userId = serverToken?.userId
             localRepository.save(LocalRepository.CURRENT_USERNAME_KEY, account.userName)
         }
 
