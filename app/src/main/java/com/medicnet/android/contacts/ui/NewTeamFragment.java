@@ -41,7 +41,6 @@ public class NewTeamFragment extends Fragment {
     private UsersAdapter usersAdapter;
     private UserSelectedAdapter userSelectedAdapter;
     private List<UserItem> listUser = new ArrayList<>();
-    private List<String> listUserName = new ArrayList<>();
     private TextView txvUserSelectedEmpty;
     private EditText edtTeamName;
     private View mainView;
@@ -72,7 +71,7 @@ public class NewTeamFragment extends Fragment {
         addNewTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.createNewTeam(edtTeamName.getText().toString(), listUserName, false);
+                mainActivity.createNewTeam(edtTeamName.getText().toString(), getListUserName(), false);
             }
         });
         edtTeamName.addTextChangedListener(new TextWatcher() {
@@ -99,6 +98,13 @@ public class NewTeamFragment extends Fragment {
         });
     }
 
+    private List<String> getListUserName() {
+        List<String> listUserName = new ArrayList<>();
+        for (UserItem userItem : listUser)
+            listUserName.add(userItem.username);
+        return listUserName;
+    }
+
     private void setupRecyclerViewUser() {
         recyclerViewUser = mainView.findViewById(R.id.recyclerViewUser);
         LinearLayoutManager verticalLayoutmanager
@@ -119,15 +125,10 @@ public class NewTeamFragment extends Fragment {
         if (isCheck)
             listUser.add(user);
         else {
-            if (listUserName.size() > 0)
-                listUserName.clear();
             Iterator<UserItem> iterator = listUser.iterator();
             while (iterator.hasNext()) {
                 if (iterator.next().equals(user)) {
                     iterator.remove();
-                } else {
-                    if (iterator.next() != null)
-                        listUserName.add(iterator.next().username);
                 }
             }
 
@@ -180,8 +181,6 @@ public class NewTeamFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if (listUserName != null && listUserName.size() > 0)
-            listUserName.clear();
         if (listUser != null && listUser.size() > 0)
             listUser.clear();
         super.onDestroyView();
