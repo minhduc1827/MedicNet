@@ -9,8 +9,8 @@ import android.content.SharedPreferences;
 
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.medicnet.android.R;
-import com.medicnet.android.newteam.model.UserItem;
-import com.medicnet.android.newteam.model.Users;
+import com.medicnet.android.contacts.model.UserItem;
+import com.medicnet.android.contacts.model.Users;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 

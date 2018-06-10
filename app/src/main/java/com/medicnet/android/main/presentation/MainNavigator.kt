@@ -5,8 +5,8 @@ import com.medicnet.android.authentication.ui.newServerIntent
 import com.medicnet.android.chatroom.ui.ChatRoomActivity
 import com.medicnet.android.chatroom.ui.newInstance
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
+import com.medicnet.android.contacts.ui.NewTeamFragment
 import com.medicnet.android.main.ui.MainActivity
-import com.medicnet.android.newteam.ui.NewTeamFragment
 import com.medicnet.android.profile.ui.ProfileFragment
 import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.settings.ui.SettingsFragment

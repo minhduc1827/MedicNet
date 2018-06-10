@@ -20,14 +20,14 @@ import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
+import com.medicnet.android.contacts.model.UserItem
+import com.medicnet.android.contacts.ui.NewTeamFragment
 import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
-import com.medicnet.android.newteam.model.UserItem
-import com.medicnet.android.newteam.ui.NewTeamFragment
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil

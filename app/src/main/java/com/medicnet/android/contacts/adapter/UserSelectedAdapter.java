@@ -1,4 +1,4 @@
-package com.medicnet.android.main.adapter;
+package com.medicnet.android.contacts.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,16 +9,16 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.medicnet.android.R;
-import com.medicnet.android.newteam.model.UserItem;
+import com.medicnet.android.contacts.model.UserItem;
 
 import java.util.List;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
+public class UserSelectedAdapter extends RecyclerView.Adapter<UserSelectedAdapter.UserViewHolder> {
 
     private List<UserItem> listUsers;
     private final String avatarUrl = "https://medicappdev.eastus.cloudapp.azure.com/avatar/%s?format=jpeg";
 
-    public UsersAdapter(List<UserItem> listUsers) {
+    public UserSelectedAdapter(List<UserItem> listUsers) {
         this.listUsers = listUsers;
     }
 
@@ -26,7 +26,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.user_item, parent, false);
+                .inflate(R.layout.user_item_selected, parent, false);
         return new UserViewHolder(itemView);
     }
 
@@ -35,14 +35,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         UserItem user = listUsers.get(position);
         holder.imvAvatar.setImageURI(String.format(avatarUrl, user.username));
         holder.txvUserName.setText(user.username);
-        holder.txvUserStatus.setText(getUserStatus(user.status));
-    }
-
-    private String getUserStatus(String status) {
-        if (status.equals("online"))
-            return "Available";
-        else
-            return "On Leave";
     }
 
     @Override
@@ -51,13 +43,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
-        public TextView txvUserName, txvUserStatus;
+        public TextView txvUserName;
         public SimpleDraweeView imvAvatar;
 
         public UserViewHolder(View view) {
             super(view);
             txvUserName = view.findViewById(R.id.txvUserName);
-            txvUserStatus = view.findViewById(R.id.txvUserStatus);
             imvAvatar = view.findViewById(R.id.imvAvatar);
         }
     }

@@ -261,4 +261,7 @@
     <!--chatroom-->
     <string name="empty_msg_chat_room" translatable="false">This is the start of the conversation on %s</string>
     <string name="my_vault_description_header" translatable="false">Store text and pictures here</string>
+
+    <string name="label_team_name" translatable="false">Team name</string>
+    <string name="no_contact_selected" translatable="false">No contact selected.</string>
 </resources>

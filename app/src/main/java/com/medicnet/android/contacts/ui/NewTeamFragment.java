@@ -1,4 +1,4 @@
-package com.medicnet.android.newteam.ui;
+package com.medicnet.android.contacts.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.medicnet.android.R;
-import com.medicnet.android.main.adapter.UsersAdapter;
+import com.medicnet.android.contacts.adapter.UsersAdapter;
 import com.medicnet.android.main.ui.MainActivity;
 
 /**

@@ -1,4 +1,4 @@
-package com.medicnet.android.newteam.model;
+package com.medicnet.android.contacts.model;
 
 import java.util.List;
 

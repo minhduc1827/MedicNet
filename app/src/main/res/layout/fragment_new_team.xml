@@ -35,15 +35,27 @@
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:background="@color/dark_gray"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewUser"
+        app:layout_constraintBottom_toTopOf="@+id/layoutContact"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutTeamSearch"
         app:layout_constraintVertical_weight="1" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewUser"
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/no_contact_selected"
+        android:textColor="@color/light_gray"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/recyclerViewUserSeleted"
+        app:layout_constraintRight_toRightOf="@+id/recyclerViewUserSeleted"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewUserSeleted"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewUserSeleted"
+        android:gravity="center" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutContact"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
@@ -52,5 +64,37 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewUserSeleted"
-        app:layout_constraintVertical_weight="2" />
+        app:layout_constraintVertical_weight="2">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/label_team_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/light_gray"
+            android:textSize="16dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            android:background="@color/light_gray"
+            android:id="@+id/view1" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewUser"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/view1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="10dp" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
