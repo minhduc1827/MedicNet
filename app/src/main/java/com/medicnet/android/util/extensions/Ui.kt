@@ -40,6 +40,14 @@ fun AppCompatActivity.addFragment(tag: String, layoutId: Int, newInstance: () ->
     return fragment
 }
 
+fun AppCompatActivity.addOverlayFragment(tag: String, layoutId: Int, newInstance: () -> Fragment): Fragment {
+    val fragment = supportFragmentManager.findFragmentByTag(tag) ?: newInstance()
+    supportFragmentManager.beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commitAllowingStateLoss()
+    return fragment
+}
+
 fun AppCompatActivity.addFragmentBackStack(
     tag: String,
     layoutId: Int,
