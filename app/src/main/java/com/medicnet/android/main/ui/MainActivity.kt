@@ -25,6 +25,7 @@ import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
+import com.medicnet.android.main.user.model.UserItem
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     val LOCKSCREEN_REQUEST_CODE: Int = 123
     var needShowLockScreen: Boolean = true
     var username: String? = ""
+    var userList: List<UserItem>? = null
 
 //    var chatRoomsFragment: ChatRoomsFragment? = null
 
@@ -97,8 +99,11 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
 
             override fun onResponse(call: Call?, response: Response?) {
-                if (response?.body() != null)
-                    LogUtil.d(TAG, "onResponse get user list>>" + response!!.body()!!.string().toString())
+                if (response?.body() != null) {
+                    var json = response!!.body()!!.string().toString()
+                    userList = AppUtil.getUserList(json)
+                    LogUtil.d(TAG, "onResponse get user list>>" + json + " @size= " + (userList as java.util.ArrayList<UserItem>?)!!.size)
+                }
             }
 
         })

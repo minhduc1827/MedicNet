@@ -9,9 +9,15 @@ import android.content.SharedPreferences;
 
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.medicnet.android.R;
+import com.medicnet.android.main.user.model.UserItem;
+import com.medicnet.android.main.user.model.Users;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AppUtil {
 
@@ -58,5 +64,25 @@ public class AppUtil {
     public static String convertToDate(long timestamp) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
         return formatter.format(new Date(timestamp));
+    }
+
+    public static List<UserItem> getUserList(String json) {
+        List<UserItem> userItemList = new ArrayList<>();
+        if (!json.isEmpty()) {
+            Moshi moshi = new Moshi.Builder().build();
+//            Type type= Types.newParameterizedType(List.class, Organization.class);
+//            JsonAdapter<List<Organization>>adapter=moshi.adapter(type);
+            JsonAdapter<Users> jsonAdapter = moshi.adapter(Users.class);
+            try {
+                Users userList = jsonAdapter.fromJson(json);
+                for (UserItem userItem : userList.users) {
+                    userItemList.add(userItem);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return userItemList;
     }
 }

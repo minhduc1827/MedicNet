@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.medicnet.android.R;
-import com.medicnet.android.authentication.domain.model.OrganizationElement;
-import com.medicnet.android.authentication.domain.model.Organizations;
+import com.medicnet.android.authentication.organization.model.OrganizationItem;
+import com.medicnet.android.authentication.organization.model.Organizations;
 import com.medicnet.android.authentication.ui.AuthenticationActivity;
 import com.medicnet.android.util.LogUtil;
 import com.squareup.moshi.JsonAdapter;
@@ -117,7 +117,7 @@ public class OrganizationFragment extends Fragment {
             JsonAdapter<Organizations> jsonAdapter = moshi.adapter(Organizations.class);
             try {
                 Organizations organizationList = jsonAdapter.fromJson(jsonData);
-                for (OrganizationElement organization : organizationList.organizations) {
+                for (OrganizationItem organization : organizationList.organizations) {
                     dataList.add(organization.value);
                 }
 

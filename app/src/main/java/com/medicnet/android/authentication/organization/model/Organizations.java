@@ -1,4 +1,4 @@
-package com.medicnet.android.authentication.domain.model;
+package com.medicnet.android.authentication.organization.model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  * @since 5/25/2018
  */
 public class Organizations {
-    public List<OrganizationElement> organizations;
+    public List<OrganizationItem> organizations;
     public int count;
     public int total;
     public boolean success;
