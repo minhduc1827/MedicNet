@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         setupToolbar()
         setupNavigationView()
         setupPassCodeScreen()
-        RequestUtil.request(RequestUtil.GET_USER_LIST_URL, object : Callback {
+        RequestUtil.handleGetRequest(RequestUtil.GET_USER_LIST_URL, object : Callback {
             override fun onFailure(call: Call?, e: IOException?) {
                 LogUtil.d(TAG, "onFailure get user list")
             }
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             override fun onResponse(call: Call?, response: Response?) {
                 if (response?.body() != null) {
                     var json = response!!.body()!!.string().toString()
-                    userList = AppUtil.getUserList(json)
+                    userList = AppUtil.getUserList(json, username)
                     LogUtil.d(TAG, "onResponse get user list>>" + json + " @size= " + (userList as java.util.ArrayList<UserItem>?)!!.size)
                 }
             }
@@ -111,6 +111,16 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         })
         layoutAddTeam.setOnClickListener {
             teamFragment = presenter.toNewTeam()
+        }
+    }
+
+    fun createNewTeam(name: String,
+                      usersList: List<String>?,
+                      readOnly: Boolean? = false) {
+        presenter.createChannel(name, usersList, readOnly) { isSuccess ->
+            if (isSuccess) {
+                LogUtil.d(TAG, "Add new team successfully")
+            }
         }
     }
 

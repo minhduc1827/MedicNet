@@ -62,7 +62,7 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 }
             }
         }
-        RequestUtil.request(RequestUtil.GET_ORGANIZATION_LIST_URL, organizationCallBack())
+        RequestUtil.handleGetRequest(RequestUtil.GET_ORGANIZATION_LIST_URL, organizationCallBack())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -86,10 +86,10 @@ class AuthenticationActivity : AppCompatActivity(), HasSupportFragmentInjector {
     /* private fun getDataFromSever(url: String, callback: Callback) {
          LogUtil.d(TAG, "getDataFromSever @url= " + url);
          val client = AppModule.createUnsafeOkHttpClient().build()
-         val request = Request.Builder()
+         val handleGetRequest = Request.Builder()
                  .url(url)
                  .build()
-         client.newCall(request).enqueue(callback)
+         client.newCall(handleGetRequest).enqueue(callback)
      }*/
 
     override fun onDestroy() {

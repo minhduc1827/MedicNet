@@ -8,7 +8,7 @@
         android:id="@+id/layoutTeamSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/dark_gray"
+        android:background="@color/search_user_header"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewUserSeleted"
         app:layout_constraintHorizontal_bias="0.5"
@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:background="@color/dark_gray"
+        android:background="@color/toolbar_header"
         app:layout_constraintBottom_toTopOf="@+id/layoutContact"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/no_contact_selected"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/dark_gray"
         android:textSize="16dp"
         app:layout_constraintLeft_toLeftOf="@+id/recyclerViewUserSeleted"
         app:layout_constraintRight_toRightOf="@+id/recyclerViewUserSeleted"
@@ -98,5 +98,38 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="10dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutAddTeam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/toolbar_header">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_new_team"
+            app:layout_constraintRight_toLeftOf="@+id/txvNewTeam"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="10dp"
+            android:clickable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/label_create_new_team"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:id="@+id/txvNewTeam"
+            android:textColor="@color/red_medium"
+            android:textAllCaps="true" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -104,7 +104,7 @@ class OauthWebViewActivity : AppCompatActivity() {
         web_view.loadUrl(webPageUrl)
     }
 
-    // If the states matches, then try to get the code, otherwise the request was created by a third party and the process should be aborted.
+    // If the states matches, then try to get the code, otherwise the handleGetRequest was created by a third party and the process should be aborted.
     private fun isStateValid(url: String): Boolean =
         url.substringBefore("#").toUri().getQueryParameter(INTENT_STATE) == state
 

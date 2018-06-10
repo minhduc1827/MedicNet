@@ -264,4 +264,5 @@
 
     <string name="label_team_name" translatable="false">Team name</string>
     <string name="no_contact_selected" translatable="false">No contact selected.</string>
+    <string name="label_create_new_team" translatable="false">Create New Team</string>
 </resources>

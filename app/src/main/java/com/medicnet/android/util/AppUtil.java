@@ -66,7 +66,7 @@ public class AppUtil {
         return formatter.format(new Date(timestamp));
     }
 
-    public static List<UserItem> getUserList(String json) {
+    public static List<UserItem> getUserList(String json, String username) {
         List<UserItem> userItemList = new ArrayList<>();
         if (!json.isEmpty()) {
             Moshi moshi = new Moshi.Builder().build();
@@ -76,7 +76,8 @@ public class AppUtil {
             try {
                 Users userList = jsonAdapter.fromJson(json);
                 for (UserItem userItem : userList.users) {
-                    userItemList.add(userItem);
+                    if (!userItem.username.equals(username))
+                        userItemList.add(userItem);
                 }
 
             } catch (Exception e) {

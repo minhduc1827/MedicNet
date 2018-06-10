@@ -84,5 +84,8 @@
     <!--toolbar mainactivity-->
     <color name="toolbar_header">#e2e2e2</color>
 
+    <color name="search_user_header">#c8c8cd</color>
+
+
 </resources>
 

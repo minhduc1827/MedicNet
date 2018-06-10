@@ -2,10 +2,12 @@ package com.medicnet.android.main.presentation
 
 import chat.rocket.common.RocketChatAuthException
 import chat.rocket.common.RocketChatException
+import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.UserStatus
 import chat.rocket.common.util.ifNull
 import chat.rocket.core.RocketChatClient
 import chat.rocket.core.internal.realtime.setDefaultStatus
+import chat.rocket.core.internal.rest.createChannel
 import chat.rocket.core.internal.rest.logout
 import chat.rocket.core.internal.rest.me
 import chat.rocket.core.internal.rest.unregisterPushToken
@@ -47,6 +49,7 @@ class MainPresenter @Inject constructor(
     private val manager = managerFactory.create(currentServer)
     private val client: RocketChatClient = factory.create(currentServer)
     private var settings: PublicSettings = getSettingsInteractor.get(serverInteractor.get()!!)
+    private val TAG = MainPresenter::class.java.simpleName
 
     private val userDataChannel = Channel<Myself>()
 
@@ -86,6 +89,23 @@ class MainPresenter @Inject constructor(
             }
             subscribeMyselfUpdates()
         }
+    }
+
+    fun createChannel(name: String,
+                      usersList: List<String>?,
+                      readOnly: Boolean? = false,
+                      callback: (isSuccess: Boolean) -> Unit) {
+        launchUI(strategy) {
+            try {
+                val result = retryIO("createChanel") { client.createChannel(RoomType.PRIVATE_GROUP, name, usersList, readOnly) }
+                callback(true)
+                LogUtil.d(TAG, "createChannel>> " + result.toString())
+            } catch (ex: Exception) {
+                callback(false)
+                LogUtil.d(TAG, "createChannel exception>>" + ex.toString())
+            }
+        }
+
     }
 
     /**

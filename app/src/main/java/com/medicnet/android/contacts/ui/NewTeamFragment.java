@@ -6,9 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.medicnet.android.R;
@@ -16,6 +19,7 @@ import com.medicnet.android.contacts.adapter.UserSelectedAdapter;
 import com.medicnet.android.contacts.adapter.UsersAdapter;
 import com.medicnet.android.contacts.model.UserItem;
 import com.medicnet.android.main.ui.MainActivity;
+import com.medicnet.android.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,7 +39,9 @@ public class NewTeamFragment extends Fragment {
     private UsersAdapter usersAdapter;
     private UserSelectedAdapter userSelectedAdapter;
     private List<UserItem> listUser = new ArrayList<>();
+    private List<String> listUserName = new ArrayList<>();
     private TextView txvUserSelectedEmpty;
+    private EditText edtTeamName;
     private View mainView;
 
     public static NewTeamFragment newInstance() {
@@ -51,8 +57,39 @@ public class NewTeamFragment extends Fragment {
         mainView = inflater.inflate(R.layout.fragment_new_team, container, false);
         mainActivity = (MainActivity) getActivity();
         txvUserSelectedEmpty = mainView.findViewById(R.id.txvUserSelectedEmpty);
+        edtTeamName = mainView.findViewById(R.id.edtTeamName);
+        final android.support.constraint.ConstraintLayout addNewTeam = mainView.findViewById(R.id.layoutAddTeam);
+        addNewTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.createNewTeam(edtTeamName.getText().toString(), listUserName, false);
+            }
+        });
+        edtTeamName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable == null || editable.toString().equals("")) {
+                    LogUtil.d(TAG, "team name is empty so disable onclick add new team");
+                    addNewTeam.setClickable(false);
+                } else {
+                    LogUtil.d(TAG, "team name is not empty");
+                    addNewTeam.setClickable(true);
+                }
+            }
+        });
         setupRecyclerViewUser();
         setupRecyclerViewUserSelected();
+        mainView.findViewById(R.id.layoutAddTeam);
         return mainView;
     }
 
@@ -76,10 +113,14 @@ public class NewTeamFragment extends Fragment {
         if (isCheck)
             listUser.add(user);
         else {
+            if (listUserName.size() > 0)
+                listUserName.clear();
             Iterator<UserItem> iterator = listUser.iterator();
             while (iterator.hasNext()) {
                 if (iterator.next().equals(user)) {
                     iterator.remove();
+                } else {
+                    listUserName.add(iterator.next().username);
                 }
             }
 
