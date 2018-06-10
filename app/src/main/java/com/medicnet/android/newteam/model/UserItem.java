@@ -1,4 +1,4 @@
-package com.medicnet.android.main.user.model;
+package com.medicnet.android.newteam.model;
 
 public class UserItem {
     public String _id = "";

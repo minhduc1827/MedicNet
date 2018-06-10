@@ -32,11 +32,12 @@ fun View.isVisible(): Boolean {
 fun ViewGroup.inflate(@LayoutRes resource: Int, attachToRoot: Boolean = false): View =
     LayoutInflater.from(context).inflate(resource, this, attachToRoot)
 
-fun AppCompatActivity.addFragment(tag: String, layoutId: Int, newInstance: () -> Fragment) {
+fun AppCompatActivity.addFragment(tag: String, layoutId: Int, newInstance: () -> Fragment): Fragment {
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: newInstance()
     supportFragmentManager.beginTransaction()
         .replace(layoutId, fragment, tag)
             .commitAllowingStateLoss()
+    return fragment
 }
 
 fun AppCompatActivity.addFragmentBackStack(

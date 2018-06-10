@@ -6,6 +6,7 @@ import com.medicnet.android.chatroom.ui.ChatRoomActivity
 import com.medicnet.android.chatroom.ui.newInstance
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.main.ui.MainActivity
+import com.medicnet.android.newteam.ui.NewTeamFragment
 import com.medicnet.android.profile.ui.ProfileFragment
 import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.settings.ui.SettingsFragment
@@ -25,6 +26,12 @@ class MainNavigator(internal val activity: MainActivity) {
         activity.addFragment("ProfileFragment", R.id.fragment_container) {
             ProfileFragment.newInstance()
         }
+    }
+
+    fun toNewTeam(): NewTeamFragment {
+        return activity.addFragment(NewTeamFragment.TAG, R.id.fragment_container) {
+            NewTeamFragment.newInstance()
+        } as NewTeamFragment
     }
 
     fun toSettings() {

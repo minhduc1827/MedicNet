@@ -25,8 +25,9 @@ import com.medicnet.android.main.adapter.AccountsAdapter
 import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
-import com.medicnet.android.main.user.model.UserItem
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
+import com.medicnet.android.newteam.model.UserItem
+import com.medicnet.android.newteam.ui.NewTeamFragment
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
@@ -58,12 +59,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private var isFragmentAdded: Boolean = false
     private var expanded = false
     private val headerLayout by lazy { view_navigation.getHeaderView(0) }
-    val TAG: String = MainActivity::class.java.simpleName
-    var rocketChatApplication: RocketChatApplication? = null
-    val LOCKSCREEN_REQUEST_CODE: Int = 123
-    var needShowLockScreen: Boolean = true
+    private val TAG: String = MainActivity::class.java.simpleName
+    private var rocketChatApplication: RocketChatApplication? = null
+    private val LOCKSCREEN_REQUEST_CODE: Int = 123
+    private var needShowLockScreen: Boolean = true
     var username: String? = ""
     var userList: List<UserItem>? = null
+    private var teamFragment: NewTeamFragment? = null
 
 //    var chatRoomsFragment: ChatRoomsFragment? = null
 
@@ -107,6 +109,9 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             }
 
         })
+        layoutAddTeam.setOnClickListener {
+            teamFragment = presenter.toNewTeam()
+        }
     }
 
 

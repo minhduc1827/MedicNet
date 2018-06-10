@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.medicnet.android.R;
-import com.medicnet.android.main.user.model.UserItem;
+import com.medicnet.android.newteam.model.UserItem;
 
 import java.util.List;
 

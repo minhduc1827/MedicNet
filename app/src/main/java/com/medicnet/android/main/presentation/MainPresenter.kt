@@ -56,6 +56,8 @@ class MainPresenter @Inject constructor(
 
     fun toSettings() = navigator.toSettings()
 
+    fun toNewTeam() = navigator.toNewTeam()
+
     fun loadCurrentInfo() {
         checkServerInfo(currentServer)
         launchUI(strategy) {
