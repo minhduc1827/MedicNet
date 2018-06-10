@@ -1,5 +1,6 @@
 package com.medicnet.android.main.presentation
 
+import android.support.v4.app.Fragment
 import chat.rocket.common.RocketChatAuthException
 import chat.rocket.common.RocketChatException
 import chat.rocket.common.model.RoomType
@@ -60,6 +61,7 @@ class MainPresenter @Inject constructor(
     fun toSettings() = navigator.toSettings()
 
     fun toNewTeam() = navigator.toNewTeam()
+    fun removeFragment(fragment: Fragment) = navigator.removeFragment(fragment)
 
     fun loadCurrentInfo() {
         checkServerInfo(currentServer)

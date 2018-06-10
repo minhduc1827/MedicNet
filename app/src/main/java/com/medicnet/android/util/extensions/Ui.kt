@@ -48,11 +48,17 @@ fun AppCompatActivity.addOverlayFragment(tag: String, layoutId: Int, newInstance
     return fragment
 }
 
+fun AppCompatActivity.removeFragment(fragment: Fragment) {
+    supportFragmentManager.beginTransaction()
+            .remove(fragment)
+            .commitAllowingStateLoss()
+}
+
 fun AppCompatActivity.addFragmentBackStack(
     tag: String,
     layoutId: Int,
     newInstance: () -> Fragment
-) {
+): Fragment {
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: newInstance()
     supportFragmentManager.beginTransaction()
         .setCustomAnimations(
@@ -62,6 +68,7 @@ fun AppCompatActivity.addFragmentBackStack(
         .replace(layoutId, fragment, tag)
         .addToBackStack(tag)
         .commit()
+    return fragment
 }
 
 fun AppCompatActivity.toPreviousView() {

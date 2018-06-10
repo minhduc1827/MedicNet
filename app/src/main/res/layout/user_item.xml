@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:roundedCornerRadius="3dp" />
+        app:roundAsCircle="true" />
 
     <TextView
         android:id="@+id/txvUserName"
@@ -38,5 +38,6 @@
         android:text="CheckBox"
         app:layout_constraintBottom_toBottomOf="@+id/imvAvatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imvAvatar" />
+        app:layout_constraintTop_toTopOf="@+id/imvAvatar"
+        android:button="@drawable/user_checkbox_select" />
 </android.support.constraint.ConstraintLayout>

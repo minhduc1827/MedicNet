@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.createChannel(name, usersList, readOnly) { isSuccess ->
             if (isSuccess) {
                 LogUtil.d(TAG, "Add new team successfully")
+                presenter.removeFragment(teamFragment!!)
             }
         }
     }
@@ -150,10 +151,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         if (!isFragmentAdded) {
             presenter.toChatList()
             isFragmentAdded = true
-            /*fragment_container.postDelayed(Runnable {
-                if (chatRoomsFragment == null)
-                    chatRoomsFragment = supportFragmentManager.findFragmentByTag(ChatRoomsFragment.TAG) as ChatRoomsFragment
-            }, 200)*/
 
         }
 

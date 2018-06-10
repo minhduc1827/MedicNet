@@ -1,5 +1,6 @@
 package com.medicnet.android.main.presentation
 
+import android.support.v4.app.Fragment
 import com.medicnet.android.R
 import com.medicnet.android.authentication.ui.newServerIntent
 import com.medicnet.android.chatroom.ui.ChatRoomActivity
@@ -13,6 +14,7 @@ import com.medicnet.android.settings.ui.SettingsFragment
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
 import com.medicnet.android.util.extensions.addOverlayFragment
+import com.medicnet.android.util.extensions.removeFragment
 
 class MainNavigator(internal val activity: MainActivity) {
 
@@ -33,6 +35,10 @@ class MainNavigator(internal val activity: MainActivity) {
         return activity.addOverlayFragment(NewTeamFragment.TAG, R.id.fragment_entire_screen) {
             NewTeamFragment.newInstance()
         } as NewTeamFragment
+    }
+
+    fun removeFragment(fragment: Fragment) {
+        activity.removeFragment(fragment)
     }
 
     fun toSettings() {
