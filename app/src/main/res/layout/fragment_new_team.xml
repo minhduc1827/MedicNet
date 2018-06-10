@@ -52,7 +52,8 @@
         app:layout_constraintRight_toRightOf="@+id/recyclerViewUserSeleted"
         app:layout_constraintTop_toTopOf="@+id/recyclerViewUserSeleted"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewUserSeleted"
-        android:gravity="center" />
+        android:gravity="center"
+        android:id="@+id/txvUserSelectedEmpty" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layoutContact"
@@ -66,24 +67,25 @@
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewUserSeleted"
         app:layout_constraintVertical_weight="2">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edtTeamName"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="@string/label_team_name"
+            android:hint="@string/label_team_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="@color/light_gray"
             android:textSize="16dp"
             android:fontFamily="@font/font_roboto_regular"
             android:gravity="center_vertical"
-            android:layout_marginLeft="10dp" />
+            android:paddingLeft="10dp"
+            android:background="@color/white" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/edtTeamName"
             android:background="@color/light_gray"
             android:id="@+id/view1" />
 

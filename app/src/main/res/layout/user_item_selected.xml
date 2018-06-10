@@ -20,6 +20,8 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="@+id/imvAvatar"
         app:layout_constraintStart_toStartOf="@+id/imvAvatar"
-        app:layout_constraintTop_toBottomOf="@+id/imvAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/imvAvatar"
+        android:ellipsize="end"
+        android:maxLines="1" />
 
 </android.support.constraint.ConstraintLayout>
