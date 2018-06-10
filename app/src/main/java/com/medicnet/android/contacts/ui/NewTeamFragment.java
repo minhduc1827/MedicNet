@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.medicnet.android.R;
+import com.medicnet.android.contacts.adapter.UserSectionRecyclerViewAdapter;
 import com.medicnet.android.contacts.adapter.UserSelectedAdapter;
 import com.medicnet.android.contacts.adapter.UsersAdapter;
 import com.medicnet.android.contacts.model.UserItem;
@@ -110,15 +113,23 @@ public class NewTeamFragment extends Fragment {
         LinearLayoutManager verticalLayoutmanager
                 = new LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false);
         recyclerViewUser.setLayoutManager(verticalLayoutmanager);
+        recyclerViewUser.addItemDecoration(new com.medicnet.android.widget.DividerUserItemDecoration(mainActivity,
+                getResources().getDimensionPixelSize(R.dimen.divider_item_user_decorator_bound_start),
+                getResources().getDimensionPixelSize(R.dimen.divider_item_user_decorator_bound_end)));
+        recyclerViewUser.setItemAnimator(new DefaultItemAnimator());
         if (mainActivity.getUserList().size() > 0)
             usersAdapter = new UsersAdapter(mainActivity.getUserList());
+        UserSectionRecyclerViewAdapter sectionedAdapter = new UserSectionRecyclerViewAdapter(mainActivity, R.layout.user_list_header, R.id.txvUserHeader, usersAdapter);
+        UserSectionRecyclerViewAdapter.Section section[] = {new UserSectionRecyclerViewAdapter.Section(0, getString(R.string.label_all_contact))};
+        sectionedAdapter.setSections(section);
         usersAdapter.setOnUserListener(new UsersAdapter.OnUserListener() {
             @Override
             public void onUserSelected(boolean isCheck, UserItem user) {
                 updateUserSelectedList(isCheck, user);
             }
         });
-        recyclerViewUser.setAdapter(usersAdapter);
+//        recyclerViewUser.setAdapter(usersAdapter);
+        recyclerViewUser.setAdapter(sectionedAdapter);
     }
 
     private void updateUserSelectedList(boolean isCheck, UserItem user) {
@@ -136,7 +147,7 @@ public class NewTeamFragment extends Fragment {
         if (listUser.size() > 0)
             txvUserSelectedEmpty.setVisibility(View.GONE);
         else
-            txvUserSelectedEmpty.setVisibility(View.GONE);
+            txvUserSelectedEmpty.setVisibility(View.VISIBLE);
         if (userSelectedAdapter == null) {
             userSelectedAdapter = new UserSelectedAdapter(listUser);
             recyclerViewUserSelected.setAdapter(userSelectedAdapter);
@@ -160,6 +171,7 @@ public class NewTeamFragment extends Fragment {
         ImageView iconClear = searchView.findViewById(android.support.v7.appcompat.R.id
                 .search_close_btn);
         iconClear.setColorFilter(Color.BLACK);
+
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView
                 .OnQueryTextListener() {
             @Override
@@ -169,14 +181,14 @@ public class NewTeamFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                usersAdapter.getFilter().filter(newText);
+                usersAdapter.filter(newText);
                 return false;
             }
         });
-        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat
-                .R.id.search_src_text);
-        searchEditText.setTextColor(getResources().getColor(R.color.white));
-        searchEditText.setHintTextColor(getResources().getColor(R.color.white));
+        EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(Color.BLACK);
+        searchEditText.setHintTextColor(ContextCompat.getColor(mainActivity, R.color.light_gray));
+        searchEditText.setHint(getString(R.string.search_medicnet_contact));
     }
 
     @Override

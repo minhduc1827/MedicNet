@@ -265,4 +265,6 @@
     <string name="label_team_name" translatable="false">Team name</string>
     <string name="no_contact_selected" translatable="false">No contact selected.</string>
     <string name="label_create_new_team" translatable="false">Create New Team</string>
+    <string name="label_all_contact" translatable="false">All Contacts</string>
+    <string name="search_medicnet_contact" translatable="false">Search Medicnet Contacts</string>
 </resources>

@@ -13,16 +13,19 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.medicnet.android.R;
 import com.medicnet.android.contacts.model.UserItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
     private List<UserItem> listUsers;
+    private List<UserItem> listUsersOrginal = new ArrayList<>();
     private final String avatarUrl = "https://medicappdev.eastus.cloudapp.azure.com/avatar/%s?format=jpeg";
     private OnUserListener listener;
 
     public UsersAdapter(List<UserItem> listUsers) {
         this.listUsers = listUsers;
+        listUsersOrginal.addAll(listUsers);
     }
 
     @NonNull
@@ -77,6 +80,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     public void setOnUserListener(OnUserListener listener) {
         this.listener = listener;
+    }
+
+    public void filter(String text) {
+        listUsers.clear();
+        if (text.isEmpty()) {
+            listUsers.addAll(listUsersOrginal);
+        } else {
+            text = text.toLowerCase();
+            for (UserItem item : listUsersOrginal) {
+                if (item.username.toLowerCase().contains(text) || item.name.toLowerCase().contains(text)) {
+                    listUsers.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public interface OnUserListener {

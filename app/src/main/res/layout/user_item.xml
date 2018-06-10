@@ -11,6 +11,7 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:roundAsCircle="true" />
 
     <TextView
@@ -18,24 +19,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imvAvatar"
-        app:layout_constraintTop_toTopOf="@+id/imvAvatar"
-        android:textStyle="bold"
         android:fontFamily="@font/font_roboto_medium"
-        android:textSize="16dp" />
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imvAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="top"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/txvUserStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/txvUserName"
         app:layout_constraintTop_toBottomOf="@+id/txvUserName"
         android:fontFamily="@font/font_roboto_medium"
         android:textSize="16dp"
-        android:textColor="@color/light_gray" />
+        android:textColor="@color/light_gray"
+        android:gravity="top" />
 
     <CheckBox
         android:id="@+id/cbUserSelect"

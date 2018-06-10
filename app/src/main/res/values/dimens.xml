@@ -105,4 +105,6 @@
     <dimen name="finger_icon_marginbottom">10dp</dimen>
     <dimen name="textsize_fingerprint">14dp</dimen>
 
+    <dimen name="divider_item_user_decorator_bound_start">45dp</dimen>
+    <dimen name="divider_item_user_decorator_bound_end">0dp</dimen>
 </resources>
