@@ -7,7 +7,7 @@ ext {
     def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
     def buildName = "${versionMajor}.${versionMinor}.${versionPatch}"   //versionName
 
-    def betaDistributionEmails = "nductrung@gmail.com,martin.siebachmeyer@nhs.net,vfa.ducnm@gmail.com,sandeshnorthtees@gmail.com,krishna.boddusivarama@nhs.net"
+    def betaDistributionEmails = "nductrung@gmail.com,martin.siebachmeyer@nhs.net,sandeshnorthtees@gmail.com,krishna.boddusivarama@nhs.net"
 //    def betaDistributionGroupAlias = "android-dev-qa"
     def betaDistributionGroupNone = ""
 
@@ -15,7 +15,9 @@ ext {
     def formattedDate = date.format('yyyyMMdd-HHmmss')
     def betaDistributionReleaseNotes = 'Medicnet v' + buildName + ' (' + buildNumber + ') @ ' + formattedDate + ')\n' +
             '-Changing new design chat list like ios'+
-            '-Highlight and auto open into chat room when launching app'
+            '-Highlight and auto open into chat room when launching app'+
+            '-Search contact when creating New team'+
+            '-Allow add user to create team'
 
     appVersion = [
             versionCode: buildNumber,
