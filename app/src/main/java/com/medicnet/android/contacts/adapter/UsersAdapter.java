@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.medicnet.android.R;
 import com.medicnet.android.contacts.model.UserItem;
+import com.medicnet.android.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     private List<UserItem> listUsersOrginal = new ArrayList<>();
     private final String avatarUrl = "https://medicappdev.eastus.cloudapp.azure.com/avatar/%s?format=jpeg";
     private OnUserListener listener;
+    private final String TAG = UsersAdapter.class.getSimpleName();
 
     public UsersAdapter(List<UserItem> listUsers) {
         this.listUsers = listUsers;
@@ -42,7 +44,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         holder.imvAvatar.setImageURI(String.format(avatarUrl, user.username));
         holder.txvUserName.setText(user.username);
         holder.txvUserStatus.setText(getUserStatus(user.status));
-        holder.cbUserSelect.setTag(user);
+        holder.cbUserSelect.setChecked(false);
+        UserItem userItem = (UserItem) holder.cbUserSelect.getTag();
+        if (userItem != null) {
+            LogUtil.d(TAG, "userItem checked @username= " + userItem.username);
+            if (userItem.username.equals(user.username))
+                holder.cbUserSelect.setChecked(true);
+        } else
+            holder.cbUserSelect.setTag(user);
         holder.cbUserSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {

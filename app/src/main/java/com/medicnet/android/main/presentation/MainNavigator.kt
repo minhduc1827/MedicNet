@@ -13,7 +13,7 @@ import com.medicnet.android.server.ui.changeServerIntent
 import com.medicnet.android.settings.ui.SettingsFragment
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.addFragment
-import com.medicnet.android.util.extensions.addOverlayFragment
+import com.medicnet.android.util.extensions.addFragmentBackStack
 import com.medicnet.android.util.extensions.removeFragment
 
 class MainNavigator(internal val activity: MainActivity) {
@@ -32,7 +32,7 @@ class MainNavigator(internal val activity: MainActivity) {
     }
 
     fun toNewTeam(): NewTeamFragment {
-        return activity.addOverlayFragment(NewTeamFragment.TAG, R.id.fragment_entire_screen) {
+        return activity.addFragmentBackStack(NewTeamFragment.TAG, R.id.fragment_entire_screen) {
             NewTeamFragment.newInstance()
         } as NewTeamFragment
     }

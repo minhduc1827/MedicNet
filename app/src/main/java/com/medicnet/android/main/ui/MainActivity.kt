@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
                 val token = InstanceID.getInstance(this@MainActivity).getToken(getString(R.string.gcm_sender_id), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null)
                 Timber.d("GCM token: $token")
                 presenter.refreshToken(token)
+                /* val getCurrentServerInteractor: GetCurrentServerInteractor=GetCurrentServerInteractor()
+                 val currentServer = getCurrentServerInteractor.get()
+                 val serverToken = currentServer?.let { tokenRepository.get(currentServer) }*/
             } catch (ex: Exception) {
                 Timber.d(ex, "Missing play services...")
             }
@@ -91,6 +94,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         presenter.connect()
         presenter.loadCurrentInfo()
         val prefs = getSharedPreferences("rocket.chat", Context.MODE_PRIVATE)
+        LogUtil.d(TAG, "token= " + prefs?.getString("KEY_TOKEN_https://medicappdev.eastus.cloudapp.azure.com", ""))
         username = prefs?.getString(LocalRepository.CURRENT_USERNAME_KEY, "")
         setupToolbar()
         setupNavigationView()
