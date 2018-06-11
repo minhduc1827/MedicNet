@@ -84,6 +84,7 @@ class ChatRoomsPresenter @Inject constructor(
                 val permissions = retryIO { client.permissions() }
                 permissionsInteractor.saveAll(permissions)
             } catch (ex: RocketChatException) {
+                LogUtil.d(TAG, "loadChatRooms exception>>>" + ex.toString())
                 ex.message?.let {
                     view.showMessage(it)
                 }.ifNull {
@@ -98,7 +99,7 @@ class ChatRoomsPresenter @Inject constructor(
         }
     }
 
-    fun loadChatRoom(chatRoom: ChatRoom) {
+    fun loadChatRoom(chatRoom: ChatRoom, userName: String) {
         val isDirectMessage = chatRoom.type is RoomType.DirectMessage
         val roomName = if (chatRoom.fullName != null) {
             chatRoom.fullName!!
@@ -108,17 +109,18 @@ class ChatRoomsPresenter @Inject constructor(
         //DucNM changed
 
         launchUI(strategy) {
-            val myself = getCurrentUser()
-            if (myself?.username == null) {
+            //            val myself = getCurrentUser()
+//            LogUtil.d(TAG,"loadChatRoom @username= "+myself?.username)
+            if (userName == null) {
                 view.showMessage(R.string.msg_generic_error)
             } else {
-                val isChatRoomOwner = chatRoom.user?.username == myself.username || isDirectMessage
+                val isChatRoomOwner = chatRoom.user?.username == userName || isDirectMessage
                 val chatRoomAvatarUrl = if (chatRoom.type is RoomType.DirectMessage) {
                     chatRoom.client.url.avatarUrl(chatRoom.name)
                 } else {
                     chatRoom.client.url.avatarUrl(chatRoom.name, true)
                 }
-                val isMyVault = myself.username.equals(chatRoom.name)
+                val isMyVault = userName.equals(chatRoom.name)
                 LogUtil.d(TAG, "loadChatRoom navigate to chatroom @isMyVault= " + isMyVault)
                 navigator.toChatRoom(chatRoom.id, roomName,
                     chatRoom.type.toString(), chatRoom.readonly ?: false,

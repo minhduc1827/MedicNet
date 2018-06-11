@@ -296,8 +296,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
                     var chatRoom: ChatRoom = newDataSet.get(i)
                     if (chatRoomSelected == null ||
                             (chatRoom?.lastSeen != null && chatRoomSelected!!.lastSeen!! <= chatRoom?.lastSeen!!)) {
+                        if (chatRoomSelected != null)
+                            chatRoom.selected = true
                         chatRoomSelected = chatRoom
-                        chatRoom.selected = true
                         LogUtil.d(TAG, "updateChatRooms @chatRoomSelected= " + chatRoom.toString())
                     }
                     if (mainActivity!!.username.equals(chatRoom.name)) {
@@ -388,7 +389,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private fun setItemSelected(chatRoom: ChatRoom) {
         (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
         chatRoomSelected = chatRoom
-        presenter.loadChatRoom(chatRoom)
+        presenter.loadChatRoom(chatRoom, mainActivity!!.username!!)
     }
 
     override fun showNoChatRoomsToDisplay() {
