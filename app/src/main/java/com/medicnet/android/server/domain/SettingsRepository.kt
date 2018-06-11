@@ -89,8 +89,9 @@ fun PublicSettings.allowedMessageEditing(): Boolean = this[ALLOW_MESSAGE_EDITING
 fun PublicSettings.allowedMessageDeleting(): Boolean = this[ALLOW_MESSAGE_DELETING]?.value == true
 
 fun PublicSettings.hasShowLastMessage(): Boolean = this[STORE_LAST_MESSAGE] != null
-/*fun PublicSettings.showLastMessage(): Boolean = this[STORE_LAST_MESSAGE]?.value == true*/
-fun PublicSettings.showLastMessage(): Boolean = true
+//fun PublicSettings.hasShowLastMessage()=false
+fun PublicSettings.showLastMessage(): Boolean = this[STORE_LAST_MESSAGE]?.value == true
+//fun PublicSettings.showLastMessage(): Boolean = true
 
 fun PublicSettings.uploadMimeTypeFilter(): Array<String>? {
     val values = this[UPLOAD_WHITELIST_MIMETYPES]?.value as String?

@@ -2,6 +2,7 @@ package com.medicnet.android.server.domain
 
 import chat.rocket.core.internal.rest.settings
 import com.medicnet.android.server.infraestructure.RocketChatClientFactory
+import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.retryIO
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
@@ -12,7 +13,7 @@ class RefreshSettingsInteractor @Inject constructor(
     private val factory: RocketChatClientFactory,
     private val repository: SettingsRepository
 ) {
-
+    private val TAG = RefreshSettingsInteractor::class.java.simpleName
     private var settingsFilter = arrayOf(
         LDAP_ENABLE, CAS_ENABLE, CAS_LOGIN_URL,
 
@@ -33,6 +34,7 @@ class RefreshSettingsInteractor @Inject constructor(
                 val settings = retryIO(description = "settings", times = 5) {
                     client.settings(*settingsFilter)
                 }
+                LogUtil.d(TAG, "refresh @setting= " + settings.toString())
                 repository.save(server, settings)
             }
         }

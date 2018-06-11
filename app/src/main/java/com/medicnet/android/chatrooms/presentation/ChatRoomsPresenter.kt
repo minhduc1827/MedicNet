@@ -77,6 +77,7 @@ class ChatRoomsPresenter @Inject constructor(
             try {
                 // If we still don't have 'Store_Last_Message' setting, refresh the settings
                 if (!settings.hasShowLastMessage()) {
+                    LogUtil.d(TAG, "try to refresh setting from server")
                     refreshSettingsInteractor.refresh(currentServer)
                 }
                 view.updateChatRooms(getUserChatRooms())
