@@ -20,6 +20,7 @@ import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
+import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.contacts.model.UserItem
 import com.medicnet.android.contacts.ui.NewTeamFragment
 import com.medicnet.android.infrastructure.LocalRepository
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     var username: String? = ""
     var userList: List<UserItem>? = null
     private var teamFragment: NewTeamFragment? = null
+    private var chatRoomsFragment: ChatRoomsFragment? = null
 
 //    var chatRoomsFragment: ChatRoomsFragment? = null
 
@@ -121,10 +123,14 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     fun createNewTeam(name: String,
                       usersList: List<String>?,
                       readOnly: Boolean? = false) {
+        if (chatRoomsFragment != null)
+            chatRoomsFragment?.isGlobalLayoutListenerSetUp = false;
         presenter.createChannel(name, usersList, readOnly) { isSuccess ->
             if (isSuccess) {
                 LogUtil.d(TAG, "Add new team successfully")
                 presenter.removeFragment(teamFragment!!)
+            } else {
+                showMessage(R.string.msg_generic_error)
             }
         }
     }
@@ -153,7 +159,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     override fun onResume() {
         super.onResume()
         if (!isFragmentAdded) {
-            presenter.toChatList()
+            chatRoomsFragment = presenter.toChatList()
             isFragmentAdded = true
 
         }

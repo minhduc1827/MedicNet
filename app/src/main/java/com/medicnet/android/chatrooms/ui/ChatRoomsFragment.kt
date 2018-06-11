@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
@@ -63,8 +64,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
     private var chatRoomSelected: ChatRoom? = null
     private var baseAdapter: ChatRoomsAdapter? = null
     private val recyclerViewlayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-        LogUtil.d(TAG, "updateChatRooms recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
+        LogUtil.d(TAG, "updateChatRooms recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString() + " @isGlobalLayoutListenerSetUp= " + isGlobalLayoutListenerSetUp)
         if (!isGlobalLayoutListenerSetUp) {
+            LogUtil.d(TAG, "updateChatRooms recycle with global listener selected>>" + chatRoomSelected.toString())
             if (chatRoomSelected != null) {
                 setItemSelected(chatRoomSelected!!)
                 isGlobalLayoutListenerSetUp = true
@@ -72,7 +74,7 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             }
         }
     }
-    private var isGlobalLayoutListenerSetUp = false
+    var isGlobalLayoutListenerSetUp = false
 //    private var selectedPos = 0
 //    private var isMyVaultClicked=false
 //    var sortByActivity: Boolean = false
@@ -387,7 +389,9 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
 
 
     private fun setItemSelected(chatRoom: ChatRoom) {
-        (activity as MainActivity).drawer_layout.closeDrawer(Gravity.START)
+        LogUtil.d(TAG, "setItemSelected selected>>" + chatRoom.toString())
+        if (mainActivity != null && !mainActivity?.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+            mainActivity?.drawer_layout!!.closeDrawer(Gravity.START)
         chatRoomSelected = chatRoom
         presenter.loadChatRoom(chatRoom, mainActivity!!.username!!)
     }

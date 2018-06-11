@@ -146,6 +146,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         notifyDataSetChanged();
     }
 
+    public void clearAll() {
+        if (listUsersOrginal.size() > 0)
+            listUsersOrginal.clear();
+        if (listUsers.size() > 0)
+            listUsers.clear();
+    }
+
     public interface OnUserListener {
         void onUserSelected(boolean isCheck, UserItem user);
     }

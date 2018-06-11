@@ -18,11 +18,11 @@ import com.medicnet.android.util.extensions.removeFragment
 
 class MainNavigator(internal val activity: MainActivity) {
 
-    fun toChatList() {
+    fun toChatList(): ChatRoomsFragment {
 //        Log.d("DucNM","toChatList>>"+activity.headerLayout.navigation_header_chat_room.id);
-        activity.addFragment(ChatRoomsFragment.TAG, R.id.navigation_header_chat_room) {
+        return activity.addFragment(ChatRoomsFragment.TAG, R.id.navigation_header_chat_room) {
             ChatRoomsFragment.newInstance()
-        }
+        } as ChatRoomsFragment
     }
 
     fun toUserProfile() {
@@ -32,7 +32,7 @@ class MainNavigator(internal val activity: MainActivity) {
     }
 
     fun toNewTeam(): NewTeamFragment {
-        return activity.addFragmentBackStack(NewTeamFragment.TAG + "" + System.currentTimeMillis(), R.id.fragment_entire_screen) {
+        return activity.addFragmentBackStack(NewTeamFragment.TAG + "_" + System.currentTimeMillis(), R.id.fragment_entire_screen) {
             NewTeamFragment.newInstance()
         } as NewTeamFragment
     }
@@ -44,23 +44,6 @@ class MainNavigator(internal val activity: MainActivity) {
     fun toSettings() {
         activity.addFragment("SettingsFragment", R.id.fragment_container) {
             SettingsFragment.newInstance()
-        }
-    }
-
-    fun toChatRoom(chatRoomId: String,
-                   chatRoomName: String,
-                   chatRoomType: String,
-                   isChatRoomReadOnly: Boolean,
-                   chatRoomLastSeen: Long,
-                   isChatRoomSubscribed: Boolean,
-                   isChatRoomCreator: Boolean) {
-        /* activity.startActivity(activity.chatRoomIntent(chatRoomId, chatRoomName, chatRoomType,
-                 isChatRoomReadOnly, chatRoomLastSeen, isChatRoomSubscribed, isChatRoomCreator))
-         activity.overridePendingTransition(R.anim.open_enter, R.anim.open_exit)*/
-        LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName)
-        activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT + "_" + chatRoomId, R.id.fragment_container) {
-            newInstance(chatRoomId, chatRoomName, chatRoomType, isChatRoomReadOnly, chatRoomLastSeen,
-                    isChatRoomSubscribed, isChatRoomCreator, null)
         }
     }
 

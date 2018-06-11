@@ -81,7 +81,8 @@
             android:fontFamily="@font/font_roboto_regular"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:imeOptions="actionDone" />
 
         <View
             android:layout_width="0dp"

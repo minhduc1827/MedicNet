@@ -197,6 +197,8 @@ public class NewTeamFragment extends Fragment {
     public void onDestroyView() {
         if (listUser != null && listUser.size() > 0)
             listUser.clear();
+        usersAdapter.clearAll();
+        UiKt.hideKeyboard(mainActivity);
         super.onDestroyView();
     }
 }

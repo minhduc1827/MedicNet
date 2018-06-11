@@ -13,6 +13,7 @@ import chat.rocket.core.internal.rest.logout
 import chat.rocket.core.internal.rest.me
 import chat.rocket.core.internal.rest.unregisterPushToken
 import chat.rocket.core.model.Myself
+import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.core.lifecycle.CancelStrategy
 import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
@@ -54,7 +55,7 @@ class MainPresenter @Inject constructor(
 
     private val userDataChannel = Channel<Myself>()
 
-    fun toChatList() = navigator.toChatList()
+    fun toChatList(): ChatRoomsFragment = navigator.toChatList()
 
     fun toUserProfile() = navigator.toUserProfile()
 
