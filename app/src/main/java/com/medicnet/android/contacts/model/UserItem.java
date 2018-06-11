@@ -8,4 +8,5 @@ public class UserItem {
     public String name = "";
     public int utcOffset;
     public String username = "";
+    public boolean selected = false;//use to set active or inactive checkbox
 }

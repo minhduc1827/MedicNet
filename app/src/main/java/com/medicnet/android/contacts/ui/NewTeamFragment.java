@@ -25,6 +25,7 @@ import com.medicnet.android.contacts.adapter.UsersAdapter;
 import com.medicnet.android.contacts.model.UserItem;
 import com.medicnet.android.main.ui.MainActivity;
 import com.medicnet.android.util.LogUtil;
+import com.medicnet.android.util.extensions.UiKt;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -92,6 +93,7 @@ public class NewTeamFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if (editable == null || editable.toString().equals("")) {
                     LogUtil.d(TAG, "team name is empty so disable onclick add new team");
+                    UiKt.hideKeyboard(mainActivity);
                     addNewTeam.setClickable(false);
                 } else {
                     LogUtil.d(TAG, "team name is not empty");

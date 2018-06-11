@@ -32,7 +32,7 @@ class MainNavigator(internal val activity: MainActivity) {
     }
 
     fun toNewTeam(): NewTeamFragment {
-        return activity.addFragmentBackStack(NewTeamFragment.TAG, R.id.fragment_entire_screen) {
+        return activity.addFragmentBackStack(NewTeamFragment.TAG + "" + System.currentTimeMillis(), R.id.fragment_entire_screen) {
             NewTeamFragment.newInstance()
         } as NewTeamFragment
     }
