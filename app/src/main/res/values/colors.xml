@@ -85,7 +85,8 @@
     <color name="toolbar_header">#e2e2e2</color>
 
     <color name="search_user_header">#c8c8cd</color>
-
+    <color name="label_nhs_email_color">#2361af</color>
+    <color name="view_seperate_nhs_email">#aaaaaa</color>
 
 </resources>
 

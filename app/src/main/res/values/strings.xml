@@ -267,4 +267,6 @@
     <string name="label_create_new_team" translatable="false">Create New Team</string>
     <string name="label_all_contact" translatable="false">All Contacts</string>
     <string name="search_medicnet_contact" translatable="false">Search Medicnet Contacts</string>
+    <string name="label_nhs_email" translatable="false">Nhs Email</string>
+    <string name="label_take_photo" translatable="false">Take Photo</string>
 </resources>
