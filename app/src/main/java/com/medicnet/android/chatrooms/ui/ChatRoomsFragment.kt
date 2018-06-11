@@ -364,6 +364,20 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         sectionedAdapter?.setSections(sections.toArray(dummy))
     }
 
+    private fun handleRecyclerCallback() {
+        recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                LogUtil.d(TAG, "updateChatRooms recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
+                if (chatRoomSelected != null) {
+                    setItemSelected(chatRoomSelected!!)
+                    isGlobalLayoutListenerSetUp = true
+
+                }
+                recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
     private fun setupRecyclerView() {
         ui {
             recycler_view.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)

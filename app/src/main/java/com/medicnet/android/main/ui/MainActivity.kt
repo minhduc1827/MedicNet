@@ -123,8 +123,6 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     fun createNewTeam(name: String,
                       usersList: List<String>?,
                       readOnly: Boolean? = false) {
-        if (chatRoomsFragment != null)
-            chatRoomsFragment?.isGlobalLayoutListenerSetUp = false;
         presenter.createChannel(name, usersList, readOnly) { isSuccess ->
             if (isSuccess) {
                 LogUtil.d(TAG, "Add new team successfully")
