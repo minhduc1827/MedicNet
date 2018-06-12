@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     var userList: List<UserItem>? = null
     private var teamFragment: NewTeamFragment? = null
     private var chatRoomsFragment: ChatRoomsFragment? = null
+    private val handler = Handler()
 
 //    var chatRoomsFragment: ChatRoomsFragment? = null
 
@@ -127,6 +129,13 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
             if (isSuccess) {
                 LogUtil.d(TAG, "Add new team successfully")
                 presenter.removeFragment(teamFragment!!)
+                handler.postDelayed(object : Runnable {
+                    override fun run() {
+                        chatRoomsFragment!!.isGlobalLayoutListenerSetUp = false
+                        handler.removeCallbacks(this)
+                    }
+                }, 100)
+
             } else {
                 showMessage(R.string.msg_generic_error)
             }

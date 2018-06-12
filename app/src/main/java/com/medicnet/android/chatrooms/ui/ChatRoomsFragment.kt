@@ -86,6 +86,14 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         fun newInstance() = ChatRoomsFragment()
     }
 
+    private fun setItemSelected(chatRoom: ChatRoom) {
+        LogUtil.d(TAG, "setItemSelected selected>>" + chatRoom.toString())
+        if (mainActivity != null && mainActivity?.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+            mainActivity?.drawer_layout!!.closeDrawer(Gravity.START)
+        chatRoomSelected = chatRoom
+        presenter.loadChatRoom(chatRoom, mainActivity!!.username!!)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
@@ -364,20 +372,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
         sectionedAdapter?.setSections(sections.toArray(dummy))
     }
 
-    private fun handleRecyclerCallback() {
-        recycler_view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                LogUtil.d(TAG, "updateChatRooms recycle load completely and now loadchatRoom selected>>" + chatRoomSelected.toString())
-                if (chatRoomSelected != null) {
-                    setItemSelected(chatRoomSelected!!)
-                    isGlobalLayoutListenerSetUp = true
-
-                }
-                recycler_view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
-    }
-
     private fun setupRecyclerView() {
         ui {
             recycler_view.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
@@ -399,15 +393,6 @@ class ChatRoomsFragment : Fragment(), ChatRoomsView {
             recycler_view.adapter = sectionedAdapter
         }
 
-    }
-
-
-    private fun setItemSelected(chatRoom: ChatRoom) {
-        LogUtil.d(TAG, "setItemSelected selected>>" + chatRoom.toString())
-        if (mainActivity != null && !mainActivity?.drawer_layout!!.isDrawerOpen(GravityCompat.START))
-            mainActivity?.drawer_layout!!.closeDrawer(Gravity.START)
-        chatRoomSelected = chatRoom
-        presenter.loadChatRoom(chatRoom, mainActivity!!.username!!)
     }
 
     override fun showNoChatRoomsToDisplay() {
