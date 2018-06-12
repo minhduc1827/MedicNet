@@ -593,7 +593,7 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
             KeyEvent.KEYCODE_BACK -> with(text_message) {
                 if (selectionStart > 0) text.delete(selectionStart - 1, selectionStart)
             }
-            else -> throw IllegalArgumentException("pressed key not expected")
+            else -> throw IllegalArgumentException("pressed key not expected") as Throwable
         }
     }
 
