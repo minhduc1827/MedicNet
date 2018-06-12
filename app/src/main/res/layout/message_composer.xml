@@ -64,8 +64,8 @@
                 android:visibility="gone" />
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_add_photo_to_message"
                 android:scaleType="centerInside"
                 android:layout_gravity="center_vertical"
@@ -75,7 +75,7 @@
             <com.medicnet.android.widget.emoji.ComposerEditText
                 android:id="@+id/text_message"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
