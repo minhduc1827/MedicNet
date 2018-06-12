@@ -31,7 +31,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto"
+        app:ckCropOutput="false"
+        app:ckDoubleTapToToggleFacing="true"
+        app:ckFacing="back"
+        app:ckFlash="auto"
+        app:ckFocus="tapWithMarker"
+        app:ckJpegQuality="100"
+        app:ckMethod="standard"
+        app:ckPinchToZoom="true"
+        app:ckVideoQuality="highest"
+        app:ckZoom="2.0" />
+
+    <View
+        android:id="@+id/blackCover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto"
+        android:background="@android:color/black"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imvCapture"

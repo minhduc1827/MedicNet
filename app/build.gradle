@@ -138,6 +138,8 @@ dependencies {
     implementation libraries.aVLoadingIndicatorView
 
     implementation libraries.cameraKit
+    implementation libraries.butterKnife
+    annotationProcessor libraries.butterKnifeAnnotation
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true

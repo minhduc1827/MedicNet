@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.medicnet.android.R;
 import com.wonderkiln.camerakit.CameraKit;
@@ -15,12 +16,13 @@ import com.wonderkiln.camerakit.CameraView;
 
 /**
  * @author duc.nguyen
- * @since 5/9/2018
+ * @since 6/12/2018
  */
 public class TakePhotoFragment extends Fragment {
 
     private CameraView cameraView;
     private View capture;
+    private ImageView facingButton;
     private int cameraMethod = CameraKit.Constants.METHOD_STANDARD;
     private boolean cropOutput = false;
     public static final String TAG = "TakePhotoFragment";
@@ -45,7 +47,16 @@ public class TakePhotoFragment extends Fragment {
                 });
             }
         });
+        facingButton = view.findViewById(R.id.facingButton);
         return view;
+    }
+
+    private void setFacingImageBasedOnCamera() {
+        if (cameraView.isFacingFront()) {
+            facingButton.setImageResource(R.drawable.ic_facing_back);
+        } else {
+            facingButton.setImageResource(R.drawable.ic_facing_front);
+        }
     }
 
     @Override

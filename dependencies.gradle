@@ -33,6 +33,7 @@ ext {
             flexbox               : '0.3.2',
             recyclerViewHeader    : '2.0.1',
             cameraKit             : '0.13.1',
+            butterknife           : '8.8.1',
 
             // For testing
             junit                 : '4.12',
@@ -101,6 +102,10 @@ ext {
             recyclerViewHeader    : "com.bartoszlipinski:recyclerviewheader2:${versions.recyclerViewHeader}",
 
             cameraKit             : "com.wonderkiln:camerakit:${versions.cameraKit}",
+
+            butterKnife           : "com.jakewharton:butterknife:${versions.butterknife}",
+
+            butterKnifeAnnotation : "com.jakewharton:butterknife-compiler:${versions.butterknife}",
 
             // For testing
             junit                 : "junit:junit:$versions.junit",
