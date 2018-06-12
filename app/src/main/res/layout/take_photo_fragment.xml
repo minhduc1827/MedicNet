@@ -18,7 +18,6 @@
         android:id="@+id/facingButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="center"
         android:src="@drawable/ic_facing_front"
         android:tint="#EEFFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto"

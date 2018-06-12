@@ -14,6 +14,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.medicnet.android.R;
+import com.medicnet.android.util.LogUtil;
 import com.wonderkiln.camerakit.CameraKit;
 import com.wonderkiln.camerakit.CameraKitEventCallback;
 import com.wonderkiln.camerakit.CameraKitImage;
@@ -47,6 +48,7 @@ public class TakePhotoFragment extends Fragment {
             @Override
             public void callback(CameraKitImage cameraKitImage) {
 //                        ((MainActivity)getActivity()).handleTakePhoto(cameraKitImage.getBitmap());
+                LogUtil.d(TAG, "captureImage callback>>" + cameraKitImage.getMessage());
             }
         });
     }
@@ -69,9 +71,10 @@ public class TakePhotoFragment extends Fragment {
             savedInstanceState) {
         View view = inflater.inflate(R.layout.take_photo_fragment, container, false);
         ButterKnife.bind(this, view);
-        ButterKnife.setDebug(true);
+//        ButterKnife.setDebug(true);
         cameraView.setMethod(cameraMethod);
         cameraView.setCropOutput(cropOutput);
+        setFacingImageBasedOnCamera();
         return view;
     }
 
@@ -138,13 +141,13 @@ public class TakePhotoFragment extends Fragment {
             case MotionEvent.ACTION_UP: {
                 if (cameraView.getFlash() == CameraKit.Constants.FLASH_AUTO) {
                     cameraView.setFlash(CameraKit.Constants.FLASH_ON);
-                    changeViewImageResource((ImageView) view, R.drawable.ic_camera_flash_on);
+                    setResourceId((ImageView) view, R.drawable.ic_camera_flash_on);
                 } else if (cameraView.getFlash() == CameraKit.Constants.FLASH_ON) {
                     cameraView.setFlash(CameraKit.Constants.FLASH_OFF);
-                    changeViewImageResource((ImageView) view, R.drawable.ic_camera_flash_off);
+                    setResourceId((ImageView) view, R.drawable.ic_camera_flash_off);
                 } else {
                     cameraView.setFlash(CameraKit.Constants.FLASH_AUTO);
-                    changeViewImageResource((ImageView) view, R.drawable.ic_camera_flash_auto);
+                    setResourceId((ImageView) view, R.drawable.ic_camera_flash_auto);
                 }
 
                 break;
@@ -200,9 +203,13 @@ public class TakePhotoFragment extends Fragment {
         imageView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                imageView.setImageResource(resId);
+                setResourceId(imageView, resId);
             }
         }, 120);
+    }
+
+    private void setResourceId(final ImageView imageView, @DrawableRes final int resId) {
+        imageView.setImageResource(resId);
     }
 
     @Override
