@@ -1,7 +1,7 @@
 ext {
     def versionMajor = 0
     def versionMinor = 0
-    def patch = 3
+    def patch = 4
     def build = '' + patch
     def versionPatch = Integer.parseInt(System.getProperty("PATCH_NUMBER", "" + patch))
     def buildNumber = Integer.parseInt(System.getProperty("BUILD_NUMBER", "" + build)) //versionCode
@@ -14,10 +14,8 @@ ext {
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmmss')
     def betaDistributionReleaseNotes = 'Medicnet v' + buildName + ' (' + buildNumber + ') @ ' + formattedDate + ')\n' +
-            '-Changing new design chat list like ios'+
-            '-Highlight and auto open into chat room when launching app'+
-            '-Search contact when creating New team'+
-            '-Allow add user to create team'
+            '-Take photo\n'+
+            '-Take consent\n'
 
     appVersion = [
             versionCode: buildNumber,
