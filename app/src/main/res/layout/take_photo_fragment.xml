@@ -14,15 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/recyclerViewPhoto" />
 
-    <ImageView
-        android:id="@+id/facingButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_facing_front"
-        android:tint="#EEFFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="10dp" />
+
     <com.wonderkiln.camerakit.CameraView
         android:id="@+id/cameraView"
         android:layout_width="0dp"
@@ -41,6 +33,16 @@
         app:ckPinchToZoom="true"
         app:ckVideoQuality="highest"
         app:ckZoom="2.0" />
+
+    <ImageView
+        android:id="@+id/facingButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_facing_front"
+        android:tint="#EEFFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPhoto"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="10dp" />
 
     <View
         android:id="@+id/blackCover"
