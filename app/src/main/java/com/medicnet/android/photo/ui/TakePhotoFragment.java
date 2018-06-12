@@ -58,8 +58,8 @@ public class TakePhotoFragment extends Fragment {
 
     public static TakePhotoFragment newInstance() {
         TakePhotoFragment fragment = new TakePhotoFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -69,6 +69,7 @@ public class TakePhotoFragment extends Fragment {
             savedInstanceState) {
         View view = inflater.inflate(R.layout.take_photo_fragment, container, false);
         ButterKnife.bind(this, view);
+        ButterKnife.setDebug(true);
         cameraView.setMethod(cameraMethod);
         cameraView.setCropOutput(cropOutput);
         return view;
