@@ -734,6 +734,8 @@ class ChatRoomFragment : Fragment(), ChatRoomView, EmojiKeyboardListener, EmojiR
                     } else {
                         showAttachmentOptions()
                     }*/
+                    if (mainActivity != null)
+                        mainActivity!!.presenter.toTakePhoto()
                 }
 
                 view_dim.setOnClickListener {

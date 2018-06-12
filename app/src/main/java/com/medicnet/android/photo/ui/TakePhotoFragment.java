@@ -2,10 +2,10 @@ package com.medicnet.android.photo.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,14 +56,21 @@ public class TakePhotoFragment extends Fragment {
     private boolean cropOutput = false;
 
 
+    public static TakePhotoFragment newInstance() {
+        TakePhotoFragment fragment = new TakePhotoFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle
             savedInstanceState) {
         View view = inflater.inflate(R.layout.take_photo_fragment, container, false);
+        ButterKnife.bind(this, view);
         cameraView.setMethod(cameraMethod);
         cameraView.setCropOutput(cropOutput);
-        ButterKnife.bind(this, view);
         return view;
     }
 
