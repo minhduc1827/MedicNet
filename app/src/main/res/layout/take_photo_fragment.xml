@@ -66,7 +66,7 @@
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/imvFlash"
+        android:id="@+id/flashButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:srcCompat="@drawable/ic_camera_flash_auto"
