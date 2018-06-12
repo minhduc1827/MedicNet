@@ -137,7 +137,7 @@ dependencies {
 
     implementation libraries.aVLoadingIndicatorView
 
-//    implementation libraries.recyclerViewHeader
+    implementation libraries.cameraKit
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
