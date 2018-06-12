@@ -8,7 +8,6 @@ import chat.rocket.core.model.isSystemMessage
 import com.medicnet.android.R
 import com.medicnet.android.chatroom.presentation.ChatRoomPresenter
 import com.medicnet.android.chatroom.viewmodel.*
-import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.extensions.inflate
 import com.medicnet.android.widget.emoji.EmojiReactionListener
@@ -146,21 +145,7 @@ class ChatRoomAdapter(
 
     fun appendData(dataSet: List<BaseViewModel<*>>) {
         val previousDataSetSize = this.dataSet.size
-        for (i in dataSet.size - 1 downTo 0) {
-            var prevMessageMode: MessageViewModel? = null
-            val curMessageModel = dataSet.get(i) as MessageViewModel
-            LogUtil.d(TAG, "appendData @i= " + i + " @msg= " + curMessageModel.message.message)
-            if (i < dataSet.size - 1) {
-                prevMessageMode = dataSet.get(i + 1) as MessageViewModel
-                LogUtil.d(TAG, "appendData @prevMessageMode= " + AppUtil.convertToDate(prevMessageMode.message.timestamp) + " curMessageModel= " + AppUtil.convertToDate(curMessageModel.message.timestamp))
-            }
-
-            if (prevMessageMode == null || !AppUtil.convertToDate(prevMessageMode.message.timestamp).equals(AppUtil.convertToDate(curMessageModel.message.timestamp))) {
-                curMessageModel.dateDisplay = AppUtil.convertToDate(curMessageModel.message.timestamp)
-            }
-        }
         this.dataSet.addAll(dataSet)
-
         notifyItemChanged(previousDataSetSize, dataSet.size)
     }
 
