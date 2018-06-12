@@ -143,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="@dimen/nav_header_button_bottom_height" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -157,7 +157,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/nav_header_button_bottom_height"
             android:text="@string/label_nhs_email"
             android:textColor="@color/label_nhs_email_color"
             android:id="@+id/txvNhsEmail"
@@ -181,7 +181,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/nav_header_button_bottom_height"
                 android:text="@string/label_take_photo"
                 android:textColor="@color/red_medium"
                 android:id="@+id/txvTakePhoto"

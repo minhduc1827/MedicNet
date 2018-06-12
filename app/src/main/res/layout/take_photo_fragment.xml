@@ -17,14 +17,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/capture"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/imvCapture"
+        android:layout_width="@dimen/image_button_take_photo_width"
+        android:layout_height="@dimen/image_button_take_photo_height"
         android:layout_marginBottom="10dp"
         android:src="@drawable/ic_camera_shutter"
         app:layout_constraintBottom_toBottomOf="@+id/cameraView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/imvFlash"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/ic_camera_flash_auto"
+        app:layout_constraintTop_toTopOf="@+id/imvCapture"
+        app:layout_constraintBottom_toBottomOf="@+id/imvCapture"
+        app:layout_constraintRight_toLeftOf="@+id/imvCapture"
+        android:layout_marginRight="5dp" />
+
+    <ImageView
+        android:id="@+id/imvConsent"
+        android:layout_width="@dimen/image_button_take_photo_width"
+        android:layout_height="@dimen/image_button_take_photo_height"
+        app:srcCompat="@drawable/ic_camera_consent"
+        app:layout_constraintTop_toTopOf="@+id/imvCapture"
+        app:layout_constraintBottom_toBottomOf="@+id/imvCapture"
+        app:layout_constraintLeft_toRightOf="@+id/imvCapture"
+        android:layout_marginLeft="5dp" />
 
 </android.support.constraint.ConstraintLayout>

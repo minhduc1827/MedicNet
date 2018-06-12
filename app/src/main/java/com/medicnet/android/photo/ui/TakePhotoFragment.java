@@ -33,7 +33,7 @@ public class TakePhotoFragment extends Fragment {
         cameraView = view.findViewById(R.id.cameraView);
         cameraView.setMethod(cameraMethod);
         cameraView.setCropOutput(cropOutput);
-        capture = view.findViewById(R.id.capture);
+        capture = view.findViewById(R.id.imvCapture);
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
