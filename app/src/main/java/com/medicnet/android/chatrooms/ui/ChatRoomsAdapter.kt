@@ -161,7 +161,8 @@ class ChatRoomsAdapter(
                     }
                     else -> {
                         val user = if (localRepository.checkIfMyself(lastMessageSender.username!!)) {
-                            "${context.getString(R.string.msg_you)}: "
+//                            "${context.getString(R.string.msg_you)}: "
+                            ""
                         } else {
                             "$senderUsername: "
                         }
