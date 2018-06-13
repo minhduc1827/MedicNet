@@ -58,7 +58,7 @@ public class TakePhotoFragment extends Fragment {
 
 
     private int cameraMethod = CameraKit.Constants.METHOD_STANDARD;
-    private boolean cropOutput = true;
+    private boolean cropOutput = false;
     private MainActivity mainActivity;
 
     public static TakePhotoFragment newInstance() {

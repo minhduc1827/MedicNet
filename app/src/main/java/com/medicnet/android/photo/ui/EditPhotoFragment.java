@@ -49,7 +49,7 @@ public class EditPhotoFragment extends Fragment {
 
     @OnClick(R.id.btnSendPhoto)
     void onPhotoSendClicked() {
-        Uri uri = AppUtil.saveImage(mainActivity, bitmap, 100);
+        Uri uri = AppUtil.saveImage(mainActivity, bitmap, 80);
         LogUtil.d(TAG, "onPhotoSendClicked @uri= " + uri.toString());
         mainActivity.getChatRoomFragment().uploadFile(uri);
     }

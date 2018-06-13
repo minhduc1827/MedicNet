@@ -99,13 +99,13 @@ public class AppUtil {
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("image", Context.MODE_PRIVATE);
         // Create imageDir
-        File file = new File(directory, "img_" + System.currentTimeMillis() + ".png");
+        File file = new File(directory, "img_" + System.currentTimeMillis() + ".jpeg");
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmap.compress(Bitmap.CompressFormat.PNG, quality, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
