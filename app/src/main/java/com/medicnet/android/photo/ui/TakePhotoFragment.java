@@ -106,10 +106,12 @@ public class TakePhotoFragment extends Fragment {
                                     cameraView.setFacing(CameraKit.Constants.FACING_BACK);
                                     changeViewImageResource((ImageView) view, R.drawable
                                             .ic_facing_front);
+                                    flashButton.setVisibility(View.VISIBLE);
                                 } else {
                                     cameraView.setFacing(CameraKit.Constants.FACING_FRONT);
                                     changeViewImageResource((ImageView) view, R.drawable
                                             .ic_facing_back);
+                                    flashButton.setVisibility(View.GONE);
                                 }
 
                                 coverView.animate()
