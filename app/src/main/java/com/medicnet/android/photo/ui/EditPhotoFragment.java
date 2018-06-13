@@ -3,6 +3,7 @@ package com.medicnet.android.photo.ui;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import com.medicnet.android.R;
 import com.medicnet.android.main.ui.MainActivity;
 import com.medicnet.android.photo.presentation.CanvasView;
+import com.medicnet.android.util.AppUtil;
+import com.medicnet.android.util.LogUtil;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class EditPhotoFragment extends Fragment {
 
     public static final String TAG = "EditPhotoFragment";
     private MainActivity mainActivity;
+    private Bitmap bitmap = null;
     @BindView(R.id.canvasView)
     CanvasView canvasView;
     private List<Bitmap> listBitmap;
@@ -45,7 +49,9 @@ public class EditPhotoFragment extends Fragment {
 
     @OnClick(R.id.btnSendPhoto)
     void onPhotoSendClicked() {
-
+        Uri uri = AppUtil.saveImage(mainActivity, bitmap, 100);
+        LogUtil.d(TAG, "onPhotoSendClicked @uri= " + uri.toString());
+        mainActivity.getChatRoomFragment().uploadFile(uri);
     }
 
     @OnClick(R.id.btnCrop)
@@ -73,7 +79,7 @@ public class EditPhotoFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         ButterKnife.bind(this, view);
         listBitmap = mainActivity.getListBitmap();
-        Bitmap bitmap = null;
+
         if (listBitmap.size() > 0)
             bitmap = listBitmap.get(listBitmap.size() - 1);
         if (bitmap != null)

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import com.medicnet.android.R
 import com.medicnet.android.authentication.ui.newServerIntent
 import com.medicnet.android.chatroom.ui.ChatRoomActivity
+import com.medicnet.android.chatroom.ui.ChatRoomFragment
 import com.medicnet.android.chatroom.ui.newInstance
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.contacts.ui.NewTeamFragment
@@ -71,10 +72,10 @@ class MainNavigator(internal val activity: MainActivity) {
                    avatarUrl: String,
                    isMyVault: Boolean) {
         LogUtil.d("MainNavigator", "toChatRoom @chatRoomId= " + chatRoomId + " @chatRoomName= " + chatRoomName + " @avatarUrl= " + avatarUrl)
-        activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT + "_" + chatRoomId, R.id.fragment_container) {
+        activity.chatRoomFragment = activity.addFragment(ChatRoomActivity.TAG_CHAT_ROOM_FRAGMENT + "_" + chatRoomId, R.id.fragment_container) {
             newInstance(chatRoomId, chatRoomName, chatRoomType, isChatRoomReadOnly, chatRoomLastSeen,
                     isChatRoomSubscribed, isChatRoomCreator, null, avatarUrl, isMyVault)
-        }
+        } as ChatRoomFragment
     }
 
     fun toNewServer(serverUrl: String? = null) {

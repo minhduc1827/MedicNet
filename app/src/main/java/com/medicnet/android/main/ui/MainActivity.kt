@@ -22,6 +22,7 @@ import com.google.android.gms.iid.InstanceID
 import com.medicnet.android.BuildConfig
 import com.medicnet.android.R
 import com.medicnet.android.app.RocketChatApplication
+import com.medicnet.android.chatroom.ui.ChatRoomFragment
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.contacts.model.UserItem
 import com.medicnet.android.contacts.ui.NewTeamFragment
@@ -35,16 +36,12 @@ import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
 import com.medicnet.android.util.RequestUtil
-import com.medicnet.android.util.extensions.*
+import com.medicnet.android.util.extensions.showToast
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_chat_room.*
-import kotlinx.android.synthetic.main.nav_header.view.*
-import kotlinx.android.synthetic.main.nav_medicnet_header.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import okhttp3.Call
@@ -70,6 +67,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     var userList: List<UserItem>? = null
     private var teamFragment: NewTeamFragment? = null
     private var chatRoomsFragment: ChatRoomsFragment? = null
+    var chatRoomFragment: ChatRoomFragment? = null
     private val handler = Handler()
 
     var listBitmap: MutableList<Bitmap> = ArrayList()

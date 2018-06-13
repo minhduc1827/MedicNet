@@ -3,9 +3,12 @@ package com.medicnet.android.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.amirarcane.lockscreen.activity.EnterPinActivity;
 import com.medicnet.android.R;
@@ -14,6 +17,9 @@ import com.medicnet.android.contacts.model.Users;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,5 +91,29 @@ public class AppUtil {
             }
         }
         return userItemList;
+    }
+
+    public static Uri saveImage(Context context, Bitmap bitmap, int quality) {
+        ContextWrapper cw = new ContextWrapper(context);
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("image", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory, "img_" + System.currentTimeMillis() + ".png");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmap.compress(Bitmap.CompressFormat.PNG, quality, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return Uri.fromFile(new File(directory.getAbsolutePath()));
     }
 }
