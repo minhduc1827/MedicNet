@@ -63,6 +63,7 @@ class MainPresenter @Inject constructor(
 
     fun toNewTeam() = navigator.toNewTeam()
     fun toTakePhoto() = navigator.toTakePhoto()
+    fun toEditPhoto() = navigator.toEditPhoto()
     fun removeFragment(fragment: Fragment) = navigator.removeFragment(fragment)
 
     fun loadCurrentInfo() {

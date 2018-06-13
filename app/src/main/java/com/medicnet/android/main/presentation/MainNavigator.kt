@@ -8,6 +8,7 @@ import com.medicnet.android.chatroom.ui.newInstance
 import com.medicnet.android.chatrooms.ui.ChatRoomsFragment
 import com.medicnet.android.contacts.ui.NewTeamFragment
 import com.medicnet.android.main.ui.MainActivity
+import com.medicnet.android.photo.ui.EditPhotoFragment
 import com.medicnet.android.photo.ui.TakePhotoFragment
 import com.medicnet.android.profile.ui.ProfileFragment
 import com.medicnet.android.server.ui.changeServerIntent
@@ -42,6 +43,12 @@ class MainNavigator(internal val activity: MainActivity) {
         return activity.addFragmentBackStack(TakePhotoFragment.TAG, R.id.fragment_entire_screen) {
             TakePhotoFragment.newInstance()
         } as TakePhotoFragment
+    }
+
+    fun toEditPhoto(): EditPhotoFragment {
+        return activity.addFragmentBackStack(EditPhotoFragment.TAG, R.id.fragment_entire_screen) {
+            EditPhotoFragment.newInstance()
+        } as EditPhotoFragment
     }
 
     fun removeFragment(fragment: Fragment) {

@@ -14,6 +14,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.medicnet.android.R;
+import com.medicnet.android.main.ui.MainActivity;
 import com.medicnet.android.util.LogUtil;
 import com.wonderkiln.camerakit.CameraKit;
 import com.wonderkiln.camerakit.CameraKitEventCallback;
@@ -48,6 +49,7 @@ public class TakePhotoFragment extends Fragment {
             @Override
             public void callback(CameraKitImage cameraKitImage) {
 //                        ((MainActivity)getActivity()).handleTakePhoto(cameraKitImage.getBitmap());
+                ((MainActivity) getActivity()).presenter.toEditPhoto();
                 LogUtil.d(TAG, "captureImage callback>>" + cameraKitImage.getMessage());
             }
         });
