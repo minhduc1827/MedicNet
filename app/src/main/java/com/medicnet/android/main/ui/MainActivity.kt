@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private var chatRoomsFragment: ChatRoomsFragment? = null
     private val handler = Handler()
 
-//    var chatRoomsFragment: ChatRoomsFragment? = null
+    var listBitmap: MutableList<Bitmap> = ArrayList()
 
     companion object {
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"

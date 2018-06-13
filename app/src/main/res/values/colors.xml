@@ -88,6 +88,7 @@
     <color name="label_nhs_email_color">#2361af</color>
     <color name="view_seperate_nhs_email">#aaaaaa</color>
     <color name="edit_photo_background">#888888</color>
+    <color name="bg_button_bottom_edit_photo">#26000000</color>
 
 </resources>
 
