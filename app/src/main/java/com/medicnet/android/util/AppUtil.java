@@ -27,6 +27,7 @@ import java.util.List;
 
 public class AppUtil {
 
+    private static final String TAG = "AppUtil";
 
     public static void displayLockScreen(Activity activity, boolean isCancelable, int requestCode) {
         SharedPreferences prefs = activity.getSharedPreferences(EnterPinActivity.PREFERENCES, Context.MODE_PRIVATE);
@@ -98,11 +99,11 @@ public class AppUtil {
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("image", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath = new File(directory, "img_" + System.currentTimeMillis() + ".png");
+        File file = new File(directory, "img_" + System.currentTimeMillis() + ".png");
 
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(mypath);
+            fos = new FileOutputStream(file);
             // Use the compress method on the BitMap object to write image to the OutputStream
             bitmap.compress(Bitmap.CompressFormat.PNG, quality, fos);
         } catch (Exception e) {
@@ -114,6 +115,7 @@ public class AppUtil {
                 e.printStackTrace();
             }
         }
-        return Uri.fromFile(new File(directory.getAbsolutePath()));
+        LogUtil.d(TAG, "saveImage @filepath= " + file.getAbsolutePath());
+        return Uri.fromFile(file);
     }
 }

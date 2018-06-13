@@ -9,6 +9,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
+import com.medicnet.android.util.LogUtil
 import java.io.*
 
 fun Uri.getFileName(context: Context): String? {
@@ -45,6 +46,7 @@ fun Uri.getFileSize(context: Context): Int {
 }
 
 fun Uri.getMimeType(context: Context): String {
+    LogUtil.d(Uri::class.java.simpleName, "getMimeType>> " + toString())
     return if (scheme == ContentResolver.SCHEME_CONTENT) {
         context.contentResolver.getType(this)
     } else {
