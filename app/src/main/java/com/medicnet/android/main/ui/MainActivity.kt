@@ -78,6 +78,10 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
     }
 
+    fun handleBitmap(bitmap: Bitmap) {
+        listBitmap.add(bitmap)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)

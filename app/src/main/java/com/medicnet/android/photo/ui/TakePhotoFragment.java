@@ -49,7 +49,8 @@ public class TakePhotoFragment extends Fragment {
             @Override
             public void callback(CameraKitImage cameraKitImage) {
 //                        ((MainActivity)getActivity()).handleTakePhoto(cameraKitImage.getBitmap());
-                ((MainActivity) getActivity()).presenter.toEditPhoto();
+                mainActivity.presenter.toEditPhoto();
+                mainActivity.handleBitmap(cameraKitImage.getBitmap());
                 LogUtil.d(TAG, "captureImage callback>>" + cameraKitImage.getMessage());
             }
         });
@@ -58,7 +59,7 @@ public class TakePhotoFragment extends Fragment {
 
     private int cameraMethod = CameraKit.Constants.METHOD_STANDARD;
     private boolean cropOutput = false;
-
+    private MainActivity mainActivity;
 
     public static TakePhotoFragment newInstance() {
         TakePhotoFragment fragment = new TakePhotoFragment();
@@ -72,6 +73,7 @@ public class TakePhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle
             savedInstanceState) {
         View view = inflater.inflate(R.layout.take_photo_fragment, container, false);
+        mainActivity = (MainActivity) getActivity();
         ButterKnife.bind(this, view);
 //        ButterKnife.setDebug(true);
         cameraView.setMethod(cameraMethod);
