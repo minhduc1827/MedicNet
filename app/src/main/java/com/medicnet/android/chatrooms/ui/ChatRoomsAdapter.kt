@@ -20,7 +20,6 @@ import com.medicnet.android.infrastructure.LocalRepository
 import com.medicnet.android.infrastructure.checkIfMyself
 import com.medicnet.android.server.domain.PublicSettings
 import com.medicnet.android.server.domain.showLastMessage
-import com.medicnet.android.server.domain.useRealName
 import com.medicnet.android.util.extensions.*
 import kotlinx.android.synthetic.main.item_chat.view.*
 import kotlinx.android.synthetic.main.unread_messages_badge.view.*
@@ -150,11 +149,12 @@ class ChatRoomsAdapter(
             val lastMessageSender = lastMessage?.sender
             if (lastMessage != null && lastMessageSender != null) {
                 val message = lastMessage.message
-                val senderUsername = if (settings.useRealName()) {
+                /*val senderUsername = if (settings.useRealName()) {
                     lastMessageSender.name ?: lastMessageSender.username
                 } else {
                     lastMessageSender.username
-                }
+                }*/
+                val senderUsername = lastMessageSender.name
                 when (senderUsername) {
                     chatRoom.name -> {
                         textView.content = message

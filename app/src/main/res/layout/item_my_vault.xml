@@ -77,7 +77,7 @@
         android:id="@+id/text_last_message_date_time_my_vault"
         style="@style/Timestamp.TextView"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/layout_unread_messages_badge_my_vault"
