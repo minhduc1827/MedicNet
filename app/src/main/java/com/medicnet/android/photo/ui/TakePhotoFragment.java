@@ -58,7 +58,7 @@ public class TakePhotoFragment extends Fragment {
             public void callback(CameraKitImage cameraKitImage) {
 //                        ((MainActivity)getActivity()).handleTakePhoto(cameraKitImage.getBitmap());
                 mainActivity.presenter.toEditPhoto();
-                mainActivity.handleBitmap(cameraKitImage.getBitmap(), -1);
+                mainActivity.addBitmap(cameraKitImage.getBitmap(), -1);
                 LogUtil.d(TAG, "captureImage callback>>" + cameraKitImage.getMessage());
             }
         });

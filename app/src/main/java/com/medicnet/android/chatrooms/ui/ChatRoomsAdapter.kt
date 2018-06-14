@@ -168,7 +168,8 @@ class ChatRoomsAdapter(
                         }
                         val spannable = SpannableStringBuilder(user)
                         val len = spannable.length
-                        spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, len - 1, 0)
+                        if (len > 0)
+                            spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, len - 1, 0)
                         spannable.append(message)
                         textView.content = spannable
                     }

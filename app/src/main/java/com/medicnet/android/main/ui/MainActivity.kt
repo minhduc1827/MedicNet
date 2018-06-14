@@ -84,11 +84,25 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
     }
 
-    fun handleBitmap(bitmap: Bitmap, position: Int) {
+    fun removeBitmap(bitmap: Bitmap, position: Int) {
+        if (listBitmap.size > 0) {
+            if (position > 0)
+                listBitmap.removeAt(position)
+            else
+                listBitmap.clear()
+        }
+        refreshBitmapAdapters()
+    }
+
+    fun addBitmap(bitmap: Bitmap, position: Int) {
         if (position > -1)
             listBitmap.set(position, bitmap)
         else //negative: add bitmap
             listBitmap.add(bitmap)
+        refreshBitmapAdapters()
+    }
+
+    fun refreshBitmapAdapters() {
         if (takePhotoFragment != null && takePhotoFragment!!.isAdded)
             takePhotoFragment!!.updatePhotoList(listBitmap);
         if (editPhotoFragment != null && editPhotoFragment!!.isAdded)

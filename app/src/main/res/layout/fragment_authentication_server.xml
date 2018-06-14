@@ -6,9 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    tools:context=".authentication.server.ui.ServerFragment"
-    android:background="@drawable/main_bg">
+    tools:context=".authentication.server.ui.ServerFragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:scaleType="centerInside" />
     <TextView
         android:id="@+id/text_headline"
         style="@style/Authentication.Headline.TextView"

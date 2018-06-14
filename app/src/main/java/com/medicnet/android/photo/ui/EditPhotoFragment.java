@@ -49,7 +49,7 @@ public class EditPhotoFragment extends Fragment {
 
     @OnClick(R.id.btnAddPhoto)
     void onPhotoAddClicked() {
-
+        mainActivity.getFragmentManager().popBackStack();
     }
 
     @OnClick(R.id.btnSendPhoto)
@@ -86,7 +86,8 @@ public class EditPhotoFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         ButterKnife.bind(this, view);
         listBitmap = mainActivity.getListBitmap();
-
+        setupRecyclerView();
+        updatePhotoList(listBitmap);
         if (listBitmap.size() > 0)
             bitmap = listBitmap.get(listBitmap.size() - 1);
         if (bitmap != null)
