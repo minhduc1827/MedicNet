@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.medicnet.android.R;
 import com.medicnet.android.main.ui.MainActivity;
@@ -34,17 +35,27 @@ import butterknife.OnClick;
 public class EditPhotoFragment extends Fragment {
 
     public static final String TAG = "EditPhotoFragment";
-    private MainActivity mainActivity;
-    private Bitmap bitmap = null;
+
     @BindView(R.id.canvasView)
     CanvasView canvasView;
     @BindView(R.id.recyclerEditPhoto)
     RecyclerView recyclerEditPhoto;
-    private List<Bitmap> listBitmap;
+    @BindView(R.id.photoView)
+    ImageView imvPhotoView;
+    @BindView(R.id.layoutFooter)
+    View layoutFooter;
+    @BindView(R.id.layoutFooterEdit)
+    View layoutFooterEdit;
+    @BindView(R.id.btnAction)
+    ImageView btnAction;
 
     @OnClick(R.id.btnDeletePhoto)
     void onPhotoDeleteClicked() {
-
+        if (mainActivity != null) {
+            mainActivity.removeBitmap(bitmap, bitmapPosition);
+            if (mainActivity.getListBitmap().size() == 0)
+                mainActivity.getFragmentManager().popBackStack();
+        }
     }
 
     @OnClick(R.id.btnAddPhoto)
@@ -61,12 +72,30 @@ public class EditPhotoFragment extends Fragment {
 
     @OnClick(R.id.btnCrop)
     void onPhotoCropClicked() {
-
+        handleEditLayout();
+        btnAction.setImageResource(R.drawable.ic_photo_crop_rotate);
     }
 
     @OnClick(R.id.btnBrush)
     void onPhotoBrushClicked() {
+        handleEditLayout();
+        btnAction.setImageResource(R.drawable.ic_photo_blackbrush);
+    }
 
+    @OnClick(R.id.btnCancel)
+    void onCancelClicked() {
+        layoutFooterEdit.setVisibility(View.GONE);
+        canvasView.setVisibility(View.GONE);
+        layoutFooter.setVisibility(View.VISIBLE);
+        imvPhotoView.setVisibility(View.VISIBLE);
+    }
+
+
+    @OnClick(R.id.btnDone)
+    void onDoneClicked() {
+        onCancelClicked();
+        if (mainActivity != null)
+            mainActivity.addBitmap(canvasView.getBitmap(), bitmapPosition);
     }
 
     public static EditPhotoFragment newInstance() {
@@ -76,7 +105,18 @@ public class EditPhotoFragment extends Fragment {
         return fragment;
     }
 
+    private MainActivity mainActivity;
+    private Bitmap bitmap = null;
     private PhotoAdapter adapter;
+    private int bitmapPosition = 0;
+    private List<Bitmap> listBitmap;
+
+    private void handleEditLayout() {
+        layoutFooterEdit.setVisibility(View.VISIBLE);
+        canvasView.setVisibility(View.VISIBLE);
+        layoutFooter.setVisibility(View.GONE);
+        imvPhotoView.setVisibility(View.GONE);
+    }
 
     @Nullable
     @Override
@@ -106,21 +146,33 @@ public class EditPhotoFragment extends Fragment {
         if (adapter == null) {
             adapter = new PhotoAdapter(bitmapList);
             recyclerEditPhoto.setAdapter(adapter);
+            adapter.setOnPhotoClickListener(new PhotoAdapter.onPhotoClickListener() {
+                @Override
+                public void onPhotoClick(int position) {
+                    if (position >= 0) {
+                        bitmapPosition = position;
+                        bitmap = listBitmap.get(position);
+                        updateBitmapImage(bitmap);
+                    }
+                }
+            });
         } else
             adapter.notifyDataSetChanged();
     }
 
     public void updateBitmapImage(Bitmap bitmap) {
-        if (bitmap != null)
+        if (bitmap != null) {
+            imvPhotoView.setImageBitmap(bitmap);
             canvasView.drawBitmap(bitmap);
+        }
 
     }
 
     private void initDraw() {
 //        canvasView.setMode(CanvasView.Mode.ERASER);
-        canvasView.setDrawer(CanvasView.Drawer.RECTANGLE);
+//        canvasView.setDrawer(CanvasView.Drawer.RECTANGLE);
         canvasView.setPaintStyle(Paint.Style.FILL);
-        canvasView.setPaintStrokeColor(Color.WHITE);
-        canvasView.setBaseColor(Color.WHITE);
+        canvasView.setPaintStrokeColor(Color.BLACK);
+        canvasView.setBaseColor(Color.BLACK);
     }
 }
