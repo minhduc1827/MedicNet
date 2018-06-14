@@ -54,13 +54,13 @@ public class EditPhotoFragment extends Fragment {
         if (mainActivity != null) {
             mainActivity.removeBitmap(bitmap, bitmapPosition);
             if (mainActivity.getListBitmap().size() == 0)
-                mainActivity.getFragmentManager().popBackStack();
+                mainActivity.getFragmentManager().popBackStackImmediate();
         }
     }
 
     @OnClick(R.id.btnAddPhoto)
     void onPhotoAddClicked() {
-        mainActivity.getFragmentManager().popBackStack();
+        mainActivity.getFragmentManager().popBackStackImmediate();
     }
 
     @OnClick(R.id.btnSendPhoto)
