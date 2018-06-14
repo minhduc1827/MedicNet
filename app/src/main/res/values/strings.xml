@@ -269,4 +269,5 @@
     <string name="search_medicnet_contact" translatable="false">Search Medicnet Contacts</string>
     <string name="label_nhs_email" translatable="false">Nhs Email</string>
     <string name="label_take_photo" translatable="false">Take Photo</string>
+
 </resources>

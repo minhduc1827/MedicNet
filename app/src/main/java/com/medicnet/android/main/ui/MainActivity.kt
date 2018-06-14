@@ -32,6 +32,8 @@ import com.medicnet.android.main.adapter.Selector
 import com.medicnet.android.main.presentation.MainPresenter
 import com.medicnet.android.main.presentation.MainView
 import com.medicnet.android.main.viewmodel.NavHeaderViewModel
+import com.medicnet.android.photo.ui.EditPhotoFragment
+import com.medicnet.android.photo.ui.TakePhotoFragment
 import com.medicnet.android.server.domain.model.Account
 import com.medicnet.android.util.AppUtil
 import com.medicnet.android.util.LogUtil
@@ -72,6 +74,8 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
     private var teamFragment: NewTeamFragment? = null
     private var chatRoomsFragment: ChatRoomsFragment? = null
     var chatRoomFragment: ChatRoomFragment? = null
+    var takePhotoFragment: TakePhotoFragment? = null
+    var editPhotoFragment: EditPhotoFragment? = null
     private val handler = Handler()
 
     var listBitmap: MutableList<Bitmap> = ArrayList()
@@ -80,8 +84,15 @@ class MainActivity : AppCompatActivity(), MainView, HasActivityInjector, HasSupp
         var EXTRA_REDIRECT_TO_MAIN = "extra_redirect_to_main"
     }
 
-    fun handleBitmap(bitmap: Bitmap) {
-        listBitmap.add(bitmap)
+    fun handleBitmap(bitmap: Bitmap, position: Int) {
+        if (position > -1)
+            listBitmap.set(position, bitmap)
+        else //negative: add bitmap
+            listBitmap.add(bitmap)
+        if (takePhotoFragment != null && takePhotoFragment!!.isAdded)
+            takePhotoFragment!!.updatePhotoList(listBitmap);
+        if (editPhotoFragment != null && editPhotoFragment!!.isAdded)
+            editPhotoFragment!!.updatePhotoList(listBitmap);
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

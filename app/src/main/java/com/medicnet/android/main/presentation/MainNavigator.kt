@@ -40,14 +40,14 @@ class MainNavigator(internal val activity: MainActivity) {
         } as NewTeamFragment
     }
 
-    fun toTakePhoto(): TakePhotoFragment {
-        return activity.addFragmentBackStack(TakePhotoFragment.TAG, R.id.fragment_entire_screen) {
+    fun toTakePhoto() {
+        activity.takePhotoFragment = activity.addFragmentBackStack(TakePhotoFragment.TAG, R.id.fragment_entire_screen) {
             TakePhotoFragment.newInstance()
         } as TakePhotoFragment
     }
 
-    fun toEditPhoto(): EditPhotoFragment {
-        return activity.addFragmentBackStack(EditPhotoFragment.TAG, R.id.fragment_entire_screen) {
+    fun toEditPhoto() {
+        activity.editPhotoFragment = activity.addFragmentBackStack(EditPhotoFragment.TAG, R.id.fragment_entire_screen) {
             EditPhotoFragment.newInstance()
         } as EditPhotoFragment
     }

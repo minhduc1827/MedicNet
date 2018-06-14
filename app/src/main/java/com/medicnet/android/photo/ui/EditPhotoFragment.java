@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.medicnet.android.R;
 import com.medicnet.android.main.ui.MainActivity;
+import com.medicnet.android.photo.adapter.PhotoAdapter;
 import com.medicnet.android.photo.presentation.CanvasView;
 import com.medicnet.android.util.AppUtil;
 import com.medicnet.android.util.LogUtil;
@@ -35,6 +38,8 @@ public class EditPhotoFragment extends Fragment {
     private Bitmap bitmap = null;
     @BindView(R.id.canvasView)
     CanvasView canvasView;
+    @BindView(R.id.recyclerEditPhoto)
+    RecyclerView recyclerEditPhoto;
     private List<Bitmap> listBitmap;
 
     @OnClick(R.id.btnDeletePhoto)
@@ -71,6 +76,8 @@ public class EditPhotoFragment extends Fragment {
         return fragment;
     }
 
+    private PhotoAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -86,6 +93,20 @@ public class EditPhotoFragment extends Fragment {
             initDraw();
         updateBitmapImage(bitmap);
         return view;
+    }
+
+    private void setupRecyclerView() {
+        LinearLayoutManager horizontalLayoutmanager
+                = new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false);
+        recyclerEditPhoto.setLayoutManager(horizontalLayoutmanager);
+    }
+
+    public void updatePhotoList(List<Bitmap> bitmapList) {
+        if (adapter == null) {
+            adapter = new PhotoAdapter(bitmapList);
+            recyclerEditPhoto.setAdapter(adapter);
+        } else
+            adapter.notifyDataSetChanged();
     }
 
     public void updateBitmapImage(Bitmap bitmap) {

@@ -2,10 +2,13 @@ package com.medicnet.android.photo.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,11 +18,14 @@ import android.widget.ImageView;
 
 import com.medicnet.android.R;
 import com.medicnet.android.main.ui.MainActivity;
+import com.medicnet.android.photo.adapter.PhotoAdapter;
 import com.medicnet.android.util.LogUtil;
 import com.wonderkiln.camerakit.CameraKit;
 import com.wonderkiln.camerakit.CameraKitEventCallback;
 import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +48,8 @@ public class TakePhotoFragment extends Fragment {
     ImageView flashButton;
     @BindView(R.id.blackCover)
     View coverView;
+    @BindView(R.id.recyclerViewPhoto)
+    RecyclerView recyclerView;
 
     @OnClick(R.id.imvCapture)
     void onCaptureClicked() {
@@ -50,7 +58,7 @@ public class TakePhotoFragment extends Fragment {
             public void callback(CameraKitImage cameraKitImage) {
 //                        ((MainActivity)getActivity()).handleTakePhoto(cameraKitImage.getBitmap());
                 mainActivity.presenter.toEditPhoto();
-                mainActivity.handleBitmap(cameraKitImage.getBitmap());
+                mainActivity.handleBitmap(cameraKitImage.getBitmap(), -1);
                 LogUtil.d(TAG, "captureImage callback>>" + cameraKitImage.getMessage());
             }
         });
@@ -60,6 +68,7 @@ public class TakePhotoFragment extends Fragment {
     private int cameraMethod = CameraKit.Constants.METHOD_STANDARD;
     private boolean cropOutput = false;
     private MainActivity mainActivity;
+    private PhotoAdapter adapter;
 
     public static TakePhotoFragment newInstance() {
         TakePhotoFragment fragment = new TakePhotoFragment();
@@ -76,10 +85,25 @@ public class TakePhotoFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         ButterKnife.bind(this, view);
 //        ButterKnife.setDebug(true);
+        setupRecyclerView();
         cameraView.setMethod(cameraMethod);
         cameraView.setCropOutput(cropOutput);
         setFacingImageBasedOnCamera();
         return view;
+    }
+
+    private void setupRecyclerView() {
+        LinearLayoutManager horizontalLayoutmanager
+                = new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutmanager);
+    }
+
+    public void updatePhotoList(List<Bitmap> bitmapList) {
+        if (adapter == null) {
+            adapter = new PhotoAdapter(bitmapList);
+            recyclerView.setAdapter(adapter);
+        } else
+            adapter.notifyDataSetChanged();
     }
 
     private void setFacingImageBasedOnCamera() {
